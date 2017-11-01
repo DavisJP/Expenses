@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Expenses</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="ExpenseSplitterStr">Expense Splitter</string>
+    <string name="startTheAppStr">Start the App!</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="CreateTabLabel">Create Tab</string>
+    <string name="download_progress">Download Progress:</string>
+    <string name="expense_info_desc">ExpenseInfo</string>
+    <string name="menu_settings_exit">Exit</string>
+    <string name="toolbar_delete_participant">Delete Participant</string>
+    <string name="label_send_tab">Send Tab</string>
+    <string name="hint_expense_description">Description</string>
+    <string name="hint_expense_value">Value</string>
+    <string name="tv_tab_info">Tab Info</string>
+    <string name="tv_expense_info">Expense Details</string>
+    <string name="tv_participant_info">Contact Info</string>
+    <string name="hint_participant_name">Name</string>
+    <string name="hint_participant_email">Email</string>
+    <string name="hint_participant_phone">Phone</string>
+    <string name="hint_tab_name">Name</string>
+    <string name="tv_tab_participants">Participants:</string>
+    <string name="tv_tab_expenses">Expenses:</string>
+    <string name="tab_info_desc">Tab info</string>
+    <string name="tabs_text_view">Tabs:</string>
+    <string name="title_activity_open_tab">Manage Tab</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="err_msg_empty_name">Name of the Tab can\'t be empty</string>
+    <string name="main_text_desc">Split your bills and track your expenses!</string>
+    <string name="tabs_no_data_text">No tabs added yet!</string>
+
+    <string name="action_edit">Edit</string>
+    <string name="menu_action_delete">Delete</string>
+    <string name="add_tab_action_bar">Add Tab</string>
+    <string name="edit_tab_action_bar">Edit Tab</string>
+    <string name="add_part_action_bar">Add Participant</string>
+    <string name="edit_part_action_bar">Edit Participant</string>
+    <string name="add_expense_action_bar">Add Expense</string>
+    <string name="edit_expense_action_bar">Edit Expense</string>
+    <string name="tv_expenses_by_participant">Expenses by Participant</string>
+
+</resources>

@@ -1,0 +1,35 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:background="?android:attr/selectableItemBackground">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_item_participant_image_info"
+        android:layout_gravity="center_vertical|end"
+        android:src="@drawable/ic_info_black_24dp"
+        />
+
+    <TextView
+        android:id="@+id/list_item_participant_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_gravity="center_vertical|start"
+        android:textAppearance="?android:attr/textAppearanceListItem"
+        android:textSize="16sp"
+        android:text="Medium Text"
+        />
+
+    <View
+        android:id="@+id/divisor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:visibility="visible"
+        android:background="@android:color/darker_gray"/>
+
+</FrameLayout>

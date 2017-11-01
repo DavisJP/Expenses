@@ -1,0 +1,37 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:padding="8dp">
+
+        <android.support.v7.widget.CardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:backgroundTint="@color/windowBackground"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="8dp">
+            <TextView
+                android:id="@+id/list_item_tab_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:textAppearance="?android:attr/textAppearanceListItem"
+                android:textSize="16sp"
+                android:text="Medium Text"
+                android:textColor="@color/navigationBarColor"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/list_item_tab_image_info"
+                android:contentDescription="@string/tab_info_desc"
+                android:layout_gravity="center_vertical|end"
+                android:src="@drawable/ic_info_black_24dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                />
+        </android.support.v7.widget.CardView>
+
+</FrameLayout>
