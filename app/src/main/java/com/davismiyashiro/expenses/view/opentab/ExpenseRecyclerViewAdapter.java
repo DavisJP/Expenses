@@ -75,46 +75,32 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
             super(itemView);
             mIdView = (TextView) itemView.findViewById(R.id.list_item_expense_title);
             mContentView = (TextView) itemView.findViewById(R.id.list_item_expense_participants);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (null != mListener) {
-                        // Notify the active callbacks interface (the activity, if the
-                        // fragment is attached to one) that an item has been selected.
-                        mListener.onExpenseFragmentInteraction(mExpense);
-                    }
+            itemView.setOnClickListener(v -> {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onExpenseFragmentInteraction(mExpense);
                 }
             });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-                    alertDialogBuilder.setTitle("Delete Expense");
-                    alertDialogBuilder.setMessage("Are you sure you want to delete this Expense? This will also remove the receipts.");
+            itemView.setOnLongClickListener(v -> {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+                alertDialogBuilder.setTitle("Delete Expense");
+                alertDialogBuilder.setMessage("Are you sure you want to delete this Expense? This will also remove the receipts.");
 
-                    alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            int position = getAdapterPosition();
+                alertDialogBuilder.setPositiveButton("YES", (arg0, arg1) -> {
+                    int position = getAdapterPosition();
 
-                            mListener.onExpenseFragmentLongClick(getItem(position));
-                            removeItemAtPosition(position);
-                            arg0.dismiss();
-                        }
-                    });
+                    mListener.onExpenseFragmentLongClick(getItem(position));
+                    removeItemAtPosition(position);
+                    arg0.dismiss();
+                });
 
-                    alertDialogBuilder.setNegativeButton("NO",new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
+                alertDialogBuilder.setNegativeButton("NO", (dialog, which) -> dialog.cancel());
 
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
 
-                    return true;
-                }
+                return true;
             });
         }
 

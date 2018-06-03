@@ -2,11 +2,9 @@ package com.davismiyashiro.expenses.view.opentab;
 
 import com.davismiyashiro.expenses.datatypes.Expense;
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.TabRepository;
-import com.davismiyashiro.expenses.view.opentab.ExpenseInterfaces;
+import com.davismiyashiro.expenses.model.Repository;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @Author Davis Miyashiro
@@ -15,9 +13,9 @@ import java.util.List;
 public class ExpenseFragmentPresenter implements ExpenseInterfaces.UserActionsListener {
 
     ExpenseInterfaces.ExpenseView mExpenseView;
-    TabRepository mRepository;
+    Repository mRepository;
 
-    public ExpenseFragmentPresenter (TabRepository model) {
+    public ExpenseFragmentPresenter (Repository model) {
         mRepository = model;
     }
 
@@ -30,14 +28,11 @@ public class ExpenseFragmentPresenter implements ExpenseInterfaces.UserActionsLi
     public void loadExpenses(Tab tab) {
         if (tab!= null) {
             mRepository.refreshData(); // Fix to get Expenses list updated when switching tabs
-            mRepository.getExpenses(tab.getGroupId(), new TabRepository.LoadExpensesCallback() {
-                @Override
-                public void onExpensesLoaded(List<Expense> expenses) {
-                    if (expenses == null) {
-                        expenses = new ArrayList<>();
-                    }
-                    mExpenseView.showExpenses(expenses);
+            mRepository.getExpenses(tab.getGroupId(), expenses -> {
+                if (expenses == null) {
+                    expenses = new ArrayList<>();
                 }
+                mExpenseView.showExpenses(expenses);
             });
         }
     }
@@ -45,6 +40,5 @@ public class ExpenseFragmentPresenter implements ExpenseInterfaces.UserActionsLi
     @Override
     public void removeExpense(Expense expense) {
         mRepository.deleteExpense(expense);
-        //mReceiptView.refreshReceiptItemsAdapter();
     }
 }

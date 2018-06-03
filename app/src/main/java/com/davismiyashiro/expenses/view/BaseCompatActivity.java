@@ -1,4 +1,4 @@
-package com.davismiyashiro.expenses.model;
+package com.davismiyashiro.expenses.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,57 +19,39 @@ public abstract class BaseCompatActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.menu_exit:
-//                finish();
-//                //System.exit(0);
-//                //return true;
-//                break;
-//            default:
-//                // If we got here, the user's action was not recognized.
-//                // Invoke the superclass to handle it.
-//                return super.onOptionsItemSelected(item);
-//        }
-//        return true;
-//    }
-
+    @Override
     public void onStart() {
         super.onStart();
         Timber.d("onStart() event");
     }
 
+    @Override
     public void onRestart() {
         super.onRestart();
         Timber.d("onRestart() event");
     }
 
+    @Override
     public void onResume() {
         super.onResume();
         Timber.d("onResume() event");
     }
 
+    @Override
     public void onPause() {
         super.onPause();
         Timber.d("onPause() event");
     }
 
+    @Override
     public void onStop() {
         super.onStop();
         Timber.d("onStop() event");
     }
 
+    @Override
     public void onDestroy() {
         super.onDestroy();
         Timber.d("onDestroy() event");

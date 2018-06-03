@@ -16,7 +16,7 @@ import android.widget.EditText;
 import com.davismiyashiro.expenses.Injection;
 import com.davismiyashiro.expenses.R;
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 
 import timber.log.Timber;
 
@@ -54,16 +54,13 @@ public class AddTabActivity extends BaseCompatActivity implements AddTabInterfac
 
         fabAddTabDetails = (FloatingActionButton) findViewById(R.id.fab_add_tab);
         fabAddTabDetails.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (isTabNew()) {
-                            if (validateName()) {
-                                mPresenter.addTab(mEditTextTabName.getText().toString());
-                            }
-                        } else {
-                            mPresenter.updateTab(mEditTextTabName.getText().toString());
+                v -> {
+                    if (isTabNew()) {
+                        if (validateName()) {
+                            mPresenter.addTab(mEditTextTabName.getText().toString());
                         }
+                    } else {
+                        mPresenter.updateTab(mEditTextTabName.getText().toString());
                     }
                 }
         );
@@ -77,7 +74,7 @@ public class AddTabActivity extends BaseCompatActivity implements AddTabInterfac
             ab.setTitle(R.string.edit_tab_action_bar);
         }
 
-        mPresenter = new AddTabPresenterImpl(this, Injection.provideTabsRepository(getApplicationContext()), mTab);
+        mPresenter = new AddTabPresenterImpl(this, Injection.INSTANCE.provideTabsRepository(getApplicationContext()), mTab);
     }
 
     @Override

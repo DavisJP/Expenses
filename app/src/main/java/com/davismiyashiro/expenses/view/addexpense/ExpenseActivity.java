@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import com.davismiyashiro.expenses.Injection;
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 import com.davismiyashiro.expenses.R;
 import com.davismiyashiro.expenses.datatypes.Expense;
 import com.davismiyashiro.expenses.view.splitter.SplitterActivity;
@@ -57,19 +57,8 @@ public class ExpenseActivity extends BaseCompatActivity implements ExpenseView.V
         mFabExpense = (FloatingActionButton) findViewById(R.id.fab_add_expense_details);
         mFabExpense.setOnClickListener(this);
         mFabExpense.show();
-//        ObjectAnimator fadeAnimX = ObjectAnimator.ofFloat(mFabExpense, View.SCALE_X, 0, 1);
-//        fadeAnimX.setDuration(500);
-//        //fadeAnimX.start();
-//
-//        ObjectAnimator fadeAnimY = ObjectAnimator.ofFloat(mFabExpense, View.SCALE_Y, 0, 1);
-//        fadeAnimY.setDuration(500);
-//        //fadeAnimY.start();
-//
-//        AnimatorSet set1 = new AnimatorSet();
-//        set1.playTogether(fadeAnimX, fadeAnimY);
-//        set1.start();
 
-        mPresenter = new ExpensePresenterImpl(this, Injection.provideTabsRepository(this));
+        mPresenter = new ExpensePresenterImpl(this, Injection.INSTANCE.provideTabsRepository(this));
 
         mTab = getIntent().getParcelableExtra(TAB_REQUESTED);
         mExpense = getIntent().getParcelableExtra(EDIT_EXPENSE);
@@ -111,7 +100,6 @@ public class ExpenseActivity extends BaseCompatActivity implements ExpenseView.V
 
     @Override
     public void setDescriptionError(boolean value) {
-        //mEditTextDescription.setError(getString(R.string.error_field_required));
         if (value) {
             mInputLayoutDesc.setError(getString(R.string.error_field_required));
             requestFocus(mEditTextDescription);
@@ -121,7 +109,6 @@ public class ExpenseActivity extends BaseCompatActivity implements ExpenseView.V
 
     @Override
     public void setValueError(boolean value) {
-        //mEditTextValue.setError(getString(R.string.error_field_required));
         if (value) {
             mInputLayoutValue.setError(getString(R.string.error_field_required));
             requestFocus(mEditTextValue);
@@ -142,7 +129,7 @@ public class ExpenseActivity extends BaseCompatActivity implements ExpenseView.V
 
             mPresenter.addExpense(expense);
         } else {
-            expense = Expense.retrieveExpense(mExpense.getId(), description, value, mTab.getGroupId());
+            expense = Expense.Companion.retrieveExpense(mExpense.getId(), description, value, mTab.getGroupId());
 
             mPresenter.updateExpense(expense);
         }

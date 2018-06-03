@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.davismiyashiro.expenses.Injection;
 import com.davismiyashiro.expenses.R;
-import com.davismiyashiro.expenses.model.ActivityHelper;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 import com.davismiyashiro.expenses.datatypes.Tab;
 
 public class ReceiptActivity extends BaseCompatActivity implements ReceiptInterfaces.View{
@@ -37,39 +35,19 @@ public class ReceiptActivity extends BaseCompatActivity implements ReceiptInterf
         receiptResume = (TextView) findViewById(R.id.multText);
         receiptResume.append("Resume Receipt");
 
-        mActionsListener = new ReceiptPresenter(this, Injection.provideTabsRepository(getApplicationContext()));
+        mActionsListener = new ReceiptPresenter(this, Injection.INSTANCE.provideTabsRepository(getApplicationContext()));
     }
 
     public void sendTab(View view) {
 
-        //ActivityHelper.showToast(this, "To be Implemented!");
-
         String mimeType = "text/plain";
         String title = "Share receipt for " + mTab.getGroupName();
-        //String message = "To be Implemented!";
 
         ShareCompat.IntentBuilder.from(this)
                 .setType(mimeType)
                 .setChooserTitle(title)
                 .setText(receiptResume.getText().toString())
                 .startChooser();
-
-        //finish();
-    }
-
-    /**
-     * Toast method to be executed in a thread
-     *
-     * @param toast param
-     */
-    public void showToast(final String toast) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), toast,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

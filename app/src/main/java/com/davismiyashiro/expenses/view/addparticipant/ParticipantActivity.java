@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.davismiyashiro.expenses.Injection;
 import com.davismiyashiro.expenses.R;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 import com.davismiyashiro.expenses.datatypes.Participant;
 import com.davismiyashiro.expenses.datatypes.Tab;
 
@@ -58,7 +57,7 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
 
         findViewById(R.id.fab_add_participant_details).setOnClickListener(this);
 
-        mPresenter = new ParticipantPresenterImpl(this, Injection.provideTabsRepository(getApplicationContext()));
+        mPresenter = new ParticipantPresenterImpl(this, Injection.INSTANCE.provideTabsRepository(getApplicationContext()));
 
         mTab = getIntent().getParcelableExtra(TAB_PARAM);
         mParticipant = getIntent().getParcelableExtra(PART_PARAM);
@@ -78,21 +77,11 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-//            case R.id.del_participant:
-//                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         Timber.d("onResume");
 
         if (!isParticipantNew()){
-            //mPresenter.loadParticipant(mParticipant);
             setParticipantName(mParticipant.getName());
             setParticipantEmail(mParticipant.getEmail());
             setParticipantPhone(mParticipant.getNumber());
@@ -109,7 +98,7 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
 
             mPresenter.addParticipant(participant);
         } else {
-            participant = Participant.retrieveParticipant(mParticipant.getId(), mEditTextName.getText().toString(), mEditTextMail.getText().toString(), mEditTextPhone.getText().toString(), mTab.getGroupId());
+            participant = Participant.Companion.retrieveParticipant(mParticipant.getId(), mEditTextName.getText().toString(), mEditTextMail.getText().toString(), mEditTextPhone.getText().toString(), mTab.getGroupId());
 
             mPresenter.updateParticipant(participant);
         }
@@ -136,7 +125,6 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
 
     @Override
     public void showNameError(boolean value) {
-        //mEditTextName.setError(getString(R.string.error_field_required));
         if (value) {
             mInputLayoutPartName.setError(getString(R.string.error_field_required));
             requestFocus(mEditTextName);
@@ -146,7 +134,6 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
 
     @Override
     public void showEmailError(boolean value) {
-        //mEditTextMail.setError(getString(R.string.error_invalid_email));
         if (value) {
             mInputLayoutPartEmail.setError(getString(R.string.error_invalid_email));
             requestFocus(mEditTextMail);
@@ -157,7 +144,6 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
     @Override
     public void showPhoneError(boolean value) {
         if (value) {
-            //mEditTextPhone.setError(getString(R.string.error_field_required));
             mInputLayoutPartPhone.setError(getString(R.string.error_field_required));
             requestFocus(mEditTextPhone);
         } else {

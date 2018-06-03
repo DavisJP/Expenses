@@ -3,13 +3,12 @@ package com.davismiyashiro.expenses.view.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.davismiyashiro.expenses.BuildConfig;
 import com.davismiyashiro.expenses.R;
 import com.davismiyashiro.expenses.view.managetabs.ChooseTabsActivity;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 
 import timber.log.Timber;
 
@@ -27,11 +26,7 @@ public class MainActivity extends BaseCompatActivity implements View.OnClickList
 
         Handler handler = new Handler();
 
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                startApp();
-            }
-        }, FINISH_TIMER);
+        handler.postDelayed(() -> startApp(), FINISH_TIMER);
     }
 
     @Override

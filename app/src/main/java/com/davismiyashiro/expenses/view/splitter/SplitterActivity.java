@@ -9,10 +9,10 @@ import android.widget.ListView;
 
 import com.davismiyashiro.expenses.Injection;
 import com.davismiyashiro.expenses.R;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 import com.davismiyashiro.expenses.datatypes.Expense;
 import com.davismiyashiro.expenses.datatypes.Participant;
-import com.davismiyashiro.expenses.model.ActivityHelper;
+import com.davismiyashiro.expenses.view.ActivityHelper;
 import com.davismiyashiro.expenses.datatypes.Tab;
 
 import java.util.ArrayList;
@@ -38,7 +38,7 @@ public class SplitterActivity extends BaseCompatActivity implements SplitterView
 
         findViewById(R.id.fab_split_participants).setOnClickListener(this);
 
-        mPresenter = new SplitterPresenterImpl(this, Injection.provideTabsRepository(this));
+        mPresenter = new SplitterPresenterImpl(this, Injection.INSTANCE.provideTabsRepository(this));
 
         mListView = (ListView) findViewById(R.id.list);
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);

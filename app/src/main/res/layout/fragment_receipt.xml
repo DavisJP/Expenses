@@ -16,7 +16,7 @@
         style="?android:listSeparatorTextViewStyle"/>
 
     <ExpandableListView
-        android:id="@+id/expandableListView"
+        android:id="@+id/expandable_list_view"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:indicatorLeft="?android:attr/expandableListPreferredItemIndicatorLeft"

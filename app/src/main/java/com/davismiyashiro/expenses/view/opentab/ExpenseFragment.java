@@ -71,7 +71,7 @@ public class ExpenseFragment extends Fragment implements ExpenseInterfaces.Expen
         if (getArguments() != null) {
             mTab = getArguments().getParcelable(TAB_PARAM);
         }
-        mRecyclerAdapter = new ExpenseRecyclerViewAdapter(new ArrayList<Expense>(), mListener, getActivity());
+        mRecyclerAdapter = new ExpenseRecyclerViewAdapter(new ArrayList<>(), mListener, getActivity());
     }
 
     @Override
@@ -89,10 +89,6 @@ public class ExpenseFragment extends Fragment implements ExpenseInterfaces.Expen
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(), mColumnCount));
         }
 
-//        RecyclerView.ItemDecoration itemDecoration = new
-//                DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-//        recyclerView.addItemDecoration(itemDecoration);
-//        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mRecyclerAdapter);
         // Inflate the layout for this fragment
         return rootView;
