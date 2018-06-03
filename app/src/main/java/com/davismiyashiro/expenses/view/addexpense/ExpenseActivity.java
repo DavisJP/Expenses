@@ -142,7 +142,7 @@ public class ExpenseActivity extends BaseCompatActivity implements ExpenseView.V
 
             mPresenter.addExpense(expense);
         } else {
-            expense = Expense.retrieveExpense(mExpense.getId(), description, value, mTab.getGroupId());
+            expense = Expense.Companion.retrieveExpense(mExpense.getId(), description, value, mTab.getGroupId());
 
             mPresenter.updateExpense(expense);
         }

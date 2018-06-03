@@ -71,7 +71,7 @@ public class ExpenseFragment extends Fragment implements ExpenseInterfaces.Expen
         if (getArguments() != null) {
             mTab = getArguments().getParcelable(TAB_PARAM);
         }
-        mRecyclerAdapter = new ExpenseRecyclerViewAdapter(new ArrayList<Expense>(), mListener, getActivity());
+        mRecyclerAdapter = new ExpenseRecyclerViewAdapter(new ArrayList<>(), mListener, getActivity());
     }
 
     @Override

@@ -23,7 +23,7 @@ public class TabDbSchema {
         public static final String NAME = "participants";
 
         /**
-         private String mId;
+         private String id;
          private String name;
          private String email;
          private int number;
@@ -43,7 +43,7 @@ public class TabDbSchema {
         public static final String NAME = "expenses";
 
         /**
-         private String mId;
+         private String id;
          private String mDescription;
          private double mValue = 0;
          private ArrayList<Participant> mPayers = new ArrayList<>();
@@ -62,7 +62,7 @@ public class TabDbSchema {
         public static final String NAME = "splits";
 
         /**
-         private String mId;
+         private String id;
          private String participantId;
          private String expenseId;
          private int numberParticipants;

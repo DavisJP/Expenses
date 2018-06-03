@@ -71,7 +71,7 @@ public class TabsDbHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_EXPENSES_TABLE);
 
         /**
-         private String mId;
+         private String id;
          private String participantId;
          private String expenseId;
          private int numberParticipants;

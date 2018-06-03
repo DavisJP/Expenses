@@ -45,13 +45,10 @@ public class InMemoryTabRepository implements TabRepository{
     @Override
     public void getTabs(final LoadTabsCallback callback) {
         if (TAB_SERVICE_DATA == null) {
-            mTabRepositoryDataSource.getAllTabs(new TabRepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>() {
-                @Override
-                public void onLoaded(ArrayMap <String, Tab> mapTabs) {
-                    TAB_SERVICE_DATA = mapTabs;
-                    List<Tab> tabs = new ArrayList<>(TAB_SERVICE_DATA.values());
-                    callback.onTabsLoaded(tabs);
-                }
+            mTabRepositoryDataSource.getAllTabs(mapTabs -> {
+                TAB_SERVICE_DATA = mapTabs;
+                List<Tab> tabs = new ArrayList<>(TAB_SERVICE_DATA.values());
+                callback.onTabsLoaded(tabs);
             });
         } else {
             callback.onTabsLoaded(new ArrayList<Tab>(TAB_SERVICE_DATA.values()));
@@ -68,12 +65,7 @@ public class InMemoryTabRepository implements TabRepository{
             return;
         }
 
-        mTabRepositoryDataSource.getTab(tabId, new TabRepositoryDataSource.TabServiceCallback<Tab>() {
-            @Override
-            public void onLoaded(Tab tab) {
-                callback.onTabLoaded(tab);
-            }
-        });
+        mTabRepositoryDataSource.getTab(tabId, tab1 -> callback.onTabLoaded(tab1));
     }
 
     //Check memory before querying db
@@ -193,7 +185,7 @@ public class InMemoryTabRepository implements TabRepository{
                 @Override
                 public void onLoaded(ArrayMap <String, Participant> participants) {
                     PARTICIPANT_MAP = participants;
-                    callback.onParticipantsLoaded(new ArrayList<Participant>(PARTICIPANT_MAP.values()));
+                    callback.onParticipantsLoaded(new ArrayList<>(PARTICIPANT_MAP.values()));
                 }
 
                 @Override
@@ -202,7 +194,7 @@ public class InMemoryTabRepository implements TabRepository{
                 }
             });
         } else {
-            callback.onParticipantsLoaded(new ArrayList<Participant>(PARTICIPANT_MAP.values()));
+            callback.onParticipantsLoaded(new ArrayList<>(PARTICIPANT_MAP.values()));
         }
     }
 
@@ -243,7 +235,7 @@ public class InMemoryTabRepository implements TabRepository{
                 @Override
                 public void onLoaded(ArrayMap <String, Expense> expenses) {
                     EXPENSE_MAP = expenses;
-                    callback.onExpensesLoaded(new ArrayList<Expense>(EXPENSE_MAP.values()));
+                    callback.onExpensesLoaded(new ArrayList<>(EXPENSE_MAP.values()));
                 }
 
                 @Override
@@ -252,7 +244,7 @@ public class InMemoryTabRepository implements TabRepository{
                 }
             });
         } else {
-            callback.onExpensesLoaded(new ArrayList<Expense>(EXPENSE_MAP.values()));
+            callback.onExpensesLoaded(new ArrayList<>(EXPENSE_MAP.values()));
         }
     }
 
@@ -280,27 +272,21 @@ public class InMemoryTabRepository implements TabRepository{
     @Override
     public void getSplitsByExpense(String expId, final LoadSplitsCallback callback) {
         if (SPLIT_MAP == null) {
-            mTabRepositoryDataSource.getSplitsByExpense(expId, new TabRepositoryDataSource.SplitServiceCallback<ArrayMap<String, Split>>() {
-                @Override
-                public void onLoaded(ArrayMap<String, Split> splits) {
-                    SPLIT_MAP = splits;
-                    callback.onSplitsLoaded(new ArrayList<Split>(SPLIT_MAP.values()));
-                }
+            mTabRepositoryDataSource.getSplitsByExpense(expId, splits -> {
+                SPLIT_MAP = splits;
+                callback.onSplitsLoaded(new ArrayList<Split>(SPLIT_MAP.values()));
             });
         } else {
-            callback.onSplitsLoaded(new ArrayList<Split>(SPLIT_MAP.values()));
+            callback.onSplitsLoaded(new ArrayList<>(SPLIT_MAP.values()));
         }
     }
 
     @Override
     public void getReceiptItemsByTabId(String tabId, final LoadReceiptItemsCallback callback) {
         if (RECEIPT_MAP == null) {
-            mTabRepositoryDataSource.getReceiptItemByTabId(tabId, new TabRepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, List<ReceiptItem>>>() {
-                @Override
-                public void onLoaded(ArrayMap<String, List<ReceiptItem>> items) {
-                    RECEIPT_MAP = items;
-                    callback.onReceiptItemsLoaded(RECEIPT_MAP);
-                }
+            mTabRepositoryDataSource.getReceiptItemByTabId(tabId, items -> {
+                RECEIPT_MAP = items;
+                callback.onReceiptItemsLoaded(RECEIPT_MAP);
             });
         } else {
             callback.onReceiptItemsLoaded(RECEIPT_MAP);
