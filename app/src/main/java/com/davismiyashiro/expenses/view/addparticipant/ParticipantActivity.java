@@ -109,7 +109,7 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
 
             mPresenter.addParticipant(participant);
         } else {
-            participant = Participant.retrieveParticipant(mParticipant.getId(), mEditTextName.getText().toString(), mEditTextMail.getText().toString(), mEditTextPhone.getText().toString(), mTab.getGroupId());
+            participant = Participant.Companion.retrieveParticipant(mParticipant.getId(), mEditTextName.getText().toString(), mEditTextMail.getText().toString(), mEditTextPhone.getText().toString(), mTab.getGroupId());
 
             mPresenter.updateParticipant(participant);
         }

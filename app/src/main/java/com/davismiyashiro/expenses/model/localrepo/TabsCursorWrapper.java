@@ -44,7 +44,7 @@ public class TabsCursorWrapper extends CursorWrapper{
         String partNumber = getString(getColumnIndex(ParticipantTable.Cols.NUMBER));
         String tabId = getString(getColumnIndex(ParticipantTable.Cols.TAB_ID));
 
-        return Participant.retrieveParticipant(uuid, partName, partEmail, partNumber, tabId);
+        return Participant.Companion.retrieveParticipant(uuid, partName, partEmail, partNumber, tabId);
     }
 
     public Expense getExpense() {
@@ -53,7 +53,7 @@ public class TabsCursorWrapper extends CursorWrapper{
         double expValue = getDouble(getColumnIndex(ExpenseTable.Cols.VALUE));
         String expTabId = getString(getColumnIndex(ExpenseTable.Cols.TAB_ID));
 
-        return Expense.retrieveExpense(expId, expDesc, expValue, expTabId);
+        return Expense.Companion.retrieveExpense(expId, expDesc, expValue, expTabId);
     }
 
     public Split getSplit() {
@@ -63,7 +63,7 @@ public class TabsCursorWrapper extends CursorWrapper{
         double splitVal = getDouble(getColumnIndex(SplitTable.Cols.SPLIT_VAL));
         String splitTabId = getString(getColumnIndex(SplitTable.Cols.TAB_ID));
 
-        return Split.retrieveSplit(splitId, partId, expId, 0, splitVal, splitTabId);
+        return Split.Companion.retrieveSplit(splitId, partId, expId, 0, splitVal, splitTabId);
     }
 
     public ReceiptItem getReceipItem() {
