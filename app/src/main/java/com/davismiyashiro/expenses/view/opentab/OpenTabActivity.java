@@ -90,8 +90,6 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //Timber.d("onPageScrolled:" + position);
-                //fabPartFrag.hide();
             }
 
             @Override
@@ -100,15 +98,12 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
                 switch (position) {
                     case 0:
                         fabPartFrag.setImageResource(R.drawable.ic_person_add_white_24dp);
-                        //fabPartFrag.show();
                         break;
                     case 1:
                         fabPartFrag.setImageResource(R.drawable.ic_note_add_white_24dp);
-                        //fabPartFrag.show();
                         break;
                     case 2:
                         fabPartFrag.setImageResource(R.drawable.ic_share_white_24dp);
-                        //fabPartFrag.show();
                         break;
 
                     default:
@@ -125,33 +120,29 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        //tabLayout.addTab(tabLayout.newTab().setText("Works?"));
 
         fabPartFrag = (FloatingActionButton) findViewById(R.id.fab_part_frag);
-        fabPartFrag.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int pagerPosition = mViewPager.getCurrentItem();
-                Intent addData = new Intent();
-                switch (pagerPosition) {
-                    case 0:
-                        addData = ParticipantActivity.newInstance(getBaseContext(), mTab, null);
-                        break;
+        fabPartFrag.setOnClickListener(v -> {
+            int pagerPosition = mViewPager.getCurrentItem();
+            Intent addData = new Intent();
+            switch (pagerPosition) {
+                case 0:
+                    addData = ParticipantActivity.newInstance(getBaseContext(), mTab, null);
+                    break;
 
-                    case 1:
-                        addData = ExpenseActivity.newIntent(getBaseContext(), mTab, null);
-                        fabPartFrag.hide();
-                        break;
+                case 1:
+                    addData = ExpenseActivity.newIntent(getBaseContext(), mTab, null);
+                    fabPartFrag.hide();
+                    break;
 
-                    case 2:
-                        addData = ReceiptActivity.newInstance(getBaseContext(), mTab);
-                        break;
+                case 2:
+                    addData = ReceiptActivity.newInstance(getBaseContext(), mTab);
+                    break;
 
-                    default:
-                        break;
-                }
-                startActivity(addData);
+                default:
+                    break;
             }
+            startActivity(addData);
         });
 
         mTab = getIntent().getParcelableExtra(TAB_REQUEST);
@@ -242,7 +233,6 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
 
     @Override
     public void onReceiptFragmentInteraction(ReceiptItem receiptItem) {
-        //ActivityHelper.showToast(this, receiptItem.getParticipantName() + " Edit Receipt Item?");
     }
 
     /**
@@ -252,7 +242,6 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private String tabTitles[] = new String[] { "PARTICIPANTS", "EXPENSES", "RECEIPT" };
         private Context mContext;
-//        TabRepository mRepository = Injection.provideTabsRepository(getApplicationContext());
         private long baseId = 0;
 
         public SectionsPagerAdapter(FragmentManager fm, Context context) {

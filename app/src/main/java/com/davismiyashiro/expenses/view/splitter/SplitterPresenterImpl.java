@@ -36,12 +36,7 @@ public class SplitterPresenterImpl implements SplitterView.UserActionsListener {
 
         if (expense!= null) {
             mModel.refreshData(); // Fix to get Participants list updated when switching tabs
-            mModel.getParticipants(expense.getTabId(), new TabRepository.LoadParticipantsCallback() {
-                @Override
-                public void onParticipantsLoaded(List<Participant> participants) {
-                    mParticipants = participants;
-                }
-            });
+            mModel.getParticipants(expense.getTabId(), participants -> mParticipants = participants);
         }
 
         if (mParticipants == null) {

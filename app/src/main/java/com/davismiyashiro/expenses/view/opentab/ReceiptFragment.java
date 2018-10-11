@@ -70,48 +70,25 @@ public class ReceiptFragment extends Fragment implements ReceiptInterfaces.Recei
         if (getArguments() != null) {
             mTab = getArguments().getParcelable(RECEIPT_PARAM1);
         }
-        //expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListParticipantIds, expandableMapReceiptItemList);
-        expandableListAdapter = new CustomExpandableListAdapter(getContext(), new ArrayList<String>(), new ArrayMap<String, List<ReceiptItem>>());
+        expandableListAdapter = new CustomExpandableListAdapter(getContext(), expandableListParticipantIds, expandableMapReceiptItemList);
     }
-
-//    @Override
-//    public void setPresenter(ParticipantInterfaces.UserActionsListener presenter) {
-//        mPresenter = presenter;
-//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_receipt, container, false);
 
-        expandableListView = (ExpandableListView) rootView.findViewById(R.id.expandableListView);
-        expandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+        expandableListView = (ExpandableListView) rootView.findViewById(R.id.expandable_list_view);
+        expandableListView.setOnGroupExpandListener(groupPosition -> {
 
-            @Override
-            public void onGroupExpand(int groupPosition) {
-//                ActivityHelper.showToast(getContext(),
-//                        expandableListParticipantIds.get(groupPosition) + " List Expanded.");
-            }
         });
 
-        expandableListView.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+        expandableListView.setOnGroupCollapseListener(groupPosition -> {
 
-            @Override
-            public void onGroupCollapse(int groupPosition) {
-//                ActivityHelper.showToast(getContext(),
-//                        expandableListParticipantIds.get(groupPosition) + " List Collapsed.");
-
-            }
         });
 
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-            @Override
-            public boolean onChildClick(ExpandableListView parent, View v,
-                                        int groupPosition, int childPosition, long id) {
-                //mListener.onReceiptFragmentInteraction(expandableMapReceiptItemList.get(expandableListParticipantIds.get(groupPosition)).get(childPosition));
-                return false;
-            }
-        });
+        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> false);
+
         expandableListView.setAdapter(expandableListAdapter);
         return rootView;
     }

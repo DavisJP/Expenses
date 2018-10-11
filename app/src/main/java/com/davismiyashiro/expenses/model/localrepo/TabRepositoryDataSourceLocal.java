@@ -52,10 +52,6 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
                 null,  //having
                 null   //orderBy
         );
-
-//        if (cursor != null) {
-//            cursor.close();
-//        }
         return new TabsCursorWrapper(cursor);
     }
 
@@ -185,16 +181,6 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
     @Override
     public void deleteParticipant(Participant participant) {
         deleteEntry(ParticipantTable.NAME, ParticipantTable.Cols.UUID + " = ?", participant.getId());
-//        mDatabase.beginTransaction();
-//        try {
-//            mDatabase.delete(ParticipantTable.NAME, ParticipantTable.Cols.UUID + " = ?",
-//                    new String[] { String.valueOf(participant.getId()) });
-//            mDatabase.setTransactionSuccessful();
-//        } catch (Exception e) {
-//            Timber.d(e.getMessage().concat("Error while trying to delete participant = ").concat(participant.getName()));
-//        } finally {
-//            mDatabase.endTransaction();
-//        }
     }
 
     @Override
@@ -245,16 +231,6 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
     @Override
     public void deleteExpense(Expense expense) {
         deleteEntry(ExpenseTable.NAME, ExpenseTable.Cols.UUID + " = ?", expense.getId());
-//        mDatabase.beginTransaction();
-//        try {
-//            mDatabase.delete(ExpenseTable.NAME, ExpenseTable.Cols.UUID + " = ?",
-//                    new String[] { String.valueOf(expense.getId()) });
-//            mDatabase.setTransactionSuccessful();
-//        } catch (Exception e) {
-//            Timber.d(e.getMessage().concat("Error while trying to delete expense = ").concat(expense.getDescription()));
-//        } finally {
-//            mDatabase.endTransaction();
-//        }
     }
 
     @Override

@@ -40,6 +40,5 @@ public class ExpenseFragmentPresenter implements ExpenseInterfaces.UserActionsLi
     @Override
     public void removeExpense(Expense expense) {
         mRepository.deleteExpense(expense);
-        //mReceiptView.refreshReceiptItemsAdapter();
     }
 }

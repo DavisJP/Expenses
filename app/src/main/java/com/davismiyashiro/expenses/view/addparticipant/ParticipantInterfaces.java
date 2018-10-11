@@ -10,7 +10,6 @@ public interface ParticipantInterfaces {
         void setParticipantName (String name);
         void setParticipantEmail (String email);
         void setParticipantPhone (String phone);
-        //void loadParticipant ();
         void showNameError (boolean value);
         void showEmailError(boolean value);
         void showPhoneError(boolean value);

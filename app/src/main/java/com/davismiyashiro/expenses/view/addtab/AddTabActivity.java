@@ -54,16 +54,13 @@ public class AddTabActivity extends BaseCompatActivity implements AddTabInterfac
 
         fabAddTabDetails = (FloatingActionButton) findViewById(R.id.fab_add_tab);
         fabAddTabDetails.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (isTabNew()) {
-                            if (validateName()) {
-                                mPresenter.addTab(mEditTextTabName.getText().toString());
-                            }
-                        } else {
-                            mPresenter.updateTab(mEditTextTabName.getText().toString());
+                v -> {
+                    if (isTabNew()) {
+                        if (validateName()) {
+                            mPresenter.addTab(mEditTextTabName.getText().toString());
                         }
+                    } else {
+                        mPresenter.updateTab(mEditTextTabName.getText().toString());
                     }
                 }
         );

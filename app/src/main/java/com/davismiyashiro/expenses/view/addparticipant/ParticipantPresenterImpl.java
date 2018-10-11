@@ -53,9 +53,4 @@ public class ParticipantPresenterImpl implements ParticipantInterfaces.UserActio
     public void updateParticipant(Participant participant) {
         mRepo.updateParticipant(participant);
     }
-
-//    @Override
-//    public void loadParticipant() {
-//        mRepo.getParticipant(participant);
-//    }
 }
