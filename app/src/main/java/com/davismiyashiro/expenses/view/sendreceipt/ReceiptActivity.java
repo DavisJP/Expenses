@@ -42,34 +42,14 @@ public class ReceiptActivity extends BaseCompatActivity implements ReceiptInterf
 
     public void sendTab(View view) {
 
-        //ActivityHelper.showToast(this, "To be Implemented!");
-
         String mimeType = "text/plain";
         String title = "Share receipt for " + mTab.getGroupName();
-        //String message = "To be Implemented!";
 
         ShareCompat.IntentBuilder.from(this)
                 .setType(mimeType)
                 .setChooserTitle(title)
                 .setText(receiptResume.getText().toString())
                 .startChooser();
-
-        //finish();
-    }
-
-    /**
-     * Toast method to be executed in a thread
-     *
-     * @param toast param
-     */
-    public void showToast(final String toast) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(), toast,
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     @Override

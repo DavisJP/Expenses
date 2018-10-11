@@ -78,21 +78,11 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-//            case R.id.del_participant:
-//                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         Timber.d("onResume");
 
         if (!isParticipantNew()){
-            //mPresenter.loadParticipant(mParticipant);
             setParticipantName(mParticipant.getName());
             setParticipantEmail(mParticipant.getEmail());
             setParticipantPhone(mParticipant.getNumber());
@@ -136,7 +126,6 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
 
     @Override
     public void showNameError(boolean value) {
-        //mEditTextName.setError(getString(R.string.error_field_required));
         if (value) {
             mInputLayoutPartName.setError(getString(R.string.error_field_required));
             requestFocus(mEditTextName);
@@ -146,7 +135,6 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
 
     @Override
     public void showEmailError(boolean value) {
-        //mEditTextMail.setError(getString(R.string.error_invalid_email));
         if (value) {
             mInputLayoutPartEmail.setError(getString(R.string.error_invalid_email));
             requestFocus(mEditTextMail);
@@ -157,7 +145,6 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
     @Override
     public void showPhoneError(boolean value) {
         if (value) {
-            //mEditTextPhone.setError(getString(R.string.error_field_required));
             mInputLayoutPartPhone.setError(getString(R.string.error_field_required));
             requestFocus(mEditTextPhone);
         } else {

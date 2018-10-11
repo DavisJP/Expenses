@@ -90,8 +90,6 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //Timber.d("onPageScrolled:" + position);
-                //fabPartFrag.hide();
             }
 
             @Override
@@ -100,15 +98,12 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
                 switch (position) {
                     case 0:
                         fabPartFrag.setImageResource(R.drawable.ic_person_add_white_24dp);
-                        //fabPartFrag.show();
                         break;
                     case 1:
                         fabPartFrag.setImageResource(R.drawable.ic_note_add_white_24dp);
-                        //fabPartFrag.show();
                         break;
                     case 2:
                         fabPartFrag.setImageResource(R.drawable.ic_share_white_24dp);
-                        //fabPartFrag.show();
                         break;
 
                     default:
@@ -238,7 +233,6 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
 
     @Override
     public void onReceiptFragmentInteraction(ReceiptItem receiptItem) {
-        //ActivityHelper.showToast(this, receiptItem.getParticipantName() + " Edit Receipt Item?");
     }
 
     /**
@@ -248,7 +242,6 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
         private String tabTitles[] = new String[] { "PARTICIPANTS", "EXPENSES", "RECEIPT" };
         private Context mContext;
-//        TabRepository mRepository = Injection.provideTabsRepository(getApplicationContext());
         private long baseId = 0;
 
         public SectionsPagerAdapter(FragmentManager fm, Context context) {

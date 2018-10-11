@@ -80,19 +80,14 @@ public class ReceiptFragment extends Fragment implements ReceiptInterfaces.Recei
 
         expandableListView = (ExpandableListView) rootView.findViewById(R.id.expandable_list_view);
         expandableListView.setOnGroupExpandListener(groupPosition -> {
-//                ActivityHelper.showToast(getContext(),
-//                        expandableListParticipantIds.get(groupPosition) + " List Expanded.");
+
         });
 
         expandableListView.setOnGroupCollapseListener(groupPosition -> {
-//                ActivityHelper.showToast(getContext(),
-//                        expandableListParticipantIds.get(groupPosition) + " List Collapsed.");
+
         });
 
-        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> {
-            //mListener.onReceiptFragmentInteraction(expandableMapReceiptItemList.get(expandableListParticipantIds.get(groupPosition)).get(childPosition));
-            return false;
-        });
+        expandableListView.setOnChildClickListener((parent, v, groupPosition, childPosition, id) -> false);
 
         expandableListView.setAdapter(expandableListAdapter);
         return rootView;

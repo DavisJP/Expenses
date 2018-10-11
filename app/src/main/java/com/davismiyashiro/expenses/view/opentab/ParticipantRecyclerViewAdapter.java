@@ -43,25 +43,6 @@ public class ParticipantRecyclerViewAdapter extends RecyclerView.Adapter<Partici
         holder.mItem = mParticipants.get(position);
         holder.mIdView.setText(mParticipants.get(position).getName());
         holder.mContentView.setText(mParticipants.get(position).getEmail());
-
-//        holder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (null != mListener) {
-//                    // Notify the active callbacks interface (the activity, if the
-//                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onParticipantListFragmentInteraction(holder.mItem);
-//                }
-//            }
-//        });
-        //return true to indicate that you have handled the event and it should stop here; return false if you have not handled it and/or the event should continue to any other on-click listeners.
-//        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//
-//                return true;
-//            }
-//        });
     }
 
     public void replaceData (List<Participant> participants) {
@@ -99,47 +80,33 @@ public class ParticipantRecyclerViewAdapter extends RecyclerView.Adapter<Partici
             mIdView = (TextView) view.findViewById(R.id.list_item_title);
             mContentView = (TextView) view.findViewById(R.id.list_item_details);
 
-            mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (null != mListener) {
-                        // Notify the active callbacks interface (the activity, if the
-                        // fragment is attached to one) that an item has been selected.
-                        mListener.onParticipantListFragmentInteraction(mItem);
-                    }
+            mView.setOnClickListener(v -> {
+                if (null != mListener) {
+                    // Notify the active callbacks interface (the activity, if the
+                    // fragment is attached to one) that an item has been selected.
+                    mListener.onParticipantListFragmentInteraction(mItem);
                 }
             });
 
-            mView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
-                    alertDialogBuilder.setTitle("Delete Participant");
-                    alertDialogBuilder.setMessage("Are you sure you want to delete this Participant ?");
+            mView.setOnLongClickListener(v -> {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext);
+                alertDialogBuilder.setTitle("Delete Participant");
+                alertDialogBuilder.setMessage("Are you sure you want to delete this Participant ?");
 
-                    alertDialogBuilder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            int position = getAdapterPosition();
+                alertDialogBuilder.setPositiveButton("YES", (arg0, arg1) -> {
+                    int position = getAdapterPosition();
 
-                            mListener.onParticipantListFragmentLongClick(getItem(position));
-                            removeItemAtPosition(position);
-                            arg0.dismiss();
-                        }
-                    });
+                    mListener.onParticipantListFragmentLongClick(getItem(position));
+                    removeItemAtPosition(position);
+                    arg0.dismiss();
+                });
 
-                    alertDialogBuilder.setNegativeButton("NO",new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
+                alertDialogBuilder.setNegativeButton("NO", (dialog, which) -> dialog.cancel());
 
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
 
-                    return true;
-                }
+                return true;
             });
         }
 

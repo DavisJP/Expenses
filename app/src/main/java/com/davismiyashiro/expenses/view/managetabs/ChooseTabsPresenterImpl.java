@@ -1,9 +1,6 @@
 package com.davismiyashiro.expenses.view.managetabs;
 
-import com.davismiyashiro.expenses.datatypes.Tab;
 import com.davismiyashiro.expenses.model.TabRepository;
-
-import java.util.List;
 
 /**
  * Created by Davis on 23/01/2016.
@@ -29,28 +26,20 @@ public class ChooseTabsPresenterImpl implements ChooseTabsInterfaces.UserActions
             mModel.refreshData();
         }
 
-        mModel.getTabs(new TabRepository.LoadTabsCallback() {
-            @Override
-            public void onTabsLoaded(List<Tab> tabs) {
-                mView.setProgressIndicator(false);
+        mModel.getTabs(tabs -> {
+            mView.setProgressIndicator(false);
 
-                if (tabs.isEmpty()) {
-                    mView.showNoTabs();
-                } else {
-                    mView.showTabs(tabs);
-                }
+            if (tabs.isEmpty()) {
+                mView.showNoTabs();
+            } else {
+                mView.showTabs(tabs);
             }
         });
     }
 
     @Override
     public void openTab(String tabId) {
-        mModel.getTab(tabId, new TabRepository.GetTabCallback() {
-            @Override
-            public void onTabLoaded(Tab tab) {
-                mView.showTabDetailUi(tab);
-            }
-        });
+        mModel.getTab(tabId, tab -> mView.showTabDetailUi(tab));
     }
 
     @Override
