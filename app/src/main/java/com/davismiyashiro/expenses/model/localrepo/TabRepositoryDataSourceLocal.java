@@ -22,7 +22,7 @@ import timber.log.Timber;
 import static com.davismiyashiro.expenses.model.localrepo.TabDbSchema.*;
 
 /**
- * Implementation of the Tabs Service API (adds a latency simulating network)
+ * Implementation of local Database with SQLiteDatabase
  */
 public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
