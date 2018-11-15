@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Interface for storage access
  */
-public interface TabRepositoryDataSource {
+public interface RepositoryDataSource {
     interface TabServiceCallback<T> {
 
         void onLoaded(T tabs);

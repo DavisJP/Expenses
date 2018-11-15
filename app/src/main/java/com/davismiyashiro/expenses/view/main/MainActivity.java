@@ -8,7 +8,7 @@ import android.view.View;
 import com.davismiyashiro.expenses.BuildConfig;
 import com.davismiyashiro.expenses.R;
 import com.davismiyashiro.expenses.view.managetabs.ChooseTabsActivity;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 
 import timber.log.Timber;
 

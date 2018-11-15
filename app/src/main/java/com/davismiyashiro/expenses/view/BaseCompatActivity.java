@@ -1,4 +1,4 @@
-package com.davismiyashiro.expenses.model;
+package com.davismiyashiro.expenses.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

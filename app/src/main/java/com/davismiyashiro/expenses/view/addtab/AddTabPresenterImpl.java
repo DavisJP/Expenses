@@ -1,8 +1,7 @@
 package com.davismiyashiro.expenses.view.addtab;
 
-import com.davismiyashiro.expenses.R;
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.TabRepository;
+import com.davismiyashiro.expenses.model.Repository;
 
 /**
  * Created by Davis on 23/01/2016.
@@ -10,10 +9,10 @@ import com.davismiyashiro.expenses.model.TabRepository;
 public class AddTabPresenterImpl implements AddTabInterfaces.UserActionsListener{
 
     private AddTabInterfaces.View mView;
-    private TabRepository mModel;
+    private Repository mModel;
     private Tab mTab;
 
-    public AddTabPresenterImpl (AddTabInterfaces.View view, TabRepository model, Tab tab) {
+    public AddTabPresenterImpl (AddTabInterfaces.View view, Repository model, Tab tab) {
         mView = view;
         mModel = model;
         mTab = tab;
@@ -29,7 +28,7 @@ public class AddTabPresenterImpl implements AddTabInterfaces.UserActionsListener
 
     @Override
     public void loadTab() {
-        mModel.getTab(mTab.getGroupId(), new TabRepository.GetTabCallback() {
+        mModel.getTab(mTab.getGroupId(), new Repository.GetTabCallback() {
             @Override
             public void onTabLoaded(Tab tab) {
                 mTab = tab;

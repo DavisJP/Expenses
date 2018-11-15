@@ -36,35 +36,35 @@ public class TabsDbHelper extends SQLiteOpenHelper {
         Timber.d("onCreate");
 
         //Using Java UUID as String in the PK
-        db.execSQL("create table " + TabTable.NAME +
+        db.execSQL("create table " + TabTable.TABLE_NAME +
                 "(" +
-                TabTable.Cols.UUID + " TEXT PRIMARY KEY, " +
-                TabTable.Cols.GROUPNAME + " TEXT" +
+                TabTable.UUID + " TEXT PRIMARY KEY, " +
+                TabTable.GROUPNAME + " TEXT" +
                 ")"
         );
 
-        String CREATE_PARTICIPANTS_TABLE = "CREATE TABLE " + ParticipantTable.NAME +
+        String CREATE_PARTICIPANTS_TABLE = "CREATE TABLE " + ParticipantTable.TABLE_NAME +
                 "(" +
-                ParticipantTable.Cols.UUID + " TEXT PRIMARY KEY," +
-                ParticipantTable.Cols.NAME + " TEXT," +
-                ParticipantTable.Cols.EMAIL + " TEXT," +
-                ParticipantTable.Cols.NUMBER + " INTEGER," +
-                ParticipantTable.Cols.TAB_ID + " TEXT, " +
-                "FOREIGN KEY(" + ParticipantTable.Cols.TAB_ID + ") " +
-                "REFERENCES " + TabTable.NAME + "(" + TabTable.Cols.UUID + ") " +
+                ParticipantTable.UUID + " TEXT PRIMARY KEY," +
+                ParticipantTable.NAME + " TEXT," +
+                ParticipantTable.EMAIL + " TEXT," +
+                ParticipantTable.NUMBER + " INTEGER," +
+                ParticipantTable.TAB_ID + " TEXT, " +
+                "FOREIGN KEY(" + ParticipantTable.TAB_ID + ") " +
+                "REFERENCES " + TabTable.TABLE_NAME + "(" + TabTable.UUID + ") " +
                 "ON UPDATE CASCADE ON DELETE CASCADE" +
                 ")";
 
         db.execSQL(CREATE_PARTICIPANTS_TABLE);
 
-        String CREATE_EXPENSES_TABLE = "CREATE TABLE " + ExpenseTable.NAME +
+        String CREATE_EXPENSES_TABLE = "CREATE TABLE " + ExpenseTable.TABLE_NAME +
                 "(" +
-                ExpenseTable.Cols.UUID + " TEXT PRIMARY KEY," +
-                ExpenseTable.Cols.DESCRIPTION + " TEXT," +
-                ExpenseTable.Cols.VALUE + " REAL," +
-                ExpenseTable.Cols.TAB_ID + " TEXT, " +
-                "FOREIGN KEY(" + ExpenseTable.Cols.TAB_ID + ") " +
-                "REFERENCES " + TabTable.NAME + "(" + TabTable.Cols.UUID + ") " +
+                ExpenseTable.UUID + " TEXT PRIMARY KEY," +
+                ExpenseTable.DESCRIPTION + " TEXT," +
+                ExpenseTable.VALUE + " REAL," +
+                ExpenseTable.TAB_ID + " TEXT, " +
+                "FOREIGN KEY(" + ExpenseTable.TAB_ID + ") " +
+                "REFERENCES " + TabTable.TABLE_NAME + "(" + TabTable.UUID + ") " +
                 "ON UPDATE CASCADE ON DELETE CASCADE" +
                 ")";
 
@@ -77,21 +77,21 @@ public class TabsDbHelper extends SQLiteOpenHelper {
          private int numberParticipants;
          private double valueByParticipant;
          */
-        String CREATE_SPLITS_TABLE = "CREATE TABLE " + SplitTable.NAME +
+        String CREATE_SPLITS_TABLE = "CREATE TABLE " + SplitTable.TABLE_NAME +
                 "(" +
-                SplitTable.Cols.UUID + " TEXT PRIMARY KEY," +
-                SplitTable.Cols.PARTICIPANT_ID + " TEXT," +
-                SplitTable.Cols.EXPENSE_ID + " TEXT," +
-                SplitTable.Cols.SPLIT_VAL + " REAL," +
-                SplitTable.Cols.TAB_ID + " TEXT, " +
-                "FOREIGN KEY(" + SplitTable.Cols.TAB_ID + ") " +
-                "REFERENCES " + TabTable.NAME + "(" + TabTable.Cols.UUID + ") " +
+                SplitTable.UUID + " TEXT PRIMARY KEY," +
+                SplitTable.PARTICIPANT_ID + " TEXT," +
+                SplitTable.EXPENSE_ID + " TEXT," +
+                SplitTable.SPLIT_VAL + " REAL," +
+                SplitTable.TAB_ID + " TEXT, " +
+                "FOREIGN KEY(" + SplitTable.TAB_ID + ") " +
+                "REFERENCES " + TabTable.TABLE_NAME + "(" + TabTable.UUID + ") " +
                 "ON UPDATE CASCADE ON DELETE CASCADE, " +
-                "FOREIGN KEY(" + SplitTable.Cols.PARTICIPANT_ID + ") " +
-                "REFERENCES " + ParticipantTable.NAME + "(" + ParticipantTable.Cols.UUID + ") " +
+                "FOREIGN KEY(" + SplitTable.PARTICIPANT_ID + ") " +
+                "REFERENCES " + ParticipantTable.TABLE_NAME + "(" + ParticipantTable.UUID + ") " +
                 "ON UPDATE CASCADE ON DELETE CASCADE, " +
-                "FOREIGN KEY(" + SplitTable.Cols.EXPENSE_ID + ") " +
-                "REFERENCES " + ExpenseTable.NAME + "(" + ExpenseTable.Cols.UUID + ") " +
+                "FOREIGN KEY(" + SplitTable.EXPENSE_ID + ") " +
+                "REFERENCES " + ExpenseTable.TABLE_NAME + "(" + ExpenseTable.UUID + ") " +
                 "ON UPDATE CASCADE ON DELETE CASCADE" +
                 ")";
 
@@ -104,10 +104,10 @@ public class TabsDbHelper extends SQLiteOpenHelper {
 
         if (oldVersion != newVersion) {
             // Simplest implementation is to drop all old tables and recreate them
-            db.execSQL("DROP TABLE IF EXISTS " + TabTable.NAME);
-            db.execSQL("DROP TABLE IF EXISTS " + ParticipantTable.NAME);
-            db.execSQL("DROP TABLE IF EXISTS " + ExpenseTable.NAME);
-            db.execSQL("DROP TABLE IF EXISTS " + SplitTable.NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + TabTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + ParticipantTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + ExpenseTable.TABLE_NAME);
+            db.execSQL("DROP TABLE IF EXISTS " + SplitTable.TABLE_NAME);
             onCreate(db);
         }
     }

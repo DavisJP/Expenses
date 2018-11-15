@@ -12,7 +12,7 @@ import com.davismiyashiro.expenses.datatypes.Participant;
 import com.davismiyashiro.expenses.datatypes.ReceiptItem;
 import com.davismiyashiro.expenses.datatypes.Split;
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.TabRepositoryDataSource;
+import com.davismiyashiro.expenses.model.RepositoryDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,20 +24,20 @@ import static com.davismiyashiro.expenses.model.localrepo.TabDbSchema.*;
 /**
  * Implementation of local Database with SQLiteDatabase
  */
-public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
+public class RepositoryDataSourceLocal implements RepositoryDataSource {
 
     private static SQLiteDatabase mDatabase;
-    private static TabRepositoryDataSourceLocal mTabRepositoryDataSourceLocal;
+    private static RepositoryDataSourceLocal mTabRepositoryDataSourceLocal;
 
-    public static synchronized TabRepositoryDataSourceLocal getInstance (Context context) {
+    public static synchronized RepositoryDataSourceLocal getInstance (Context context) {
         if (mTabRepositoryDataSourceLocal == null)
-            mTabRepositoryDataSourceLocal = new TabRepositoryDataSourceLocal(context);
+            mTabRepositoryDataSourceLocal = new RepositoryDataSourceLocal(context);
 
         return mTabRepositoryDataSourceLocal;
     }
 
     //private to prevent direct instantiation (Changed to support Injection)
-    public TabRepositoryDataSourceLocal(Context context) {
+    public RepositoryDataSourceLocal(Context context) {
         TabsDbHelper dbHelper = new TabsDbHelper(context);
         mDatabase = dbHelper.getWritableDatabase();
     }
@@ -60,7 +60,7 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
                 ArrayMap <String, Tab> mapTabs = new ArrayMap<>();
 
-                TabsCursorWrapper cursor = queryDb(TabTable.NAME, null, null);
+                TabsCursorWrapper cursor = queryDb(TabTable.TABLE_NAME, null, null);
 
                 try {
                     cursor.moveToFirst();
@@ -78,7 +78,7 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
     @Override
     public void getTab(String tabId, TabServiceCallback<Tab> callback) {
-        TabsCursorWrapper cursor = queryDb(TabTable.NAME, TabTable.Cols.UUID + " = ?", new String [] { tabId });
+        TabsCursorWrapper cursor = queryDb(TabTable.TABLE_NAME, TabTable.UUID + " = ?", new String [] { tabId });
 
         try {
             if (cursor != null && cursor.getCount() > 0) {
@@ -94,8 +94,8 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
     private ContentValues getTabContentValues (Tab tab) {
         ContentValues values = new ContentValues();
-        values.put(TabTable.Cols.UUID, tab.getGroupId());
-        values.put (TabTable.Cols.GROUPNAME, tab.getGroupName());
+        values.put(TabTable.UUID, tab.getGroupId());
+        values.put (TabTable.GROUPNAME, tab.getGroupName());
 
         return values;
     }
@@ -103,16 +103,16 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
     @Override
     public void saveTab(Tab tab) {
         ContentValues values = getTabContentValues(tab);
-        mDatabase.insert(TabTable.NAME, null, values);
+        mDatabase.insert(TabTable.TABLE_NAME, null, values);
     }
 
     @Override
     public int updateTabName(Tab tab, String name) {
         ContentValues values = new ContentValues();
-        values.put(TabTable.Cols.GROUPNAME, name);
+        values.put(TabTable.GROUPNAME, name);
 
         // Updating Tab name by Tab.groupId
-        return mDatabase.update(TabTable.NAME, values, TabTable.Cols.UUID + " = ?",
+        return mDatabase.update(TabTable.TABLE_NAME, values, TabTable.UUID + " = ?",
                 new String[] { String.valueOf(tab.getGroupId()) });
     }
 
@@ -131,12 +131,12 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
     @Override
     public void deleteTab(String tabId) {
-        deleteEntry(TabTable.NAME, TabTable.Cols.UUID + " = ?", tabId);
+        deleteEntry(TabTable.TABLE_NAME, TabTable.UUID + " = ?", tabId);
     }
 
     @Override
     public void getParticipant(String partId, ParticipantServiceCallback<Participant> callback) {
-        TabsCursorWrapper cursor = queryDb(ParticipantTable.NAME, ParticipantTable.Cols.UUID + " = ?", new String [] { partId });
+        TabsCursorWrapper cursor = queryDb(ParticipantTable.TABLE_NAME, ParticipantTable.UUID + " = ?", new String [] { partId });
 
         try {
             if (cursor != null && cursor.getCount() > 0) {
@@ -155,11 +155,11 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
     private ContentValues getParticipantContentValues (Participant participant) {
         ContentValues values = new ContentValues();
-        values.put(ParticipantTable.Cols.UUID, participant.getId());
-        values.put (ParticipantTable.Cols.NAME, participant.getName());
-        values.put (ParticipantTable.Cols.EMAIL, participant.getEmail());
-        values.put (ParticipantTable.Cols.NUMBER, participant.getNumber());
-        values.put (ParticipantTable.Cols.TAB_ID, participant.getTabId());
+        values.put(ParticipantTable.UUID, participant.getId());
+        values.put (ParticipantTable.NAME, participant.getName());
+        values.put (ParticipantTable.EMAIL, participant.getEmail());
+        values.put (ParticipantTable.NUMBER, participant.getNumber());
+        values.put (ParticipantTable.TAB_ID, participant.getTabId());
 
         return values;
     }
@@ -167,27 +167,27 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
     @Override
     public void saveParticipant (Participant participant) {
         ContentValues values = getParticipantContentValues(participant);
-        mDatabase.insert(ParticipantTable.NAME, null, values);
+        mDatabase.insert(ParticipantTable.TABLE_NAME, null, values);
     }
 
     @Override
     public int updateParticipant(Participant participant) {
         ContentValues values = getParticipantContentValues (participant);
 
-        return mDatabase.update(ParticipantTable.NAME, values, ParticipantTable.Cols.UUID + " = ?",
+        return mDatabase.update(ParticipantTable.TABLE_NAME, values, ParticipantTable.UUID + " = ?",
                 new String[] { String.valueOf(participant.getId()) });
     }
 
     @Override
     public void deleteParticipant(Participant participant) {
-        deleteEntry(ParticipantTable.NAME, ParticipantTable.Cols.UUID + " = ?", participant.getId());
+        deleteEntry(ParticipantTable.TABLE_NAME, ParticipantTable.UUID + " = ?", participant.getId());
     }
 
     @Override
     public void getAllParticipants(final String tabId, final ParticipantServiceCallback<ArrayMap <String, Participant>> callback) {
         ArrayMap <String, Participant> mapParticipants = new ArrayMap<>();
 
-        TabsCursorWrapper cursor = queryDb(ParticipantTable.NAME, ParticipantTable.Cols.TAB_ID + " = ?",
+        TabsCursorWrapper cursor = queryDb(ParticipantTable.TABLE_NAME, ParticipantTable.TAB_ID + " = ?",
                 new String[] { String.valueOf(tabId) });
 
         try {
@@ -207,10 +207,10 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
     private ContentValues getExpenseContentValues (Expense expense) {
         ContentValues values = new ContentValues();
-        values.put (ExpenseTable.Cols.UUID, expense.getId());
-        values.put (ExpenseTable.Cols.DESCRIPTION, expense.getDescription());
-        values.put (ExpenseTable.Cols.VALUE, expense.getValue());
-        values.put (ExpenseTable.Cols.TAB_ID, expense.getTabId());
+        values.put (ExpenseTable.UUID, expense.getId());
+        values.put (ExpenseTable.DESCRIPTION, expense.getDescription());
+        values.put (ExpenseTable.VALUE, expense.getValue());
+        values.put (ExpenseTable.TAB_ID, expense.getTabId());
 
         return values;
     }
@@ -218,24 +218,24 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
     @Override
     public void saveExpense(Expense expense) {
         ContentValues values = getExpenseContentValues(expense);
-        mDatabase.insert(ExpenseTable.NAME, null, values);
+        mDatabase.insert(ExpenseTable.TABLE_NAME, null, values);
     }
 
     @Override
     public int updateExpense(Expense expense) {
         ContentValues values = getExpenseContentValues(expense);
-        return mDatabase.update(ExpenseTable.NAME, values, ExpenseTable.Cols.UUID + " = ?",
+        return mDatabase.update(ExpenseTable.TABLE_NAME, values, ExpenseTable.UUID + " = ?",
                 new String[] { String.valueOf(expense.getId()) });
     }
 
     @Override
     public void deleteExpense(Expense expense) {
-        deleteEntry(ExpenseTable.NAME, ExpenseTable.Cols.UUID + " = ?", expense.getId());
+        deleteEntry(ExpenseTable.TABLE_NAME, ExpenseTable.UUID + " = ?", expense.getId());
     }
 
     @Override
     public void getExpense(String expId, ExpenseServiceCallback<Expense> callback) {
-        TabsCursorWrapper cursor = queryDb(ExpenseTable.NAME, ExpenseTable.Cols.UUID + " = ?", new String [] { expId });
+        TabsCursorWrapper cursor = queryDb(ExpenseTable.TABLE_NAME, ExpenseTable.UUID + " = ?", new String [] { expId });
 
         try {
             if (cursor != null && cursor.getCount() > 0) {
@@ -255,7 +255,7 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
     public void getAllExpenses(String tabId, ExpenseServiceCallback<ArrayMap <String, Expense>> callback) {
         ArrayMap <String, Expense> mapExpenses = new ArrayMap<>();
 
-        TabsCursorWrapper cursor = queryDb(ExpenseTable.NAME, ExpenseTable.Cols.TAB_ID + " = ?",
+        TabsCursorWrapper cursor = queryDb(ExpenseTable.TABLE_NAME, ExpenseTable.TAB_ID + " = ?",
                 new String[] { String.valueOf(tabId) });
 
         try {
@@ -274,11 +274,11 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
     private ContentValues getSplitContentValues (Split split) {
         ContentValues values = new ContentValues();
-        values.put (SplitTable.Cols.UUID, split.getId());
-        values.put (SplitTable.Cols.PARTICIPANT_ID, split.getParticipantId());
-        values.put (SplitTable.Cols.EXPENSE_ID, split.getExpenseId());
-        values.put (SplitTable.Cols.SPLIT_VAL, split.getValueByParticipant());
-        values.put (SplitTable.Cols.TAB_ID, split.getTabId());
+        values.put (SplitTable.UUID, split.getId());
+        values.put (SplitTable.PARTICIPANT_ID, split.getParticipantId());
+        values.put (SplitTable.EXPENSE_ID, split.getExpenseId());
+        values.put (SplitTable.SPLIT_VAL, split.getValueByParticipant());
+        values.put (SplitTable.TAB_ID, split.getTabId());
 
         return values;
     }
@@ -290,7 +290,7 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
             for (Split split : splits) {
                 ContentValues values = getSplitContentValues(split);
-                mDatabase.insert(SplitTable.NAME, null, values);
+                mDatabase.insert(SplitTable.TABLE_NAME, null, values);
             }
 
             mDatabase.setTransactionSuccessful();
@@ -304,14 +304,14 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
 
     @Override
     public void deleteSplitsByExpense(Expense expense) {
-        deleteEntry(SplitTable.NAME, SplitTable.Cols.EXPENSE_ID + " = ?", expense.getId());
+        deleteEntry(SplitTable.TABLE_NAME, SplitTable.EXPENSE_ID + " = ?", expense.getId());
     }
 
     @Override
     public void getSplitsByExpense(String expId, SplitServiceCallback<ArrayMap <String, Split>> callback) {
         ArrayMap <String, Split> mapSplits = new ArrayMap<>();
 
-        TabsCursorWrapper cursor = queryDb(SplitTable.NAME, SplitTable.Cols.EXPENSE_ID + " = ?",
+        TabsCursorWrapper cursor = queryDb(SplitTable.TABLE_NAME, SplitTable.EXPENSE_ID + " = ?",
                 new String[] { String.valueOf(expId) });
 
         try {
@@ -333,16 +333,16 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
     private TabsCursorWrapper queryReceiptItem (String [] whereArgs) {
 
         Cursor cursor = mDatabase.rawQuery(
-                "SELECT "+ SplitTable.NAME +"."+ SplitTable.Cols.PARTICIPANT_ID + "," +
-                        ParticipantTable.NAME + "." + ParticipantTable.Cols.NAME + "," +
-                        ExpenseTable.NAME + "." + ExpenseTable.Cols.DESCRIPTION + "," +
-                        SplitTable.NAME + "." + SplitTable.Cols.SPLIT_VAL +
-                        " FROM " + SplitTable.NAME + "," + ExpenseTable.NAME + "," + ParticipantTable.NAME +
-                        " WHERE " + SplitTable.NAME + "." + SplitTable.Cols.TAB_ID + " = ? " +
-                        " AND " + SplitTable.NAME + "." + SplitTable.Cols.PARTICIPANT_ID + " = " +
-                        ParticipantTable.NAME + "." + ParticipantTable.Cols.UUID +
-                        " AND " + ExpenseTable.NAME + "." + ExpenseTable.Cols.UUID + " = " +
-                        SplitTable.NAME + "." + SplitTable.Cols.EXPENSE_ID, whereArgs);
+                "SELECT "+ SplitTable.TABLE_NAME +"."+ SplitTable.PARTICIPANT_ID + "," +
+                        ParticipantTable.TABLE_NAME + "." + ParticipantTable.NAME + "," +
+                        ExpenseTable.TABLE_NAME + "." + ExpenseTable.DESCRIPTION + "," +
+                        SplitTable.TABLE_NAME + "." + SplitTable.SPLIT_VAL +
+                        " FROM " + SplitTable.TABLE_NAME + "," + ExpenseTable.TABLE_NAME + "," + ParticipantTable.TABLE_NAME +
+                        " WHERE " + SplitTable.TABLE_NAME + "." + SplitTable.TAB_ID + " = ? " +
+                        " AND " + SplitTable.TABLE_NAME + "." + SplitTable.PARTICIPANT_ID + " = " +
+                        ParticipantTable.TABLE_NAME + "." + ParticipantTable.UUID +
+                        " AND " + ExpenseTable.TABLE_NAME + "." + ExpenseTable.UUID + " = " +
+                        SplitTable.TABLE_NAME + "." + SplitTable.EXPENSE_ID, whereArgs);
 
         return new TabsCursorWrapper(cursor);
     }
@@ -378,10 +378,10 @@ public class TabRepositoryDataSourceLocal implements TabRepositoryDataSource {
         mDatabase.beginTransaction();
         try {
             // Order of deletions is important when foreign key relationships exist.
-            mDatabase.delete(TabTable.NAME, null, null);
-            mDatabase.delete(ParticipantTable.NAME, null, null);
-            mDatabase.delete(ExpenseTable.NAME, null, null);
-            mDatabase.delete(SplitTable.NAME, null, null);
+            mDatabase.delete(TabTable.TABLE_NAME, null, null);
+            mDatabase.delete(ParticipantTable.TABLE_NAME, null, null);
+            mDatabase.delete(ExpenseTable.TABLE_NAME, null, null);
+            mDatabase.delete(SplitTable.TABLE_NAME, null, null);
             mDatabase.setTransactionSuccessful();
         } catch (Exception e) {
             Timber.d(e.getMessage().concat("Error while trying to delete all tabs"));

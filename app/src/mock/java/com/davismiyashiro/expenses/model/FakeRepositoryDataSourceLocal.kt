@@ -12,13 +12,13 @@ import com.davismiyashiro.expenses.datatypes.Tab
 /**
  * Fake Repository to provide data for testing repository of persisted data
  */
-class FakeTabRepositoryDataSourceLocal private constructor(context: Context) : TabRepositoryDataSource {
+class FakeRepositoryDataSourceLocal private constructor(context: Context) : RepositoryDataSource {
 
-    override fun getAllTabs(callback: TabRepositoryDataSource.TabServiceCallback<ArrayMap<String, Tab>>) {
+    override fun getAllTabs(callback: RepositoryDataSource.TabServiceCallback<ArrayMap<String, Tab>>) {
         callback.onLoaded(TAB_SERVICE_DATA)
     }
 
-    override fun getTab(tabId: String, callback: TabRepositoryDataSource.TabServiceCallback<Tab>) {
+    override fun getTab(tabId: String, callback: RepositoryDataSource.TabServiceCallback<Tab>) {
         val tab = TAB_SERVICE_DATA.get(tabId)
         callback.onLoaded(tab)
     }
@@ -35,11 +35,11 @@ class FakeTabRepositoryDataSourceLocal private constructor(context: Context) : T
 
     }
 
-    override fun getParticipant(partId: String, callback: TabRepositoryDataSource.ParticipantServiceCallback<Participant>) {
+    override fun getParticipant(partId: String, callback: RepositoryDataSource.ParticipantServiceCallback<Participant>) {
 
     }
 
-    override fun getAllParticipants(tabId: String, callback: TabRepositoryDataSource.ParticipantServiceCallback<ArrayMap<String, Participant>>) {
+    override fun getAllParticipants(tabId: String, callback: RepositoryDataSource.ParticipantServiceCallback<ArrayMap<String, Participant>>) {
         callback.onLoaded(PARTICIPANT_MAP)
     }
 
@@ -55,11 +55,11 @@ class FakeTabRepositoryDataSourceLocal private constructor(context: Context) : T
 
     }
 
-    override fun getExpense(expId: String, callback: TabRepositoryDataSource.ExpenseServiceCallback<Expense>) {
+    override fun getExpense(expId: String, callback: RepositoryDataSource.ExpenseServiceCallback<Expense>) {
 
     }
 
-    override fun getAllExpenses(tabId: String, callback: TabRepositoryDataSource.ExpenseServiceCallback<ArrayMap<String, Expense>>) {
+    override fun getAllExpenses(tabId: String, callback: RepositoryDataSource.ExpenseServiceCallback<ArrayMap<String, Expense>>) {
 
     }
 
@@ -75,7 +75,7 @@ class FakeTabRepositoryDataSourceLocal private constructor(context: Context) : T
 
     }
 
-    override fun getSplitsByExpense(partId: String, callback: TabRepositoryDataSource.SplitServiceCallback<ArrayMap<String, Split>>) {
+    override fun getSplitsByExpense(partId: String, callback: RepositoryDataSource.SplitServiceCallback<ArrayMap<String, Split>>) {
 
     }
 
@@ -87,7 +87,7 @@ class FakeTabRepositoryDataSourceLocal private constructor(context: Context) : T
 
     }
 
-    override fun getReceiptItemByTabId(tabId: String, callback: TabRepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, List<ReceiptItem>>>) {
+    override fun getReceiptItemByTabId(tabId: String, callback: RepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, List<ReceiptItem>>>) {
 
     }
 
@@ -97,16 +97,16 @@ class FakeTabRepositoryDataSourceLocal private constructor(context: Context) : T
 
     companion object {
 
-        private var INSTANCE: FakeTabRepositoryDataSourceLocal? = null
+        private var INSTANCE: FakeRepositoryDataSourceLocal? = null
 
         private val TAB_SERVICE_DATA = ArrayMap<String, Tab>()
         private val PARTICIPANT_MAP = ArrayMap<String, Participant>()
 
-        fun getInstance(context: Context): TabRepositoryDataSource {
+        fun getInstance(context: Context): RepositoryDataSource {
             if (INSTANCE == null) {
-                INSTANCE = FakeTabRepositoryDataSourceLocal(context)
+                INSTANCE = FakeRepositoryDataSourceLocal(context)
             }
-            return INSTANCE as FakeTabRepositoryDataSourceLocal
+            return INSTANCE as FakeRepositoryDataSourceLocal
         }
     }
 }

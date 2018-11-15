@@ -1,8 +1,8 @@
 package com.davismiyashiro.expenses.view.managetabs
 
 import com.davismiyashiro.expenses.datatypes.Tab
-import com.davismiyashiro.expenses.model.TabRepository
-import com.davismiyashiro.expenses.model.TabRepository.LoadTabsCallback
+import com.davismiyashiro.expenses.model.Repository
+import com.davismiyashiro.expenses.model.Repository.LoadTabsCallback
 import com.nhaarman.mockito_kotlin.mock
 
 import org.junit.Before
@@ -22,17 +22,17 @@ import org.mockito.Mockito.verify
  */
 class ChooseTabsPresenterImplTest {
 
-    private val mTabRepository: TabRepository = mock()
+    private val mRepository: Repository = mock()
 
     private val mChooseTabsView = mock<ChooseTabsInterfaces.View>() //Another way
 
-    private val mGetTabCallback: TabRepository.GetTabCallback = mock()
+    private val mGetCallback: Repository.GetTabCallback = mock()
 
     @Captor
     private val mLoadTabsCallbackCaptor: ArgumentCaptor<LoadTabsCallback> = mock()
 
     @Captor
-    private val mGetTabCallbackCaptor: ArgumentCaptor<TabRepository.GetTabCallback>? = null
+    private val mGetCallbackCaptor: ArgumentCaptor<Repository.GetTabCallback>? = null
 
     private lateinit var mChooseTabsPresenter: ChooseTabsPresenterImpl
 
@@ -44,7 +44,7 @@ class ChooseTabsPresenterImplTest {
 
         MockitoAnnotations.initMocks(this)
 
-        mChooseTabsPresenter = ChooseTabsPresenterImpl(mChooseTabsView, mTabRepository)
+        mChooseTabsPresenter = ChooseTabsPresenterImpl(mChooseTabsView, mRepository)
     }
 
     //    @After
@@ -65,7 +65,7 @@ class ChooseTabsPresenterImplTest {
     fun testLoadTabs() {
         mChooseTabsPresenter.loadTabs(true)
 
-        verify<TabRepository>(mTabRepository).getTabs(mLoadTabsCallbackCaptor.capture())
+        verify<Repository>(mRepository).getTabs(mLoadTabsCallbackCaptor.capture())
 
         mLoadTabsCallbackCaptor.value.onTabsLoaded(TABS)
 
@@ -78,7 +78,7 @@ class ChooseTabsPresenterImplTest {
     fun testLoadNoTabs() {
         mChooseTabsPresenter.loadTabs(true)
 
-        verify<TabRepository>(mTabRepository).getTabs(mLoadTabsCallbackCaptor.capture())
+        verify<Repository>(mRepository).getTabs(mLoadTabsCallbackCaptor.capture())
 
         mLoadTabsCallbackCaptor.value.onTabsLoaded(ArrayList())
 
@@ -93,9 +93,9 @@ class ChooseTabsPresenterImplTest {
 
         mChooseTabsPresenter.openTab("1")
 
-        verify<TabRepository>(mTabRepository).getTab(eq(tab.groupId), mGetTabCallbackCaptor!!.capture())
+        verify<Repository>(mRepository).getTab(eq(tab.groupId), mGetCallbackCaptor!!.capture())
 
-        mGetTabCallbackCaptor.value.onTabLoaded(tab) // Trigger callback
+        mGetCallbackCaptor.value.onTabLoaded(tab) // Trigger callback
 
         verify<ChooseTabsInterfaces.View>(mChooseTabsView).showTabDetailUi(tab)
     }

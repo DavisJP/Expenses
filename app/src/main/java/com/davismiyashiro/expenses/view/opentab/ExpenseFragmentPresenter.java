@@ -2,7 +2,7 @@ package com.davismiyashiro.expenses.view.opentab;
 
 import com.davismiyashiro.expenses.datatypes.Expense;
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.TabRepository;
+import com.davismiyashiro.expenses.model.Repository;
 
 import java.util.ArrayList;
 
@@ -13,9 +13,9 @@ import java.util.ArrayList;
 public class ExpenseFragmentPresenter implements ExpenseInterfaces.UserActionsListener {
 
     ExpenseInterfaces.ExpenseView mExpenseView;
-    TabRepository mRepository;
+    Repository mRepository;
 
-    public ExpenseFragmentPresenter (TabRepository model) {
+    public ExpenseFragmentPresenter (Repository model) {
         mRepository = model;
     }
 

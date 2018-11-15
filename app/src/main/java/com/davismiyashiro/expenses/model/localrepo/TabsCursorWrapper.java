@@ -31,46 +31,46 @@ public class TabsCursorWrapper extends CursorWrapper{
      * @return
      */
     public Tab getTab () {
-        String  uuid = getString(getColumnIndex(TabTable.Cols.UUID));
-        String tabName = getString(getColumnIndex(TabTable.Cols.GROUPNAME));
+        String  uuid = getString(getColumnIndex(TabTable.UUID));
+        String tabName = getString(getColumnIndex(TabTable.GROUPNAME));
 
         return new Tab (uuid, tabName);
     }
 
     public Participant getParticipant() {
-        String uuid = getString(getColumnIndex(ParticipantTable.Cols.UUID));
-        String partName = getString(getColumnIndex(ParticipantTable.Cols.NAME));
-        String partEmail = getString(getColumnIndex(ParticipantTable.Cols.EMAIL));
-        String partNumber = getString(getColumnIndex(ParticipantTable.Cols.NUMBER));
-        String tabId = getString(getColumnIndex(ParticipantTable.Cols.TAB_ID));
+        String uuid = getString(getColumnIndex(ParticipantTable.UUID));
+        String partName = getString(getColumnIndex(ParticipantTable.NAME));
+        String partEmail = getString(getColumnIndex(ParticipantTable.EMAIL));
+        String partNumber = getString(getColumnIndex(ParticipantTable.NUMBER));
+        String tabId = getString(getColumnIndex(ParticipantTable.TAB_ID));
 
         return Participant.Companion.retrieveParticipant(uuid, partName, partEmail, partNumber, tabId);
     }
 
     public Expense getExpense() {
-        String expId = getString(getColumnIndex(ExpenseTable.Cols.UUID));
-        String expDesc = getString(getColumnIndex(ExpenseTable.Cols.DESCRIPTION));
-        double expValue = getDouble(getColumnIndex(ExpenseTable.Cols.VALUE));
-        String expTabId = getString(getColumnIndex(ExpenseTable.Cols.TAB_ID));
+        String expId = getString(getColumnIndex(ExpenseTable.UUID));
+        String expDesc = getString(getColumnIndex(ExpenseTable.DESCRIPTION));
+        double expValue = getDouble(getColumnIndex(ExpenseTable.VALUE));
+        String expTabId = getString(getColumnIndex(ExpenseTable.TAB_ID));
 
         return Expense.Companion.retrieveExpense(expId, expDesc, expValue, expTabId);
     }
 
     public Split getSplit() {
-        String splitId = getString(getColumnIndex(SplitTable.Cols.UUID));
-        String partId = getString(getColumnIndex(SplitTable.Cols.PARTICIPANT_ID));
-        String expId = getString(getColumnIndex(SplitTable.Cols.EXPENSE_ID));
-        double splitVal = getDouble(getColumnIndex(SplitTable.Cols.SPLIT_VAL));
-        String splitTabId = getString(getColumnIndex(SplitTable.Cols.TAB_ID));
+        String splitId = getString(getColumnIndex(SplitTable.UUID));
+        String partId = getString(getColumnIndex(SplitTable.PARTICIPANT_ID));
+        String expId = getString(getColumnIndex(SplitTable.EXPENSE_ID));
+        double splitVal = getDouble(getColumnIndex(SplitTable.SPLIT_VAL));
+        String splitTabId = getString(getColumnIndex(SplitTable.TAB_ID));
 
         return Split.Companion.retrieveSplit(splitId, partId, expId, 0, splitVal, splitTabId);
     }
 
     public ReceiptItem getReceipItem() {
-        String partId = getString(getColumnIndex(SplitTable.Cols.PARTICIPANT_ID));
-        String partName = getString(getColumnIndex(ParticipantTable.Cols.NAME));
-        String expDesc = getString(getColumnIndex(ExpenseTable.Cols.DESCRIPTION));
-        double splitVal = getDouble(getColumnIndex(SplitTable.Cols.SPLIT_VAL));
+        String partId = getString(getColumnIndex(SplitTable.PARTICIPANT_ID));
+        String partName = getString(getColumnIndex(ParticipantTable.NAME));
+        String expDesc = getString(getColumnIndex(ExpenseTable.DESCRIPTION));
+        double splitVal = getDouble(getColumnIndex(SplitTable.SPLIT_VAL));
 
         return new ReceiptItem(partId, partName, expDesc, splitVal);
     }

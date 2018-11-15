@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.davismiyashiro.expenses.Injection;
 import com.davismiyashiro.expenses.R;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 import com.davismiyashiro.expenses.datatypes.Participant;
 import com.davismiyashiro.expenses.datatypes.Tab;
 
@@ -58,7 +57,7 @@ public class ParticipantActivity extends BaseCompatActivity implements Participa
 
         findViewById(R.id.fab_add_participant_details).setOnClickListener(this);
 
-        mPresenter = new ParticipantPresenterImpl(this, Injection.provideTabsRepository(getApplicationContext()));
+        mPresenter = new ParticipantPresenterImpl(this, Injection.INSTANCE.provideTabsRepository(getApplicationContext()));
 
         mTab = getIntent().getParcelableExtra(TAB_PARAM);
         mParticipant = getIntent().getParcelableExtra(PART_PARAM);

@@ -1,15 +1,15 @@
 package com.davismiyashiro.expenses.view.managetabs;
 
-import com.davismiyashiro.expenses.model.TabRepository;
+import com.davismiyashiro.expenses.model.Repository;
 
 /**
  * Created by Davis on 23/01/2016.
  */
 public class ChooseTabsPresenterImpl implements ChooseTabsInterfaces.UserActionsListener{
     private ChooseTabsInterfaces.View mView;
-    private TabRepository mModel;
+    private Repository mModel;
 
-    public ChooseTabsPresenterImpl (ChooseTabsInterfaces.View view, TabRepository repository) {
+    public ChooseTabsPresenterImpl (ChooseTabsInterfaces.View view, Repository repository) {
         mView = view;
         mModel = repository;
     }

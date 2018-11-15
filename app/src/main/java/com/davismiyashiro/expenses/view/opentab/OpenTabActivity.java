@@ -14,7 +14,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.davismiyashiro.expenses.R;
@@ -22,7 +21,7 @@ import com.davismiyashiro.expenses.datatypes.Expense;
 import com.davismiyashiro.expenses.datatypes.Participant;
 import com.davismiyashiro.expenses.datatypes.ReceiptItem;
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 import com.davismiyashiro.expenses.view.addexpense.ExpenseActivity;
 import com.davismiyashiro.expenses.view.addtab.AddTabActivity;
 import com.davismiyashiro.expenses.view.opentab.ExpenseFragment.OnExpenseFragmentInteractionListener;

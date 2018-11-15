@@ -3,7 +3,7 @@ package com.davismiyashiro.expenses.view.opentab;
 import android.support.v4.util.ArrayMap;
 
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.TabRepository;
+import com.davismiyashiro.expenses.model.Repository;
 
 /**
  * @Author Davis Miyashiro
@@ -12,9 +12,9 @@ import com.davismiyashiro.expenses.model.TabRepository;
 public class ReceiptFragmentPresenter implements ReceiptInterfaces.UserActionsListener{
 
     ReceiptInterfaces.ReceiptView mReceiptView;
-    TabRepository mRepository;
+    Repository mRepository;
 
-    public ReceiptFragmentPresenter (TabRepository model) {
+    public ReceiptFragmentPresenter (Repository model) {
         mRepository = model;
     }
 

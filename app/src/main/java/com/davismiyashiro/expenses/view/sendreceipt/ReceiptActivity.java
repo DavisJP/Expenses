@@ -6,12 +6,10 @@ import android.os.Bundle;
 import android.support.v4.app.ShareCompat;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.davismiyashiro.expenses.Injection;
 import com.davismiyashiro.expenses.R;
-import com.davismiyashiro.expenses.model.ActivityHelper;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 import com.davismiyashiro.expenses.datatypes.Tab;
 
 public class ReceiptActivity extends BaseCompatActivity implements ReceiptInterfaces.View{
@@ -37,7 +35,7 @@ public class ReceiptActivity extends BaseCompatActivity implements ReceiptInterf
         receiptResume = (TextView) findViewById(R.id.multText);
         receiptResume.append("Resume Receipt");
 
-        mActionsListener = new ReceiptPresenter(this, Injection.provideTabsRepository(getApplicationContext()));
+        mActionsListener = new ReceiptPresenter(this, Injection.INSTANCE.provideTabsRepository(getApplicationContext()));
     }
 
     public void sendTab(View view) {

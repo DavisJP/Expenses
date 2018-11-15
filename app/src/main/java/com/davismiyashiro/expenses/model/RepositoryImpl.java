@@ -16,10 +16,10 @@ import timber.log.Timber;
 /**
  * Class to store the cached data retrieved
  */
-public class InMemoryTabRepository implements TabRepository{
+public class RepositoryImpl implements Repository {
 
-    private static InMemoryTabRepository inMemoryTabRepository = null;
-    private final TabRepositoryDataSource mTabRepositoryDataSource;
+    private static RepositoryImpl tabRepositoryImpl = null;
+    private final RepositoryDataSource mRepositoryDataSource;
 
     /**
      * Variables have local visibility so it can be accessed from tests.
@@ -31,21 +31,21 @@ public class InMemoryTabRepository implements TabRepository{
     private ArrayMap<String, List<ReceiptItem>> RECEIPT_MAP;
 
     // Prevent direct instantiation. (Changed to support Injection)
-    public InMemoryTabRepository (TabRepositoryDataSource tabRepositoryDataSource) {
-        mTabRepositoryDataSource = tabRepositoryDataSource;
+    public RepositoryImpl(RepositoryDataSource repositoryDataSource) {
+        mRepositoryDataSource = repositoryDataSource;
     }
 
-    public static InMemoryTabRepository getInstance (TabRepositoryDataSource localDataSource) {
-        if (inMemoryTabRepository == null) {
-            inMemoryTabRepository = new InMemoryTabRepository(localDataSource);
+    public static RepositoryImpl getInstance (RepositoryDataSource localDataSource) {
+        if (tabRepositoryImpl == null) {
+            tabRepositoryImpl = new RepositoryImpl(localDataSource);
         }
-        return inMemoryTabRepository;
+        return tabRepositoryImpl;
     }
 
     @Override
     public void getTabs(final LoadTabsCallback callback) {
         if (TAB_SERVICE_DATA == null) {
-            mTabRepositoryDataSource.getAllTabs(mapTabs -> {
+            mRepositoryDataSource.getAllTabs(mapTabs -> {
                 TAB_SERVICE_DATA = mapTabs;
                 List<Tab> tabs = new ArrayList<>(TAB_SERVICE_DATA.values());
                 callback.onTabsLoaded(tabs);
@@ -65,7 +65,7 @@ public class InMemoryTabRepository implements TabRepository{
             return;
         }
 
-        mTabRepositoryDataSource.getTab(tabId, tab1 -> callback.onTabLoaded(tab1));
+        mRepositoryDataSource.getTab(tabId, tab1 -> callback.onTabLoaded(tab1));
     }
 
     //Check memory before querying db
@@ -85,7 +85,7 @@ public class InMemoryTabRepository implements TabRepository{
         }
         TAB_SERVICE_DATA.put(tab.getGroupId(), tab);
         //Store in db
-        mTabRepositoryDataSource.saveTab(tab);
+        mRepositoryDataSource.saveTab(tab);
 
         //refreshData();
     }
@@ -97,13 +97,13 @@ public class InMemoryTabRepository implements TabRepository{
         }
         TAB_SERVICE_DATA.put(tab.getGroupId(), tab);
 
-        mTabRepositoryDataSource.updateTabName(tab, tab.getGroupName());
+        mRepositoryDataSource.updateTabName(tab, tab.getGroupName());
     }
 
     @Override
     public void deleteTab(String tabId) {
         TAB_SERVICE_DATA.remove(tabId);
-        mTabRepositoryDataSource.deleteTab(tabId);
+        mRepositoryDataSource.deleteTab(tabId);
         //refreshData();
     }
 
@@ -123,7 +123,7 @@ public class InMemoryTabRepository implements TabRepository{
         }
         PARTICIPANT_MAP.put(participant.getId(), participant);
 
-        mTabRepositoryDataSource.saveParticipant (participant);
+        mRepositoryDataSource.saveParticipant (participant);
 
         //refreshData();
     }
@@ -135,15 +135,15 @@ public class InMemoryTabRepository implements TabRepository{
         }
         PARTICIPANT_MAP.put(participant.getId(), participant);
 
-        mTabRepositoryDataSource.updateParticipant(participant);
+        mRepositoryDataSource.updateParticipant(participant);
     }
 
     @Override
     public void deleteParticipant(Participant participant) {
-        //Crashing... why is PARTMAP null when I try to delete?
+        //TODO: Crashing... why is PARTMAP null when I try to delete?
         //PARTICIPANT_MAP.remove(participant.getId());
 
-        mTabRepositoryDataSource.deleteParticipant(participant);
+        mRepositoryDataSource.deleteParticipant(participant);
     }
 
     private Participant getParticipantById (String id) {
@@ -164,7 +164,7 @@ public class InMemoryTabRepository implements TabRepository{
             return;
         }
 
-        mTabRepositoryDataSource.getParticipant(partId, new TabRepositoryDataSource.ParticipantServiceCallback<Participant>() {
+        mRepositoryDataSource.getParticipant(partId, new RepositoryDataSource.ParticipantServiceCallback<Participant>() {
 
             @Override
             public void onLoaded(Participant participant) {
@@ -181,7 +181,7 @@ public class InMemoryTabRepository implements TabRepository{
     @Override
     public void getParticipants(String tabId, final LoadParticipantsCallback callback) {
         if (PARTICIPANT_MAP == null) {
-            mTabRepositoryDataSource.getAllParticipants(tabId, new TabRepositoryDataSource.ParticipantServiceCallback<ArrayMap <String, Participant>>() {
+            mRepositoryDataSource.getAllParticipants(tabId, new RepositoryDataSource.ParticipantServiceCallback<ArrayMap <String, Participant>>() {
                 @Override
                 public void onLoaded(ArrayMap <String, Participant> participants) {
                     PARTICIPANT_MAP = participants;
@@ -206,7 +206,7 @@ public class InMemoryTabRepository implements TabRepository{
         }
         EXPENSE_MAP.put(expense.getId(), expense);
 
-        mTabRepositoryDataSource.saveExpense(expense);
+        mRepositoryDataSource.saveExpense(expense);
         //refreshData();
     }
 
@@ -217,21 +217,21 @@ public class InMemoryTabRepository implements TabRepository{
         }
         EXPENSE_MAP.put(expense.getId(), expense);
 
-        mTabRepositoryDataSource.updateExpense(expense);
+        mRepositoryDataSource.updateExpense(expense);
     }
 
     @Override
     public void deleteExpense(Expense expense) {
-        //Crashing... why is EXPENSE_MAP null when I try to delete?
+        //TODO: Crashing... why is EXPENSE_MAP null when I try to delete?
         //EXPENSE_MAP.remove(expense.getId());
 
-        mTabRepositoryDataSource.deleteExpense(expense);
+        mRepositoryDataSource.deleteExpense(expense);
     }
 
     @Override
     public void getExpenses(String tabId, final LoadExpensesCallback callback) {
         if (EXPENSE_MAP == null) {
-            mTabRepositoryDataSource.getAllExpenses(tabId, new TabRepositoryDataSource.ExpenseServiceCallback<ArrayMap <String, Expense>>() {
+            mRepositoryDataSource.getAllExpenses(tabId, new RepositoryDataSource.ExpenseServiceCallback<ArrayMap <String, Expense>>() {
                 @Override
                 public void onLoaded(ArrayMap <String, Expense> expenses) {
                     EXPENSE_MAP = expenses;
@@ -257,22 +257,22 @@ public class InMemoryTabRepository implements TabRepository{
         for (Split split : splits) {
             SPLIT_MAP.put(split.getId(), split);
         }
-        mTabRepositoryDataSource.saveSplits(splits);
+        mRepositoryDataSource.saveSplits(splits);
         //refreshData();
     }
 
     @Override
     public void deleteSplitsByExpense(Expense expense) {
-        //Crashing... why is SPLIT_MAP null when I try to delete?
+        //TODO: Crashing... why is SPLIT_MAP null when I try to delete?
         //SPLIT_MAP.remove(expense.getId());
 
-        mTabRepositoryDataSource.deleteSplitsByExpense(expense);
+        mRepositoryDataSource.deleteSplitsByExpense(expense);
     }
 
     @Override
     public void getSplitsByExpense(String expId, final LoadSplitsCallback callback) {
         if (SPLIT_MAP == null) {
-            mTabRepositoryDataSource.getSplitsByExpense(expId, splits -> {
+            mRepositoryDataSource.getSplitsByExpense(expId, splits -> {
                 SPLIT_MAP = splits;
                 callback.onSplitsLoaded(new ArrayList<Split>(SPLIT_MAP.values()));
             });
@@ -284,7 +284,7 @@ public class InMemoryTabRepository implements TabRepository{
     @Override
     public void getReceiptItemsByTabId(String tabId, final LoadReceiptItemsCallback callback) {
         if (RECEIPT_MAP == null) {
-            mTabRepositoryDataSource.getReceiptItemByTabId(tabId, items -> {
+            mRepositoryDataSource.getReceiptItemByTabId(tabId, items -> {
                 RECEIPT_MAP = items;
                 callback.onReceiptItemsLoaded(RECEIPT_MAP);
             });
@@ -295,11 +295,11 @@ public class InMemoryTabRepository implements TabRepository{
 
     @Override
     public void deleteAllTables() {
-        mTabRepositoryDataSource.deleteAllTables();
+        mRepositoryDataSource.deleteAllTables();
         refreshData();
     }
 
     public void destroyInstance() {
-        inMemoryTabRepository = null;
+        tabRepositoryImpl = null;
     }
 }

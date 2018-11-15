@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Created by Davis on 24/01/2016.
  */
-public interface TabRepository {
+public interface Repository {
 
     interface LoadTabsCallback {
 
