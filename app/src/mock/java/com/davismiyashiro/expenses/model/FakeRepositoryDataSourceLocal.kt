@@ -19,8 +19,8 @@ class FakeRepositoryDataSourceLocal private constructor(context: Context) : Repo
     }
 
     override fun getTab(tabId: String, callback: RepositoryDataSource.TabServiceCallback<Tab>) {
-        val tab = TAB_SERVICE_DATA.get(tabId)
-        callback.onLoaded(tab)
+        val tab = TAB_SERVICE_DATA[tabId]
+        tab?.let { callback.onLoaded(it) }
     }
 
     override fun saveTab(tab: Tab) {
@@ -31,9 +31,7 @@ class FakeRepositoryDataSourceLocal private constructor(context: Context) : Repo
         return 0
     }
 
-    override fun deleteTab(tabId: String) {
-
-    }
+    override fun deleteTab(tabId: String) = Unit
 
     override fun getParticipant(partId: String, callback: RepositoryDataSource.ParticipantServiceCallback<Participant>) {
 
@@ -87,13 +85,11 @@ class FakeRepositoryDataSourceLocal private constructor(context: Context) : Repo
 
     }
 
-    override fun getReceiptItemByTabId(tabId: String, callback: RepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, List<ReceiptItem>>>) {
+    override fun getReceiptItemByTabId(tabId: String, callback: RepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, MutableList<ReceiptItem>>>) {
 
     }
 
-    override fun deleteAllTables() {
-
-    }
+    override fun deleteAllTables() = Unit
 
     companion object {
 
