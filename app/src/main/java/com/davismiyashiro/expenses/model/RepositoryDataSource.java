@@ -1,6 +1,6 @@
 package com.davismiyashiro.expenses.model;
 
-import android.support.v4.util.ArrayMap;
+import android.util.ArrayMap;
 
 import com.davismiyashiro.expenses.datatypes.Expense;
 import com.davismiyashiro.expenses.datatypes.Participant;
@@ -19,7 +19,7 @@ public interface RepositoryDataSource {
         void onLoaded(T tabs);
     }
 
-    void getAllTabs(TabServiceCallback<ArrayMap <String, Tab>> callback);
+    void getAllTabs(TabServiceCallback<ArrayMap<String, Tab>> callback);
 
     void getTab(String tabId, TabServiceCallback<Tab> callback);
 
