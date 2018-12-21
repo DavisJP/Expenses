@@ -4,8 +4,7 @@ import android.content.Context
 import android.support.v4.util.ArrayMap
 
 import com.davismiyashiro.expenses.datatypes.Tab
-import com.nhaarman.mockito_kotlin.argumentCaptor
-import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockitokotlin2.*
 
 import org.junit.After
 import org.junit.Before
@@ -14,8 +13,6 @@ import org.mockito.MockitoAnnotations
 
 import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertThat
-import org.mockito.Matchers.any
-import org.mockito.Matchers.eq
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 
@@ -24,7 +21,7 @@ import org.mockito.Mockito.verify
  */
 class InMemoryTabsRepositoryTest {
 
-    private var mTabRepositoryImpl: RepositoryImpl? = null
+    lateinit var mTabRepositoryImpl: RepositoryImpl
 
     private val mContext = mock<Context>()
 
@@ -50,15 +47,15 @@ class InMemoryTabsRepositoryTest {
 
     @After
     fun destroyRepositoryInstance() {
-        mTabRepositoryImpl!!.destroyInstance()
+        mTabRepositoryImpl.destroyInstance()
     }
 
     /**
      * Convenience method that issues two calls to the tabs repository
      */
-    private fun twoLoadCallsToRepository(callback: Repository.LoadTabsCallback?) {
+    private fun twoLoadCallsToRepository(callback: Repository.LoadTabsCallback) {
         // When tabs are requested from repository
-        mTabRepositoryImpl?.getTabs(callback) // First call to API
+        mTabRepositoryImpl.getTabs(callback) // First call to API
 
         // Use the Mockito Captor to capture the callback
         verify<RepositoryDataSource>(mLocalSource).getAllTabs(mTabServiceCallbackArgumentCaptor.capture())
@@ -66,7 +63,7 @@ class InMemoryTabsRepositoryTest {
         // Trigger callback so tabs are cached
         mTabServiceCallbackArgumentCaptor.firstValue.onLoaded(TABS)
 
-        mTabRepositoryImpl?.getTabs(callback) // Second call to API
+        mTabRepositoryImpl.getTabs(callback) // Second call to API
     }
 
 
@@ -77,7 +74,7 @@ class InMemoryTabsRepositoryTest {
         twoLoadCallsToRepository(mLoadTabsCallback)
 
         // Then tabs should only be requested once from local DataSource
-        verify<RepositoryDataSource>(mLocalSource).getAllTabs(any<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>())
+        verify(mLocalSource).getAllTabs(any())
     }
 
     @Test
@@ -86,20 +83,20 @@ class InMemoryTabsRepositoryTest {
         twoLoadCallsToRepository(mLoadTabsCallback)
 
         // When data refresh is requested
-        mTabRepositoryImpl!!.refreshData()
-        mTabRepositoryImpl!!.getTabs(mLoadTabsCallback) // Third call to API
+        mTabRepositoryImpl.refreshData()
+        mTabRepositoryImpl.getTabs(mLoadTabsCallback) // Third call to API
 
         // The tabs were requested twice from the local DataSource (Caching on first and third call)
-        verify<RepositoryDataSource>(mLocalSource, times(2)).getAllTabs(any<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>())
+        verify(mLocalSource, times(2)).getAllTabs(any())
     }
 
     @Test
     fun getTabs_requestsAllTabsFromServiceApi() {
         // When tabs are requested from the tabs repository
-        mTabRepositoryImpl!!.getTabs(mLoadTabsCallback)
+        mTabRepositoryImpl.getTabs(mLoadTabsCallback)
 
         // Then tabs are loaded from the local DataSource
-        verify<RepositoryDataSource>(mLocalSource).getAllTabs(any<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>())
+        verify(mLocalSource).getAllTabs(any())
     }
 
     @Test
@@ -108,11 +105,11 @@ class InMemoryTabsRepositoryTest {
         val tab = Tab("3", "third")
 
         // When a tab is saved to the tabs repository
-        mTabRepositoryImpl!!.saveTab(tab)
+        mTabRepositoryImpl.saveTab(tab)
 
         // Check if the tabs is saved to local db and cached
-        verify<RepositoryDataSource>(mLocalSource).saveTab(tab)
-        assertThat(mTabRepositoryImpl!!.TAB_SERVICE_DATA.size, `is`(1))
+        verify(mLocalSource).saveTab(tab)
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.size, `is`(1))
     }
 
     @Test
@@ -121,11 +118,11 @@ class InMemoryTabsRepositoryTest {
         val tab = Tab("3", "third")
 
         // When a tab is saved to the tabs repository
-        mTabRepositoryImpl!!.saveTab(tab)
+        mTabRepositoryImpl.saveTab(tab)
 
         // The asked tab should be retrieved from the cache first
-        mTabRepositoryImpl!!.getTab("3", mGetTabCallback)
-        verify(mGetTabCallback).onTabLoaded(tabArgumentCaptor!!.capture())
+        mTabRepositoryImpl.getTab("3", mGetTabCallback)
+        verify(mGetTabCallback).onTabLoaded(tabArgumentCaptor.capture())
         assertThat(tabArgumentCaptor.firstValue, `is`(tab))
 
         //So it doesn't have to check the db
@@ -135,22 +132,22 @@ class InMemoryTabsRepositoryTest {
     @Test
     fun getTab_requestsSingleTabFromLocalDataSource() {
         // When a tab is requested from the tabs repository
-        mTabRepositoryImpl!!.getTab("0", mGetTabCallback)
+        mTabRepositoryImpl.getTab("0", mGetTabCallback)
 
         // Then the tab is loaded from the LocalDataSource
-        verify<RepositoryDataSource>(mLocalSource).getTab(eq("0"), any<RepositoryDataSource.TabServiceCallback<Tab>>())
+        verify(mLocalSource).getTab(eq("0"), any())
     }
 
     @Test
     fun deleteTab_updatesTheCache() {
         val tab = Tab("3", "third")
 
-        mTabRepositoryImpl!!.saveTab(tab)
-        assertThat(mTabRepositoryImpl!!.TAB_SERVICE_DATA.containsKey(tab.groupId), `is`(true))
+        mTabRepositoryImpl.saveTab(tab)
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.containsKey(tab.groupId), `is`(true))
 
-        mTabRepositoryImpl!!.deleteTab(tab.groupId)
+        mTabRepositoryImpl.deleteTab(tab.groupId)
 
-        assertThat(mTabRepositoryImpl!!.TAB_SERVICE_DATA.values.size, `is`(0))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.values.size, `is`(0))
         verify<RepositoryDataSource>(mLocalSource).deleteTab(tab.groupId)
     }
 
