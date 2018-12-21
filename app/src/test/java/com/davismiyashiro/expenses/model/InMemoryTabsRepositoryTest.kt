@@ -1,10 +1,36 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Davis Miyashiro
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.davismiyashiro.expenses.model
 
 import android.content.Context
 import android.support.v4.util.ArrayMap
 
 import com.davismiyashiro.expenses.datatypes.Tab
-import com.nhaarman.mockitokotlin2.*
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.any
+import com.nhaarman.mockitokotlin2.eq
 
 import org.junit.After
 import org.junit.Before
@@ -31,7 +57,7 @@ class InMemoryTabsRepositoryTest {
 
     private val mLoadTabsCallback = mock<Repository.LoadTabsCallback>()
 
-    private val mTabServiceCallback =  mock<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>()
+    private val mTabServiceCallback = mock<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>()
 
     private val mTabServiceCallbackArgumentCaptor = argumentCaptor<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>()
 
@@ -66,7 +92,6 @@ class InMemoryTabsRepositoryTest {
         mTabRepositoryImpl.getTabs(callback) // Second call to API
     }
 
-
     @Test
     fun getTabs_repositoryCachesAfterFirstApiCall() {
         // Given a setup Captor to capture callbacks
@@ -74,7 +99,7 @@ class InMemoryTabsRepositoryTest {
         twoLoadCallsToRepository(mLoadTabsCallback)
 
         // Then tabs should only be requested once from local DataSource
-        verify(mLocalSource).getAllTabs(any())
+        verify<RepositoryDataSource>(mLocalSource).getAllTabs(any())
     }
 
     @Test
@@ -109,7 +134,7 @@ class InMemoryTabsRepositoryTest {
 
         // Check if the tabs is saved to local db and cached
         verify(mLocalSource).saveTab(tab)
-        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.size, `is`(1))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA?.size, `is`(1))
     }
 
     @Test
@@ -125,8 +150,8 @@ class InMemoryTabsRepositoryTest {
         verify(mGetTabCallback).onTabLoaded(tabArgumentCaptor.capture())
         assertThat(tabArgumentCaptor.firstValue, `is`(tab))
 
-        //So it doesn't have to check the db
-        verify<RepositoryDataSource>(mLocalSource, times(0)).getTab(eq("3"), any<RepositoryDataSource.TabServiceCallback<Tab>>())
+        // So it doesn't have to check the db
+        verify<RepositoryDataSource>(mLocalSource, times(0)).getTab(eq("3"), any())
     }
 
     @Test
@@ -143,11 +168,11 @@ class InMemoryTabsRepositoryTest {
         val tab = Tab("3", "third")
 
         mTabRepositoryImpl.saveTab(tab)
-        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.containsKey(tab.groupId), `is`(true))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA?.containsKey(tab.groupId), `is`(true))
 
         mTabRepositoryImpl.deleteTab(tab.groupId)
 
-        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.values.size, `is`(0))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA?.values?.size, `is`(0))
         verify<RepositoryDataSource>(mLocalSource).deleteTab(tab.groupId)
     }
 

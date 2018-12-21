@@ -1,6 +1,27 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Davis Miyashiro
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.davismiyashiro.expenses.model
-
-import android.support.v4.util.ArrayMap
 
 import com.davismiyashiro.expenses.datatypes.Expense
 import com.davismiyashiro.expenses.datatypes.Participant
@@ -15,7 +36,7 @@ interface Repository {
 
     interface LoadTabsCallback {
 
-        fun onTabsLoaded(tabs: List<Tab>)
+        fun onTabsLoaded(tabs: MutableList<Tab>)
     }
 
     interface GetTabCallback {
@@ -37,7 +58,7 @@ interface Repository {
 
     interface LoadParticipantsCallback {
 
-        fun onParticipantsLoaded(participants: List<Participant>)
+        fun onParticipantsLoaded(participants: MutableList<Participant>)
     }
 
     interface GetParticipantCallback {
@@ -62,12 +83,12 @@ interface Repository {
     fun deleteExpense(expense: Expense)
 
     interface LoadExpensesCallback {
-        fun onExpensesLoaded(expenses: List<Expense>)
+        fun onExpensesLoaded(expenses: MutableList<Expense>)
     }
 
     fun getExpenses(tabId: String, callback: LoadExpensesCallback)
 
-    fun saveSplits(splits: List<Split>)
+    fun saveSplits(splits: MutableList<Split>)
 
     fun deleteSplitsByExpense(expense: Expense)
 
@@ -78,7 +99,7 @@ interface Repository {
     fun getSplitsByExpense(expId: String, callback: LoadSplitsCallback)
 
     interface LoadReceiptItemsCallback {
-        fun onReceiptItemsLoaded(items: ArrayMap<String, List<ReceiptItem>>)
+        fun onReceiptItemsLoaded(items: MutableMap<String, MutableList<ReceiptItem>>)
     }
 
     fun getReceiptItemsByTabId(tabId: String, callback: LoadReceiptItemsCallback)
