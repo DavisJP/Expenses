@@ -109,7 +109,7 @@ class InMemoryTabsRepositoryTest {
 
         // Check if the tabs is saved to local db and cached
         verify(mLocalSource).saveTab(tab)
-        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.size, `is`(1))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA?.size, `is`(1))
     }
 
     @Test
@@ -143,11 +143,11 @@ class InMemoryTabsRepositoryTest {
         val tab = Tab("3", "third")
 
         mTabRepositoryImpl.saveTab(tab)
-        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.containsKey(tab.groupId), `is`(true))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA?.containsKey(tab.groupId), `is`(true))
 
         mTabRepositoryImpl.deleteTab(tab.groupId)
 
-        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.values.size, `is`(0))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA?.values?.size, `is`(0))
         verify<RepositoryDataSource>(mLocalSource).deleteTab(tab.groupId)
     }
 

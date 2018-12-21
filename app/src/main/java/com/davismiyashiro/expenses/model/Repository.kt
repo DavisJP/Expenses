@@ -78,7 +78,7 @@ interface Repository {
     fun getSplitsByExpense(expId: String, callback: LoadSplitsCallback)
 
     interface LoadReceiptItemsCallback {
-        fun onReceiptItemsLoaded(items: ArrayMap<String, List<ReceiptItem>>)
+        fun onReceiptItemsLoaded(items: ArrayMap<String, MutableList<ReceiptItem>>)
     }
 
     fun getReceiptItemsByTabId(tabId: String, callback: LoadReceiptItemsCallback)
