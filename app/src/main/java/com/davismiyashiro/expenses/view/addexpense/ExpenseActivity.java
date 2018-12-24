@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 import com.davismiyashiro.expenses.Injection;
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 import com.davismiyashiro.expenses.R;
 import com.davismiyashiro.expenses.datatypes.Expense;
 import com.davismiyashiro.expenses.view.splitter.SplitterActivity;
@@ -58,7 +58,7 @@ public class ExpenseActivity extends BaseCompatActivity implements ExpenseView.V
         mFabExpense.setOnClickListener(this);
         mFabExpense.show();
 
-        mPresenter = new ExpensePresenterImpl(this, Injection.provideTabsRepository(this));
+        mPresenter = new ExpensePresenterImpl(this, Injection.INSTANCE.provideTabsRepository(this));
 
         mTab = getIntent().getParcelableExtra(TAB_REQUESTED);
         mExpense = getIntent().getParcelableExtra(EDIT_EXPENSE);

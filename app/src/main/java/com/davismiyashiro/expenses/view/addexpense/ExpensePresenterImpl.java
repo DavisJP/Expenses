@@ -3,13 +3,13 @@ package com.davismiyashiro.expenses.view.addexpense;
 import android.text.TextUtils;
 
 import com.davismiyashiro.expenses.datatypes.Expense;
-import com.davismiyashiro.expenses.model.TabRepository;
+import com.davismiyashiro.expenses.model.Repository;
 
 public class ExpensePresenterImpl implements ExpenseView.UserActionsListener {
     private ExpenseView.View mView;
-    TabRepository mRepo;
+    Repository mRepo;
 
-    public ExpensePresenterImpl (ExpenseView.View view, TabRepository model) {
+    public ExpensePresenterImpl (ExpenseView.View view, Repository model) {
         mView = view;
         mRepo = model;
     }

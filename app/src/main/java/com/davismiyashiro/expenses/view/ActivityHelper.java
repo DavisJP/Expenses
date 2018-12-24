@@ -1,4 +1,4 @@
-package com.davismiyashiro.expenses.model;
+package com.davismiyashiro.expenses.view;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;

@@ -1,20 +1,18 @@
 package com.davismiyashiro.expenses.view.managetabs
 
 import com.davismiyashiro.expenses.datatypes.Tab
-import com.davismiyashiro.expenses.model.TabRepository
-import com.davismiyashiro.expenses.model.TabRepository.LoadTabsCallback
-import com.nhaarman.mockito_kotlin.mock
+import com.davismiyashiro.expenses.model.Repository
+import com.davismiyashiro.expenses.model.Repository.LoadTabsCallback
+import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.*
 
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
 import org.mockito.MockitoAnnotations
 
 import java.util.ArrayList
 import java.util.Arrays
 
-import org.mockito.Matchers.eq
 import org.mockito.Mockito.verify
 
 /**
@@ -22,17 +20,15 @@ import org.mockito.Mockito.verify
  */
 class ChooseTabsPresenterImplTest {
 
-    private val mTabRepository: TabRepository = mock()
+    private val mRepository: Repository = mock()
 
     private val mChooseTabsView = mock<ChooseTabsInterfaces.View>() //Another way
 
-    private val mGetTabCallback: TabRepository.GetTabCallback = mock()
+    private val mGetCallback: Repository.GetTabCallback = mock()
 
-    @Captor
-    private val mLoadTabsCallbackCaptor: ArgumentCaptor<LoadTabsCallback> = mock()
+    private val mLoadTabsCallbackCaptor = argumentCaptor<LoadTabsCallback>()
 
-    @Captor
-    private val mGetTabCallbackCaptor: ArgumentCaptor<TabRepository.GetTabCallback>? = null
+    private val mGetCallbackCaptor = argumentCaptor<Repository.GetTabCallback>()
 
     private lateinit var mChooseTabsPresenter: ChooseTabsPresenterImpl
 
@@ -44,20 +40,15 @@ class ChooseTabsPresenterImplTest {
 
         MockitoAnnotations.initMocks(this)
 
-        mChooseTabsPresenter = ChooseTabsPresenterImpl(mChooseTabsView, mTabRepository)
+        mChooseTabsPresenter = ChooseTabsPresenterImpl(mChooseTabsView, mRepository)
     }
-
-    //    @After
-    //    public void tearDown() throws Exception {
-    //
-    //    }
 
     @Test
     @Throws(Exception::class)
     fun testAddTab() {
         mChooseTabsPresenter.addTab()
 
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).showAddTab()
+        verify(mChooseTabsView).showAddTab()
     }
 
     @Test
@@ -65,12 +56,12 @@ class ChooseTabsPresenterImplTest {
     fun testLoadTabs() {
         mChooseTabsPresenter.loadTabs(true)
 
-        verify<TabRepository>(mTabRepository).getTabs(mLoadTabsCallbackCaptor.capture())
+        verify(mRepository).getTabs(mLoadTabsCallbackCaptor.capture())
 
-        mLoadTabsCallbackCaptor.value.onTabsLoaded(TABS)
+        mLoadTabsCallbackCaptor.firstValue.onTabsLoaded(TABS)
 
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).setProgressIndicator(false)
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).showTabs(TABS)
+        verify(mChooseTabsView).setProgressIndicator(false)
+        verify(mChooseTabsView).showTabs(TABS)
     }
 
     @Test
@@ -78,12 +69,12 @@ class ChooseTabsPresenterImplTest {
     fun testLoadNoTabs() {
         mChooseTabsPresenter.loadTabs(true)
 
-        verify<TabRepository>(mTabRepository).getTabs(mLoadTabsCallbackCaptor.capture())
+        verify(mRepository).getTabs(mLoadTabsCallbackCaptor.capture())
 
-        mLoadTabsCallbackCaptor.value.onTabsLoaded(ArrayList())
+        mLoadTabsCallbackCaptor.firstValue.onTabsLoaded(ArrayList())
 
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).setProgressIndicator(false)
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).showNoTabs()
+        verify(mChooseTabsView).setProgressIndicator(false)
+        verify(mChooseTabsView).showNoTabs()
     }
 
     @Test
@@ -93,11 +84,11 @@ class ChooseTabsPresenterImplTest {
 
         mChooseTabsPresenter.openTab("1")
 
-        verify<TabRepository>(mTabRepository).getTab(eq(tab.groupId), mGetTabCallbackCaptor!!.capture())
+        verify(mRepository).getTab(eq(tab.groupId), mGetCallbackCaptor.capture())
 
-        mGetTabCallbackCaptor.value.onTabLoaded(tab) // Trigger callback
+        mGetCallbackCaptor.firstValue.onTabLoaded(tab) // Trigger callback
 
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).showTabDetailUi(tab)
+        verify(mChooseTabsView).showTabDetailUi(tab)
     }
 
     companion object {

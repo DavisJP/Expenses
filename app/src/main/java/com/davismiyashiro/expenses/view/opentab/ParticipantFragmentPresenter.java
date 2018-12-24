@@ -2,7 +2,7 @@ package com.davismiyashiro.expenses.view.opentab;
 
 import com.davismiyashiro.expenses.datatypes.Participant;
 import com.davismiyashiro.expenses.datatypes.Tab;
-import com.davismiyashiro.expenses.model.TabRepository;
+import com.davismiyashiro.expenses.model.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,9 @@ import java.util.List;
 public class ParticipantFragmentPresenter implements ParticipantInterfaces.UserActionsListener {
 
     ParticipantInterfaces.ParticipantView mParticipantView;
-    TabRepository mRepository;
+    Repository mRepository;
 
-    public ParticipantFragmentPresenter(TabRepository model) {
+    public ParticipantFragmentPresenter(Repository model) {
         mRepository = model;
     }
 
@@ -29,7 +29,7 @@ public class ParticipantFragmentPresenter implements ParticipantInterfaces.UserA
     public void loadParticipants(Tab tab) {
         if (tab!= null) {
             mRepository.refreshData(); // Fix to get Participants list updated when switching tabs
-            mRepository.getParticipants(tab.getGroupId(), new TabRepository.LoadParticipantsCallback() {
+            mRepository.getParticipants(tab.getGroupId(), new Repository.LoadParticipantsCallback() {
                 @Override
                 public void onParticipantsLoaded(List<Participant> participants) {
                     if (participants == null) {

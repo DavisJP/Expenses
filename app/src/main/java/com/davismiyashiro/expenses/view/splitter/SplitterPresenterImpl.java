@@ -3,19 +3,19 @@ package com.davismiyashiro.expenses.view.splitter;
 import com.davismiyashiro.expenses.datatypes.Expense;
 import com.davismiyashiro.expenses.datatypes.Participant;
 import com.davismiyashiro.expenses.datatypes.Split;
-import com.davismiyashiro.expenses.model.TabRepository;
+import com.davismiyashiro.expenses.model.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SplitterPresenterImpl implements SplitterView.UserActionsListener {
     private SplitterView.View mView;
-    private TabRepository mModel;
+    private Repository mModel;
 
     private List<Participant> mParticipants;
     private List<Split> mSplits;
 
-    public SplitterPresenterImpl (SplitterView.View splitterView, TabRepository model) {
+    public SplitterPresenterImpl (SplitterView.View splitterView, Repository model) {
         mView = splitterView;
         mModel = model;
     }

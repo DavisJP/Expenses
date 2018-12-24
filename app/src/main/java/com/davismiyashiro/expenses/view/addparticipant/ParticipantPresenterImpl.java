@@ -3,14 +3,14 @@ package com.davismiyashiro.expenses.view.addparticipant;
 import android.text.TextUtils;
 
 import com.davismiyashiro.expenses.datatypes.Participant;
-import com.davismiyashiro.expenses.model.TabRepository;
+import com.davismiyashiro.expenses.model.Repository;
 
 public class ParticipantPresenterImpl implements ParticipantInterfaces.UserActionsListener {
 
     ParticipantInterfaces.View mView;
-    TabRepository mRepo;
+    Repository mRepo;
 
-  public ParticipantPresenterImpl (ParticipantInterfaces.View view, TabRepository model) {
+  public ParticipantPresenterImpl (ParticipantInterfaces.View view, Repository model) {
       mView = view;
       mRepo = model;
   }

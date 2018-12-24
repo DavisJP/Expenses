@@ -1,19 +1,14 @@
 package com.davismiyashiro.expenses.view.managetabs;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,7 +18,7 @@ import android.widget.TextView;
 import com.davismiyashiro.expenses.Injection;
 import com.davismiyashiro.expenses.R;
 import com.davismiyashiro.expenses.view.addtab.AddTabActivity;
-import com.davismiyashiro.expenses.model.BaseCompatActivity;
+import com.davismiyashiro.expenses.view.BaseCompatActivity;
 import com.davismiyashiro.expenses.datatypes.Tab;
 import com.davismiyashiro.expenses.view.opentab.OpenTabActivity;
 
@@ -74,7 +69,7 @@ public class ChooseTabsActivity extends BaseCompatActivity implements ChooseTabs
     public void onResume() {
         super.onResume();
 
-        mPresenter = new ChooseTabsPresenterImpl(this, Injection.provideTabsRepository(getApplicationContext()));
+        mPresenter = new ChooseTabsPresenterImpl(this, Injection.INSTANCE.provideTabsRepository(getApplicationContext()));
 
         mPresenter.loadTabs(false);
     }
