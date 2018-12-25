@@ -216,7 +216,7 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
         }
     }
 
-    override fun saveSplits(splits: List<Split>) {
+    override fun saveSplits(splits: MutableList<Split>) {
         if (SPLIT_MAP == null) {
             SPLIT_MAP = ArrayMap()
         }

@@ -15,7 +15,7 @@ interface Repository {
 
     interface LoadTabsCallback {
 
-        fun onTabsLoaded(tabs: List<Tab>)
+        fun onTabsLoaded(tabs: MutableList<Tab>)
     }
 
     interface GetTabCallback {
@@ -67,7 +67,7 @@ interface Repository {
 
     fun getExpenses(tabId: String, callback: LoadExpensesCallback)
 
-    fun saveSplits(splits: List<Split>)
+    fun saveSplits(splits: MutableList<Split>)
 
     fun deleteSplitsByExpense(expense: Expense)
 

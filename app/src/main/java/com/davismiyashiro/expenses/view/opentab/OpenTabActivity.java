@@ -126,16 +126,16 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
             Intent addData = new Intent();
             switch (pagerPosition) {
                 case 0:
-                    addData = ParticipantActivity.newInstance(getBaseContext(), mTab, null);
+                    addData = ParticipantActivity.Companion.newInstance(getBaseContext(), mTab, null);
                     break;
 
                 case 1:
-                    addData = ExpenseActivity.newIntent(getBaseContext(), mTab, null);
+                    addData = ExpenseActivity.Companion.newIntent(getBaseContext(), mTab, null);
                     fabPartFrag.hide();
                     break;
 
                 case 2:
-                    addData = ReceiptActivity.newInstance(getBaseContext(), mTab);
+                    addData = ReceiptActivity.Companion.newInstance(getBaseContext(), mTab);
                     break;
 
                 default:
@@ -177,7 +177,7 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.action_settings:
-                startActivityForResult(AddTabActivity.newIntent(this, mTab), UPDATE_RESULT);
+                startActivityForResult(AddTabActivity.Companion.newIntent(this, mTab), UPDATE_RESULT);
                 return true;
         }
 
@@ -192,7 +192,7 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
             // Make sure the request was successful
             if (resultCode == RESULT_OK) {
                 // Do something with the contact here (bigger example below)
-                mTab = data.getParcelableExtra(AddTabActivity.EDIT_TAB);
+                mTab = data.getParcelableExtra(AddTabActivity.Companion.getEDIT_TAB());
             }
         }
     }
@@ -208,7 +208,7 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
 
     @Override
     public void onParticipantListFragmentInteraction(Participant item) {
-        startActivity(ParticipantActivity.newInstance(this, mTab, item));
+        startActivity(ParticipantActivity.Companion.newInstance(this, mTab, item));
     }
 
     @Override
@@ -218,7 +218,7 @@ public class OpenTabActivity extends BaseCompatActivity implements OnParticipant
 
     @Override
     public void onExpenseFragmentInteraction(Expense expense) {
-        startActivity(ExpenseActivity.newIntent(this, mTab, expense));
+        startActivity(ExpenseActivity.Companion.newIntent(this, mTab, expense));
     }
 
     @Override
