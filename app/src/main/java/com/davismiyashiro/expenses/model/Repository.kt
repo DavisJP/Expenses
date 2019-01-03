@@ -37,7 +37,7 @@ interface Repository {
 
     interface LoadParticipantsCallback {
 
-        fun onParticipantsLoaded(participants: List<Participant>)
+        fun onParticipantsLoaded(participants: MutableList<Participant>)
     }
 
     interface GetParticipantCallback {
@@ -62,7 +62,7 @@ interface Repository {
     fun deleteExpense(expense: Expense)
 
     interface LoadExpensesCallback {
-        fun onExpensesLoaded(expenses: List<Expense>)
+        fun onExpensesLoaded(expenses: MutableList<Expense>)
     }
 
     fun getExpenses(tabId: String, callback: LoadExpensesCallback)
