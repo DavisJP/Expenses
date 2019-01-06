@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2019 Davis Miyashiro
+ * Copyright (c) $YEAR Davis Miyashiro
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,17 +21,3 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package com.davismiyashiro.expenses
-
-import com.davismiyashiro.expenses.view.managetabs.ChooseTabsPresenterImplTest
-import com.davismiyashiro.expenses.model.InMemoryTabsRepositoryTest
-
-import org.junit.runner.RunWith
-import org.junit.runners.Suite
-
-/**
- * Created by Davis on 30/12/2015.
- */
-@RunWith(Suite::class)
-@Suite.SuiteClasses(InMemoryTabsRepositoryTest::class, ChooseTabsPresenterImplTest::class)
-class UnitTestSuite

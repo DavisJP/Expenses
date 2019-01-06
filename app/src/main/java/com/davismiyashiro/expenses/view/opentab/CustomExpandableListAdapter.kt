@@ -1,3 +1,26 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Davis Miyashiro
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.davismiyashiro.expenses.view.opentab
 
 /**
@@ -17,8 +40,11 @@ import android.widget.TextView
 import com.davismiyashiro.expenses.R
 import com.davismiyashiro.expenses.datatypes.ReceiptItem
 
-class CustomExpandableListAdapter(private val context: Context, private var expandableListTitle: List<String>,
-                                  private var expandableListDetail: ArrayMap<String, MutableList<ReceiptItem>>) : BaseExpandableListAdapter() {
+class CustomExpandableListAdapter(
+    private val context: Context,
+    private var expandableListTitle: List<String>,
+    private var expandableListDetail: ArrayMap<String, MutableList<ReceiptItem>>
+) : BaseExpandableListAdapter() {
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): ReceiptItem? {
         return this.expandableListDetail[this.expandableListTitle[listPosition]]
@@ -29,8 +55,13 @@ class CustomExpandableListAdapter(private val context: Context, private var expa
         return expandedListPosition.toLong()
     }
 
-    override fun getChildView(listPosition: Int, expandedListPosition: Int,
-                              isLastChild: Boolean, convertView: View?, parent: ViewGroup): View {
+    override fun getChildView(
+        listPosition: Int,
+        expandedListPosition: Int,
+        isLastChild: Boolean,
+        convertView: View?,
+        parent: ViewGroup
+    ): View {
         var convertView = convertView
         val (_, _, expenseDesc, value) = getChild(listPosition, expandedListPosition) as ReceiptItem
         if (convertView == null) {
@@ -76,8 +107,12 @@ class CustomExpandableListAdapter(private val context: Context, private var expa
         return listPosition.toLong()
     }
 
-    override fun getGroupView(listPosition: Int, isExpanded: Boolean,
-                              convertView: View?, parent: ViewGroup): View {
+    override fun getGroupView(
+        listPosition: Int,
+        isExpanded: Boolean,
+        convertView: View?,
+        parent: ViewGroup
+    ): View {
         var convertView = convertView
         val titleId = getGroup(listPosition) as String
 

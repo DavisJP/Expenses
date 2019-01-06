@@ -1,3 +1,26 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Davis Miyashiro
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.davismiyashiro.expenses.model
 
 import android.content.Context
@@ -34,7 +57,6 @@ class FakeRepositoryDataSourceLocal private constructor(context: Context) : Repo
     override fun deleteTab(tabId: String) = Unit
 
     override fun getParticipant(partId: String, callback: RepositoryDataSource.ParticipantServiceCallback<Participant>) {
-
     }
 
     override fun getAllParticipants(tabId: String, callback: RepositoryDataSource.ParticipantServiceCallback<ArrayMap<String, Participant>>) {
@@ -50,19 +72,15 @@ class FakeRepositoryDataSourceLocal private constructor(context: Context) : Repo
     }
 
     override fun deleteParticipant(participant: Participant) {
-
     }
 
     override fun getExpense(expId: String, callback: RepositoryDataSource.ExpenseServiceCallback<Expense>) {
-
     }
 
     override fun getAllExpenses(tabId: String, callback: RepositoryDataSource.ExpenseServiceCallback<ArrayMap<String, Expense>>) {
-
     }
 
     override fun saveExpense(expense: Expense) {
-
     }
 
     override fun updateExpense(expense: Expense): Int {
@@ -70,23 +88,18 @@ class FakeRepositoryDataSourceLocal private constructor(context: Context) : Repo
     }
 
     override fun deleteExpense(expense: Expense) {
-
     }
 
     override fun getSplitsByExpense(partId: String, callback: RepositoryDataSource.SplitServiceCallback<ArrayMap<String, Split>>) {
-
     }
 
     override fun saveSplits(splits: List<Split>) {
-
     }
 
     override fun deleteSplitsByExpense(expense: Expense) {
-
     }
 
     override fun getReceiptItemByTabId(tabId: String, callback: RepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, MutableList<ReceiptItem>>>) {
-
     }
 
     override fun deleteAllTables() = Unit
