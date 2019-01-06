@@ -1,3 +1,26 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Davis Miyashiro
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.davismiyashiro.expenses.model
 
 import android.support.v4.util.ArrayMap
@@ -15,7 +38,7 @@ import timber.log.Timber
 /**
  * Class to store the cached data retrieved
  */
-class RepositoryImpl// Prevent direct instantiation. (Changed to support Injection)
+class RepositoryImpl // Prevent direct instantiation. (Changed to support Injection)
 (private val mRepositoryDataSource: RepositoryDataSource) : Repository {
 
     /**
@@ -55,7 +78,7 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
         })
     }
 
-    //Check memory before querying db
+    // Check memory before querying db
     private fun getTabById(id: String): Tab? {
         return if (TAB_SERVICE_DATA == null || TAB_SERVICE_DATA!!.isEmpty) {
             null
@@ -65,15 +88,15 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
     }
 
     override fun saveTab(tab: Tab) {
-        //Add for the UI
+        // Add for the UI
         if (TAB_SERVICE_DATA == null) {
             TAB_SERVICE_DATA = ArrayMap()
         }
         TAB_SERVICE_DATA!![tab.groupId] = tab
-        //Store in db
+        // Store in db
         mRepositoryDataSource.saveTab(tab)
 
-        //refreshData();
+        // refreshData();
     }
 
     override fun updateTab(tab: Tab) {
@@ -88,7 +111,7 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
     override fun deleteTab(tabId: String) {
         TAB_SERVICE_DATA!!.remove(tabId)
         mRepositoryDataSource.deleteTab(tabId)
-        //refreshData();
+        // refreshData();
     }
 
     override fun refreshData() {
@@ -107,7 +130,7 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
 
         mRepositoryDataSource.saveParticipant(participant)
 
-        //refreshData();
+        // refreshData();
     }
 
     override fun updateParticipant(participant: Participant) {
@@ -120,8 +143,8 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
     }
 
     override fun deleteParticipant(participant: Participant) {
-        //TODO: Crashing... why is PARTMAP null when I try to delete?
-        //PARTICIPANT_MAP.remove(participant.getId());
+        // TODO: Crashing... why is PARTMAP null when I try to delete?
+        // PARTICIPANT_MAP.remove(participant.getId());
 
         mRepositoryDataSource.deleteParticipant(participant)
     }
@@ -180,7 +203,7 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
         EXPENSE_MAP!![expense.id] = expense
 
         mRepositoryDataSource.saveExpense(expense)
-        //refreshData();
+        // refreshData();
     }
 
     override fun updateExpense(expense: Expense) {
@@ -193,8 +216,8 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
     }
 
     override fun deleteExpense(expense: Expense) {
-        //TODO: Crashing... why is EXPENSE_MAP null when I try to delete?
-        //EXPENSE_MAP.remove(expense.getId());
+        // TODO: Crashing... why is EXPENSE_MAP null when I try to delete?
+        // EXPENSE_MAP.remove(expense.getId());
 
         mRepositoryDataSource.deleteExpense(expense)
     }
@@ -225,19 +248,19 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
             SPLIT_MAP!![split.id] = split
         }
         mRepositoryDataSource.saveSplits(splits)
-        //refreshData();
+        // refreshData();
     }
 
     override fun deleteSplitsByExpense(expense: Expense) {
-        //TODO: Crashing... why is SPLIT_MAP null when I try to delete?
-        //SPLIT_MAP.remove(expense.getId());
+        // TODO: Crashing... why is SPLIT_MAP null when I try to delete?
+        // SPLIT_MAP.remove(expense.getId());
 
         mRepositoryDataSource.deleteSplitsByExpense(expense)
     }
 
     override fun getSplitsByExpense(expId: String, callback: Repository.LoadSplitsCallback) {
         if (SPLIT_MAP == null) {
-            mRepositoryDataSource.getSplitsByExpense(expId, object: RepositoryDataSource.SplitServiceCallback<ArrayMap<String, Split>> {
+            mRepositoryDataSource.getSplitsByExpense(expId, object : RepositoryDataSource.SplitServiceCallback<ArrayMap<String, Split>> {
                 override fun onLoaded(splits: ArrayMap<String, Split>) {
                     SPLIT_MAP = splits
                     callback.onSplitsLoaded(ArrayList(SPLIT_MAP?.values))
@@ -250,12 +273,11 @@ class RepositoryImpl// Prevent direct instantiation. (Changed to support Injecti
 
     override fun getReceiptItemsByTabId(tabId: String, callback: Repository.LoadReceiptItemsCallback) {
         if (RECEIPT_MAP == null) {
-            mRepositoryDataSource.getReceiptItemByTabId(tabId, object: RepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, MutableList<ReceiptItem>>> {
+            mRepositoryDataSource.getReceiptItemByTabId(tabId, object : RepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, MutableList<ReceiptItem>>> {
                 override fun onLoaded(items: ArrayMap<String, MutableList<ReceiptItem>>) {
                     RECEIPT_MAP = items
                     callback.onReceiptItemsLoaded(RECEIPT_MAP!!)
                 }
-
             })
         } else {
             callback.onReceiptItemsLoaded(RECEIPT_MAP!!)

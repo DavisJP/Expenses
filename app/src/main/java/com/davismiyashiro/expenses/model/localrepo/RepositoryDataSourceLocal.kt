@@ -1,3 +1,26 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Davis Miyashiro
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.davismiyashiro.expenses.model.localrepo
 
 import android.content.ContentValues
@@ -17,12 +40,12 @@ import java.util.ArrayList
 
 import timber.log.Timber
 
-import com.davismiyashiro.expenses.model.localrepo.TabDbSchema.*
+import com.davismiyashiro.expenses.model.localrepo.TabDbSchema.* // ktlint-disable no-wildcard-imports
 
 /**
  * Implementation of local Database with SQLiteDatabase
  */
-class RepositoryDataSourceLocal//private to prevent direct instantiation (Changed to support Injection)
+class RepositoryDataSourceLocal // private to prevent direct instantiation (Changed to support Injection)
 (context: Context) : RepositoryDataSource {
 
     private var mDatabase: SQLiteDatabase
@@ -34,11 +57,11 @@ class RepositoryDataSourceLocal//private to prevent direct instantiation (Change
 
     private fun queryDb(tableName: String, whereClause: String?, whereArgs: Array<String>?): TabsCursorWrapper {
         val cursor = mDatabase.query(
-                tableName, null, //Columns - null selects all columns
+                tableName, null, // Columns - null selects all columns
                 whereClause,
-                whereArgs, null, null, null//orderBy
-        )//groupBy
-        //having
+                whereArgs, null, null, null // orderBy
+        ) // groupBy
+        // having
         return TabsCursorWrapper(cursor)
     }
 
@@ -55,7 +78,7 @@ class RepositoryDataSourceLocal//private to prevent direct instantiation (Change
                 cursor.moveToNext()
             }
         } finally {
-            //Always close cursors
+            // Always close cursors
             cursor.close()
         }
         callback.onLoaded(mapTabs)
@@ -128,7 +151,6 @@ class RepositoryDataSourceLocal//private to prevent direct instantiation (Change
         } finally {
             cursor.close()
         }
-
     }
 
     private fun getParticipantContentValues(participant: Participant): ContentValues {
@@ -171,7 +193,7 @@ class RepositoryDataSourceLocal//private to prevent direct instantiation (Change
                 cursor.moveToNext()
             }
         } finally {
-            //Always close cursors
+            // Always close cursors
             cursor.close()
         }
 
@@ -232,7 +254,7 @@ class RepositoryDataSourceLocal//private to prevent direct instantiation (Change
                 cursor.moveToNext()
             }
         } finally {
-            //Always close cursors
+            // Always close cursors
             cursor.close()
         }
         callback.onLoaded(mapExpenses)
@@ -259,7 +281,6 @@ class RepositoryDataSourceLocal//private to prevent direct instantiation (Change
             }
 
             mDatabase.setTransactionSuccessful()
-
         } catch (ex: SQLiteException) {
             Timber.e("Exception Inserting Splits:" + ex.message)
         } finally {
@@ -284,7 +305,7 @@ class RepositoryDataSourceLocal//private to prevent direct instantiation (Change
                 cursor.moveToNext()
             }
         } finally {
-            //Always close cursors
+            // Always close cursors
             cursor.close()
         }
         callback.onLoaded(mapSplits)
@@ -327,7 +348,7 @@ class RepositoryDataSourceLocal//private to prevent direct instantiation (Change
                 cursor.moveToNext()
             }
         } finally {
-            //Always close cursors
+            // Always close cursors
             cursor.close()
         }
         callback.onLoaded(mapItems)

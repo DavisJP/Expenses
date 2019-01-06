@@ -1,3 +1,26 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Davis Miyashiro
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.davismiyashiro.expenses.view.opentab
 
 import android.app.Activity
@@ -12,7 +35,6 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.NavUtils
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
-import android.support.v7.app.ActionBar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -32,7 +54,6 @@ import com.davismiyashiro.expenses.view.opentab.ReceiptFragment.OnReceiptFragmen
 import com.davismiyashiro.expenses.view.sendreceipt.ReceiptActivity
 
 import timber.log.Timber
-
 
 class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteractionListener, OnExpenseFragmentInteractionListener, OnReceiptFragmentInteractionListener {
     private val mPresenter: ParticipantInterfaces.UserActionsListener? = null
@@ -91,7 +112,6 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
             }
 
             override fun onPageScrollStateChanged(state: Int) {
-
             }
         })
 
@@ -130,7 +150,6 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
 
         fabPartFrag.show()
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -192,7 +211,7 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
     override fun onExpenseFragmentLongClick(expense: Expense) {
         //        mPresenter.removeExpense(expense); //TODO: Fix this!
 
-        //Workaround to update receipt fragment
+        // Workaround to update receipt fragment
         mSectionsPagerAdapter.notifyChangeInPosition(1)
         mSectionsPagerAdapter.notifyDataSetChanged()
     }
@@ -224,7 +243,6 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
             Timber.d("getItem.position: " + position.toString())
             val fragment = Fragment()
 
-
             if (position == 0) {
                 partFragment = ParticipantFragment.newInstance(mTab!!)
                 return partFragment
@@ -252,7 +270,7 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
             return tabTitles[position]
         }
 
-        //this is called when notifyDataSetChanged() is called
+        // this is called when notifyDataSetChanged() is called
         override fun getItemPosition(`object`: Any?): Int {
             // refresh all fragments when data set changed
             return PagerAdapter.POSITION_NONE
