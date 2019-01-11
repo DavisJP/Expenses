@@ -38,6 +38,7 @@ import com.davismiyashiro.expenses.R
 import com.davismiyashiro.expenses.datatypes.Participant
 import com.davismiyashiro.expenses.datatypes.Tab
 import com.davismiyashiro.expenses.injection.App
+import com.davismiyashiro.expenses.view.opentab.ParticipantFragment.OnParticipantListFragmentInteractionListener
 
 import java.util.ArrayList
 

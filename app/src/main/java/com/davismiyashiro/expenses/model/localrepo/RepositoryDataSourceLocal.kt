@@ -330,7 +330,7 @@ class RepositoryDataSourceLocal // private to prevent direct instantiation (Chan
         return TabsCursorWrapper(cursor)
     }
 
-    override fun getReceiptItemByTabId(tabId: String, callback: RepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, MutableList<ReceiptItem>>>) {
+    override fun getReceiptItemByTabId(tabId: String, callback: RepositoryDataSource.ReceipItemServiceCallback<MutableMap<String, MutableList<ReceiptItem>>>) {
         val mapItems = ArrayMap<String, MutableList<ReceiptItem>>()
 
         val cursor = queryReceiptItem(arrayOf(tabId))

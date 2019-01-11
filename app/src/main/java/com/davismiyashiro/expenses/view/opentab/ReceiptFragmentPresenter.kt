@@ -45,7 +45,7 @@ class ReceiptFragmentPresenter(internal var mRepository: Repository) : ReceiptIn
         if (tab != null) {
             mRepository.refreshData() // Fix to get Expenses list updated when switching tabs
             mRepository.getReceiptItemsByTabId(tab.groupId, object : Repository.LoadReceiptItemsCallback {
-                override fun onReceiptItemsLoaded(items: ArrayMap<String, MutableList<ReceiptItem>>) {
+                override fun onReceiptItemsLoaded(items: MutableMap<String, MutableList<ReceiptItem>>) {
                     mReceiptView.showReceiptItems(items)
                 }
             })

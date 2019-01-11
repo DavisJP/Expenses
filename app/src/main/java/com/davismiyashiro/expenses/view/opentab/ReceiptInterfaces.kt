@@ -35,7 +35,7 @@ import com.davismiyashiro.expenses.datatypes.Tab
 interface ReceiptInterfaces {
     interface ReceiptView {
 
-        fun showReceiptItems(items: ArrayMap<String, MutableList<ReceiptItem>>)
+        fun showReceiptItems(items: MutableMap<String, MutableList<ReceiptItem>>)
 
         fun refreshReceiptItemsAdapter()
     }

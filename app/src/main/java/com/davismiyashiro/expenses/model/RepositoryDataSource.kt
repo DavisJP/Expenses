@@ -100,7 +100,7 @@ interface RepositoryDataSource {
         fun onLoaded(items: T)
     }
 
-    fun getReceiptItemByTabId(tabId: String, callback: ReceipItemServiceCallback<ArrayMap<String, MutableList<ReceiptItem>>>)
+    fun getReceiptItemByTabId(tabId: String, callback: ReceipItemServiceCallback<MutableMap<String, MutableList<ReceiptItem>>>)
 
     fun deleteAllTables()
 }

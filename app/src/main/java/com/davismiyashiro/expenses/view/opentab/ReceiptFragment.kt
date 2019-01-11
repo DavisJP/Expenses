@@ -60,7 +60,7 @@ class ReceiptFragment : Fragment(), ReceiptInterfaces.ReceiptView {
     internal lateinit var expandableListView: ExpandableListView
     internal lateinit var expandableListAdapter: CustomExpandableListAdapter
     internal var expandableListParticipantIds: List<String> = ArrayList()
-    internal var expandableMapReceiptItemList = ArrayMap<String, MutableList<ReceiptItem>>()
+    internal var expandableMapReceiptItemList: MutableMap<String, MutableList<ReceiptItem>> = ArrayMap()
 
     private var mTab: Tab? = null
 
@@ -110,7 +110,7 @@ class ReceiptFragment : Fragment(), ReceiptInterfaces.ReceiptView {
         (activity.application as App).component.inject(this)
     }
 
-    override fun showReceiptItems(items: ArrayMap<String, MutableList<ReceiptItem>>) {
+    override fun showReceiptItems(items: MutableMap<String, MutableList<ReceiptItem>>) {
         expandableMapReceiptItemList = items
         expandableListParticipantIds = ArrayList(expandableMapReceiptItemList.keys)
 
