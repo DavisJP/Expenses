@@ -23,8 +23,6 @@
  */
 package com.davismiyashiro.expenses.model
 
-import android.support.v4.util.ArrayMap
-
 import com.davismiyashiro.expenses.datatypes.Expense
 import com.davismiyashiro.expenses.datatypes.Participant
 import com.davismiyashiro.expenses.datatypes.ReceiptItem

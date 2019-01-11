@@ -41,7 +41,6 @@ import org.hamcrest.Matchers.`is`
 import org.junit.Assert.assertThat
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
-import kotlin.test.assertEquals
 
 /**
  * Class that test if InMemoryTabsRepositoryTest caches and process localData requests
