@@ -23,10 +23,9 @@
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/thumbnail"
         android:ellipsize="marquee"
-        android:maxLines="1"
         android:text="Participant email here"
         android:textAppearance="?attr/textAppearanceListItemSmall"
-        />
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/list_item_title"
