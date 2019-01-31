@@ -23,8 +23,6 @@
  */
 package com.davismiyashiro.expenses.model
 
-import android.support.v4.util.ArrayMap
-
 import com.davismiyashiro.expenses.datatypes.Expense
 import com.davismiyashiro.expenses.datatypes.Participant
 import com.davismiyashiro.expenses.datatypes.ReceiptItem
@@ -101,7 +99,7 @@ interface Repository {
     fun getSplitsByExpense(expId: String, callback: LoadSplitsCallback)
 
     interface LoadReceiptItemsCallback {
-        fun onReceiptItemsLoaded(items: ArrayMap<String, MutableList<ReceiptItem>>)
+        fun onReceiptItemsLoaded(items: MutableMap<String, MutableList<ReceiptItem>>)
     }
 
     fun getReceiptItemsByTabId(tabId: String, callback: LoadReceiptItemsCallback)

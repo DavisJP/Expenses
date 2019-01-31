@@ -30,7 +30,6 @@ package com.davismiyashiro.expenses.view.opentab
 import java.util.ArrayList
 import android.content.Context
 import android.graphics.Typeface
-import android.support.v4.util.ArrayMap
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,7 +42,7 @@ import com.davismiyashiro.expenses.datatypes.ReceiptItem
 class CustomExpandableListAdapter(
     private val context: Context,
     private var expandableListTitle: List<String>,
-    private var expandableListDetail: ArrayMap<String, MutableList<ReceiptItem>>
+    private var expandableListDetail: MutableMap<String, MutableList<ReceiptItem>>
 ) : BaseExpandableListAdapter() {
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): ReceiptItem? {
@@ -89,12 +88,12 @@ class CustomExpandableListAdapter(
         return this.expandableListTitle[listPosition]
     }
 
-    fun replaceData(mapReceiptListItems: ArrayMap<String, MutableList<ReceiptItem>>) {
+    fun replaceData(mapReceiptListItems: MutableMap<String, MutableList<ReceiptItem>>) {
         setExpandableLists(mapReceiptListItems)
         notifyDataSetChanged()
     }
 
-    private fun setExpandableLists(mapReceiptListItems: ArrayMap<String, MutableList<ReceiptItem>>) {
+    private fun setExpandableLists(mapReceiptListItems: MutableMap<String, MutableList<ReceiptItem>>) {
         this.expandableListDetail = mapReceiptListItems
         this.expandableListTitle = ArrayList(expandableListDetail.keys)
     }

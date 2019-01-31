@@ -99,7 +99,7 @@ class InMemoryTabsRepositoryTest {
         twoLoadCallsToRepository(mLoadTabsCallback)
 
         // Then tabs should only be requested once from local DataSource
-        verify(mLocalSource).getAllTabs(any())
+        verify<RepositoryDataSource>(mLocalSource).getAllTabs(any())
     }
 
     @Test
@@ -151,7 +151,7 @@ class InMemoryTabsRepositoryTest {
         assertThat(tabArgumentCaptor.firstValue, `is`(tab))
 
         // So it doesn't have to check the db
-        verify<RepositoryDataSource>(mLocalSource, times(0)).getTab(eq("3"), any<RepositoryDataSource.TabServiceCallback<Tab>>())
+        verify<RepositoryDataSource>(mLocalSource, times(0)).getTab(eq("3"), any())
     }
 
     @Test

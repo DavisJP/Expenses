@@ -99,7 +99,7 @@ class FakeRepositoryDataSourceLocal private constructor(context: Context) : Repo
     override fun deleteSplitsByExpense(expense: Expense) {
     }
 
-    override fun getReceiptItemByTabId(tabId: String, callback: RepositoryDataSource.ReceipItemServiceCallback<ArrayMap<String, MutableList<ReceiptItem>>>) {
+    override fun getReceiptItemByTabId(tabId: String, callback: RepositoryDataSource.ReceipItemServiceCallback<MutableMap<String, MutableList<ReceiptItem>>>) {
     }
 
     override fun deleteAllTables() = Unit
