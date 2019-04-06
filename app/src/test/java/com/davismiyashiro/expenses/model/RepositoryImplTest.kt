@@ -43,24 +43,18 @@ import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
 
 /**
- * Class that test if InMemoryTabsRepositoryTest caches and process localData requests
+ * Class that test if RepositoryImplTest caches and process localData requests
  */
-class InMemoryTabsRepositoryTest {
+class RepositoryImplTest {
 
     lateinit var mTabRepositoryImpl: RepositoryImpl
 
     private val mContext = mock<Context>()
-
     private val mLocalSource = mock<RepositoryDataSource>()
-
     private val mGetTabCallback = mock<Repository.GetTabCallback>()
-
     private val mLoadTabsCallback = mock<Repository.LoadTabsCallback>()
-
     private val mTabServiceCallback = mock<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>()
-
     private val mTabServiceCallbackArgumentCaptor = argumentCaptor<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>()
-
     private val tabArgumentCaptor = argumentCaptor<Tab>()
 
     @Before
@@ -134,7 +128,7 @@ class InMemoryTabsRepositoryTest {
 
         // Check if the tabs is saved to local db and cached
         verify(mLocalSource).saveTab(tab)
-        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA?.size, `is`(1))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.size, `is`(1))
     }
 
     @Test
@@ -168,11 +162,11 @@ class InMemoryTabsRepositoryTest {
         val tab = Tab("3", "third")
 
         mTabRepositoryImpl.saveTab(tab)
-        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA?.containsKey(tab.groupId), `is`(true))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.containsKey(tab.groupId), `is`(true))
 
         mTabRepositoryImpl.deleteTab(tab.groupId)
 
-        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA?.values?.size, `is`(0))
+        assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.values.size, `is`(0))
         verify<RepositoryDataSource>(mLocalSource).deleteTab(tab.groupId)
     }
 
