@@ -45,13 +45,9 @@ import org.mockito.Mockito.verify
 class ChooseTabsPresenterImplTest {
 
     private val mRepository: Repository = mock()
-
     private val mChooseTabsView = mock<ChooseTabsInterfaces.View>() // Another way
-
     private val mGetCallback: Repository.GetTabCallback = mock()
-
     private val mLoadTabsCallbackCaptor = argumentCaptor<LoadTabsCallback>()
-
     private val mGetCallbackCaptor = argumentCaptor<Repository.GetTabCallback>()
 
     private lateinit var mChooseTabsPresenter: ChooseTabsPresenterImpl
