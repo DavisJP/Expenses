@@ -40,23 +40,19 @@ import android.view.MenuItem
 import android.view.ViewGroup
 
 import com.davismiyashiro.expenses.R
-import com.davismiyashiro.expenses.datatypes.Expense
-import com.davismiyashiro.expenses.datatypes.Participant
 import com.davismiyashiro.expenses.datatypes.ReceiptItem
 import com.davismiyashiro.expenses.datatypes.Tab
 import com.davismiyashiro.expenses.view.BaseCompatActivity
 import com.davismiyashiro.expenses.view.addexpense.ExpenseActivity
 import com.davismiyashiro.expenses.view.addtab.AddTabActivity
-import com.davismiyashiro.expenses.view.opentab.ExpenseFragment.OnExpenseFragmentInteractionListener
-import com.davismiyashiro.expenses.view.opentab.ParticipantFragment.OnParticipantListFragmentInteractionListener
 import com.davismiyashiro.expenses.view.addparticipant.ParticipantActivity
 import com.davismiyashiro.expenses.view.opentab.ReceiptFragment.OnReceiptFragmentInteractionListener
 import com.davismiyashiro.expenses.view.sendreceipt.ReceiptActivity
 
 import timber.log.Timber
 
-class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteractionListener, OnExpenseFragmentInteractionListener, OnReceiptFragmentInteractionListener {
-    private val mPresenter: ParticipantInterfaces.UserActionsListener? = null
+class OpenTabActivity : BaseCompatActivity(),
+        OnReceiptFragmentInteractionListener {
 
     /**
      * The [android.support.v4.view.PagerAdapter] that will provide
@@ -78,20 +74,20 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
     private lateinit var mViewPager: ViewPager
     private lateinit var tabLayout: TabLayout
     private lateinit var fabPartFrag: FloatingActionButton
-    private var mTab: Tab? = null
+    private lateinit var mTab: Tab
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setContentView(R.layout.activity_open_tab)
         super.onCreate(savedInstanceState)
         Timber.d("onCreate")
 
-        //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //        setSupportActionBar(toolbar);
+        mTab = intent.getParcelableExtra(TAB_REQUEST)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, this)
+        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container)
@@ -101,7 +97,7 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
 
             override fun onPageSelected(position: Int) {
-                Timber.d("onPageSelected:" + position.toString())
+                Timber.d("onPageSelected:$position")
                 when (position) {
                     0 -> fabPartFrag.setImageResource(R.drawable.ic_person_add_white_24dp)
                     1 -> fabPartFrag.setImageResource(R.drawable.ic_note_add_white_24dp)
@@ -119,34 +115,28 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
         tabLayout.setupWithViewPager(mViewPager)
 
         fabPartFrag = findViewById(R.id.fab_part_frag)
-        fabPartFrag.setOnClickListener { v ->
+        fabPartFrag.setOnClickListener {
             val pagerPosition = mViewPager.currentItem
             var addData = Intent()
             when (pagerPosition) {
-                0 -> addData = ParticipantActivity.newInstance(baseContext, mTab!!, null)
-
+                0 -> addData = ParticipantActivity.newInstance(baseContext, mTab, null)
                 1 -> {
-                    addData = ExpenseActivity.newIntent(baseContext, mTab!!, null)
+                    addData = ExpenseActivity.newIntent(baseContext, mTab, null)
                     fabPartFrag.hide()
                 }
-
-                2 -> addData = ReceiptActivity.newInstance(baseContext, mTab!!)
-
+                2 -> addData = ReceiptActivity.newInstance(baseContext, mTab)
                 else -> {
                 }
             }
             startActivity(addData)
         }
-
-        mTab = intent.getParcelableExtra(TAB_REQUEST)
     }
 
     override fun onResume() {
         super.onResume()
         Timber.d("onResume")
 
-        val ab = supportActionBar
-        ab!!.setTitle(mTab?.groupName)
+        supportActionBar?.title = mTab.groupName
 
         fabPartFrag.show()
     }
@@ -176,14 +166,14 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Timber.d("onActivityResult")
         // Check which request we're responding to
         if (requestCode == UPDATE_RESULT) {
             // Make sure the request was successful
             if (resultCode == Activity.RESULT_OK) {
                 // Do something with the contact here (bigger example below)
-                mTab = data.getParcelableExtra(AddTabActivity.EDIT_TAB)
+                mTab = data?.getParcelableExtra(AddTabActivity.EDIT_TAB) as Tab
             }
         }
     }
@@ -196,33 +186,13 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
         }
     }
 
-    override fun onParticipantListFragmentInteraction(item: Participant) {
-        startActivity(ParticipantActivity.newInstance(this, mTab!!, item))
-    }
-
-    override fun onParticipantListFragmentLongClick(item: Participant) {
-        mPresenter!!.removeParticipant(item)
-    }
-
-    override fun onExpenseFragmentInteraction(expense: Expense) {
-        startActivity(ExpenseActivity.newIntent(this, mTab!!, expense))
-    }
-
-    override fun onExpenseFragmentLongClick(expense: Expense) {
-        //        mPresenter.removeExpense(expense); //TODO: Fix this!
-
-        // Workaround to update receipt fragment
-        mSectionsPagerAdapter.notifyChangeInPosition(1)
-        mSectionsPagerAdapter.notifyDataSetChanged()
-    }
-
     override fun onReceiptFragmentInteraction(receiptItem: ReceiptItem) {}
 
     /**
      * A [FragmentPagerAdapter] that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    inner class SectionsPagerAdapter(fm: FragmentManager, private val mContext: Context) : FragmentPagerAdapter(fm) {
+    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         private val tabTitles = arrayOf("PARTICIPANTS", "EXPENSES", "RECEIPT")
         private var baseId: Long = 0
 
@@ -240,21 +210,21 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
 
         // getItem is called to instantiate the fragment for the given page.
         override fun getItem(position: Int): Fragment {
-            Timber.d("getItem.position: " + position.toString())
+            Timber.d("getItem.position: $position")
             val fragment = Fragment()
 
             if (position == 0) {
-                partFragment = ParticipantFragment.newInstance(mTab!!)
+                partFragment = ParticipantFragment.newInstance(mTab)
                 return partFragment
             }
 
             if (position == 1) {
-                expFragment = ExpenseFragment.newInstance(mTab!!)
+                expFragment = ExpenseFragment.newInstance(mTab)
                 return expFragment
             }
 
             if (position == 2) {
-                receiptFragment = ReceiptFragment.newInstance(mTab!!)
+                receiptFragment = ReceiptFragment.newInstance(mTab)
                 return receiptFragment
             }
 
@@ -271,7 +241,7 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
         }
 
         // this is called when notifyDataSetChanged() is called
-        override fun getItemPosition(`object`: Any?): Int {
+        override fun getItemPosition(`object`: Any): Int {
             // refresh all fragments when data set changed
             return PagerAdapter.POSITION_NONE
         }
@@ -294,8 +264,8 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
 
     companion object {
 
-        val TAB_REQUEST = "com.davismiyashiro.expenses.view.opentab.OpenTabActivity"
-        val UPDATE_RESULT = 1
+        const val TAB_REQUEST = "com.davismiyashiro.expenses.view.opentab.OpenTabActivity"
+        const val UPDATE_RESULT = 1
 
         fun newInstance(context: Context, tab: Tab): Intent {
             val intent = Intent(context, OpenTabActivity::class.java)

@@ -23,6 +23,7 @@
  */
 package com.davismiyashiro.expenses.view.opentab
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -57,35 +58,32 @@ class ReceiptFragment : Fragment(), ReceiptInterfaces.ReceiptView {
     @Inject
     internal lateinit var mPresenter: ReceiptInterfaces.UserActionsListener
 
-    internal lateinit var expandableListView: ExpandableListView
-    internal lateinit var expandableListAdapter: CustomExpandableListAdapter
-    internal var expandableListParticipantIds: List<String> = ArrayList()
-    internal var expandableMapReceiptItemList: MutableMap<String, MutableList<ReceiptItem>> = ArrayMap()
+    private lateinit var expandableListView: ExpandableListView
+    private lateinit var expandableListAdapter: CustomExpandableListAdapter
+    private var expandableListParticipantIds: List<String> = ArrayList()
+    private var expandableMapReceiptItemList: MutableMap<String, MutableList<ReceiptItem>> = ArrayMap()
 
     private var mTab: Tab? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mTab = arguments.getParcelable(RECEIPT_PARAM1)
+        if (arguments != null && arguments is Bundle) {
+            mTab = (arguments as Bundle).getParcelable(RECEIPT_PARAM1)
         }
-        expandableListAdapter = CustomExpandableListAdapter(context, expandableListParticipantIds, expandableMapReceiptItemList)
+        expandableListAdapter = CustomExpandableListAdapter(activity as Activity, expandableListParticipantIds, expandableMapReceiptItemList)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater?,
+        inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater!!.inflate(R.layout.fragment_receipt, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_receipt, container, false)
 
         expandableListView = rootView.findViewById<View>(R.id.expandable_list_view) as ExpandableListView
-        expandableListView.setOnGroupExpandListener { groupPosition ->
-        }
-
-        expandableListView.setOnGroupCollapseListener { groupPosition ->
-        }
-
+        // Testing
+        expandableListView.setOnGroupExpandListener { groupPosition -> }
+        expandableListView.setOnGroupCollapseListener { groupPosition -> }
         expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id -> false }
 
         expandableListView.setAdapter(expandableListAdapter)
@@ -107,7 +105,7 @@ class ReceiptFragment : Fragment(), ReceiptInterfaces.ReceiptView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        (activity.application as App).component.inject(this)
+        (activity?.application as App).component.inject(this)
     }
 
     override fun showReceiptItems(items: MutableMap<String, MutableList<ReceiptItem>>) {
@@ -150,7 +148,7 @@ class ReceiptFragment : Fragment(), ReceiptInterfaces.ReceiptView {
 
     companion object {
 
-        private val RECEIPT_PARAM1 = "com.davismiyashiro.expenses.view.fragments.receiptfragment"
+        private const val RECEIPT_PARAM1 = "com.davismiyashiro.expenses.view.fragments.receiptfragment"
 
         /**
          * Use this factory method to create a new instance of

@@ -33,7 +33,6 @@ import android.widget.TextView
 
 import com.davismiyashiro.expenses.R
 import com.davismiyashiro.expenses.datatypes.Participant
-import com.davismiyashiro.expenses.view.opentab.ParticipantFragment.OnParticipantListFragmentInteractionListener
 
 /**
  * [RecyclerView.Adapter] that can display an item and makes a call to the
@@ -79,33 +78,31 @@ class ParticipantRecyclerViewAdapter(
         notifyItemRemoved(position)
     }
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView
-        val mContentView: TextView
+    inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
+        val mIdView: TextView = mView.findViewById<View>(R.id.list_item_title) as TextView
+        val mContentView: TextView = mView.findViewById<View>(R.id.list_item_details) as TextView
         lateinit var mItem: Participant
 
         init {
-            mIdView = mView.findViewById<View>(R.id.list_item_title) as TextView
-            mContentView = mView.findViewById<View>(R.id.list_item_details) as TextView
 
-            mView.setOnClickListener { v ->
+            mView.setOnClickListener {
                 mListener?.onParticipantListFragmentInteraction(mItem)
             }
 
-            mView.setOnLongClickListener { v ->
+            mView.setOnLongClickListener {
                 val alertDialogBuilder = AlertDialog.Builder(mContext)
                 alertDialogBuilder.setTitle("Delete Participant")
                 alertDialogBuilder.setMessage("Are you sure you want to delete this Participant ?")
 
-                alertDialogBuilder.setPositiveButton("YES") { arg0, arg1 ->
+                alertDialogBuilder.setPositiveButton("YES") { arg0, _ ->
                     val position = adapterPosition
 
-                    mListener!!.onParticipantListFragmentLongClick(getItem(position))
+                    mListener?.onParticipantListFragmentLongClick(getItem(position))
                     removeItemAtPosition(position)
                     arg0.dismiss()
                 }
 
-                alertDialogBuilder.setNegativeButton("NO") { dialog, which -> dialog.cancel() }
+                alertDialogBuilder.setNegativeButton("NO") { dialog, _ -> dialog.cancel() }
 
                 val alertDialog = alertDialogBuilder.create()
                 alertDialog.show()
@@ -117,5 +114,19 @@ class ParticipantRecyclerViewAdapter(
         override fun toString(): String {
             return super.toString() + " '" + mIdView.text + "'"
         }
+    }
+
+    /**
+     * Best practices suggests that Fragments should have interfaces to be implemented by the Activities
+     * that contain this Fragment. Although as functionality grows one presenter gets overwhelmed, so
+     * in order to provide a cleaner separation of concerns, a presenter for each Fragment was used.
+     *
+     * More info on SharedPresenters/ViewModels:
+     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
+     */
+    interface OnParticipantListFragmentInteractionListener {
+        fun onParticipantListFragmentInteraction(item: Participant)
+
+        fun onParticipantListFragmentLongClick(item: Participant)
     }
 }

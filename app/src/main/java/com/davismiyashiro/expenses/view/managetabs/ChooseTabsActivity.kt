@@ -178,7 +178,7 @@ class ChooseTabsActivity : BaseCompatActivity(), ChooseTabsInterfaces.View {
                     mPresenter?.openTab(groupId)
                 }
 
-                itemView.setOnLongClickListener { v ->
+                itemView.setOnLongClickListener {
                     val alertDialogBuilder = AlertDialog.Builder(mContext)
                     alertDialogBuilder.setTitle("Delete Tab")
                     alertDialogBuilder.setMessage("Are you sure you want to delete this Tab ?")

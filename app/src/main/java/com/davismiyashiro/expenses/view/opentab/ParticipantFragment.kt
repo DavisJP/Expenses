@@ -23,6 +23,7 @@
  */
 package com.davismiyashiro.expenses.view.opentab
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -38,7 +39,7 @@ import com.davismiyashiro.expenses.R
 import com.davismiyashiro.expenses.datatypes.Participant
 import com.davismiyashiro.expenses.datatypes.Tab
 import com.davismiyashiro.expenses.injection.App
-import com.davismiyashiro.expenses.view.opentab.ParticipantFragment.OnParticipantListFragmentInteractionListener
+import com.davismiyashiro.expenses.view.addparticipant.ParticipantActivity
 
 import java.util.ArrayList
 
@@ -50,58 +51,54 @@ import timber.log.Timber
  * A fragment representing a list of Items.
  *
  *
- * Activities containing this fragment MUST implement the [OnParticipantListFragmentInteractionListener]
+ * Activities containing this fragment MUST implement the [OnParticipantListFragmentInteractionListener?]
  * interface.
  */
 /**
  * Mandatory empty constructor for the fragment manager to instantiate the
  * fragment (e.g. upon screen orientation changes).
  */
-class ParticipantFragment : Fragment(), ParticipantInterfaces.ParticipantView {
-    private var mListener: OnParticipantListFragmentInteractionListener? = null
+class ParticipantFragment : Fragment(),
+        ParticipantInterfaces.ParticipantView,
+        ParticipantRecyclerViewAdapter.OnParticipantListFragmentInteractionListener {
 
     @Inject
     internal lateinit var mPresenter: ParticipantInterfaces.UserActionsListener
 
-    private var mTab: Tab? = null
+    private lateinit var mTab: Tab
     private lateinit var recyclerView: RecyclerView
     private lateinit var mRecyclerAdapter: ParticipantRecyclerViewAdapter
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         Timber.d("onAttach")
-        if (context is OnParticipantListFragmentInteractionListener) {
-            mListener = context
-        } else {
-            throw RuntimeException(context!!.toString() + " must implement OnParticipantListFragmentInteractionListener")
-        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate")
 
-        if (arguments != null) {
-            mTab = arguments.getParcelable(TAB_PARAM)
+        if (arguments != null && arguments is Bundle) {
+            mTab = (arguments as Bundle).getParcelable(TAB_PARAM)
         }
 
-        mRecyclerAdapter = ParticipantRecyclerViewAdapter(ArrayList(), mListener, activity)
+        mRecyclerAdapter = ParticipantRecyclerViewAdapter(ArrayList(), this, activity as Activity)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        (activity.application as App).component.inject(this)
+        (activity?.application as App).component.inject(this)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater?,
+        inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         Timber.d("onCreateView")
 
-        val view = inflater!!.inflate(R.layout.fragment_participant_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_participant_list, container, false)
 
         recyclerView = view.findViewById<View>(R.id.list) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -117,7 +114,7 @@ class ParticipantFragment : Fragment(), ParticipantInterfaces.ParticipantView {
         super.onResume()
         Timber.d("onResume")
 
-        mPresenter.loadParticipants(mTab!!)
+        mPresenter.loadParticipants(mTab)
     }
 
     override fun onStart() {
@@ -132,27 +129,21 @@ class ParticipantFragment : Fragment(), ParticipantInterfaces.ParticipantView {
     override fun onDetach() {
         super.onDetach()
         Timber.d("onDetach")
-        mListener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
-     */
-    interface OnParticipantListFragmentInteractionListener {
-        fun onParticipantListFragmentInteraction(item: Participant)
+    override fun onParticipantListFragmentInteraction(item: Participant) {
+        activity?.applicationContext?.let {
+            startActivity(ParticipantActivity.newInstance(it, mTab, item))
+        }
+    }
 
-        fun onParticipantListFragmentLongClick(item: Participant)
+    override fun onParticipantListFragmentLongClick(item: Participant) {
+        mPresenter.removeParticipant(item)
     }
 
     companion object {
 
-        private val TAB_PARAM = "com.davismiyashiro.expenses.view.opentab.ParticipantFragment"
+        private const val TAB_PARAM = "com.davismiyashiro.expenses.view.opentab.ParticipantFragment"
 
         fun newInstance(tab: Tab): ParticipantFragment {
             val fragment = ParticipantFragment()

@@ -31,7 +31,7 @@ import com.davismiyashiro.expenses.model.Repository
  * @Author Davis Miyashiro
  */
 
-class ExpenseFragmentPresenter(internal var mRepository: Repository) : ExpenseInterfaces.UserActionsListener {
+class ExpenseFragmentPresenter(private var mRepository: Repository) : ExpenseInterfaces.UserActionsListener {
 
     lateinit var mExpenseView: ExpenseInterfaces.ExpenseView
 
@@ -40,14 +40,12 @@ class ExpenseFragmentPresenter(internal var mRepository: Repository) : ExpenseIn
     }
 
     override fun loadExpenses(tab: Tab) {
-        if (tab != null) {
-            mRepository.refreshData() // Fix to get Expenses list updated when switching tabs
-            mRepository.getExpenses(tab.groupId, object : Repository.LoadExpensesCallback {
-                override fun onExpensesLoaded(expenses: MutableList<Expense>) {
-                    mExpenseView.showExpenses(expenses)
-                }
-            })
-        }
+        mRepository.refreshData() // Fix to get Expenses list updated when switching tabs
+        mRepository.getExpenses(tab.groupId, object : Repository.LoadExpensesCallback {
+            override fun onExpensesLoaded(expenses: MutableList<Expense>) {
+                mExpenseView.showExpenses(expenses)
+            }
+        })
     }
 
     override fun removeExpense(expense: Expense) {

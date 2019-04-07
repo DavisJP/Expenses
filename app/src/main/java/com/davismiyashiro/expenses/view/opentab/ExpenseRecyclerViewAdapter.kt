@@ -40,7 +40,7 @@ import com.davismiyashiro.expenses.datatypes.Expense
 
 class ExpenseRecyclerViewAdapter(
     private var mExpenses: MutableList<Expense>,
-    private val mListener: ExpenseFragment.OnExpenseFragmentInteractionListener?,
+    private val mListener: OnExpenseFragmentInteractionListener?,
     private val mContext: Context
 ) : RecyclerView.Adapter<ExpenseRecyclerViewAdapter.ExpenseViewHolder>() {
 
@@ -77,13 +77,11 @@ class ExpenseRecyclerViewAdapter(
     }
 
     inner class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mIdView: TextView
-        val mContentView: TextView
+        private val mIdView: TextView = itemView.findViewById(R.id.list_item_expense_title)
+        private val mContentView: TextView = itemView.findViewById(R.id.list_item_expense_participants)
         private lateinit var mExpense: Expense
 
         init {
-            mIdView = itemView.findViewById(R.id.list_item_expense_title)
-            mContentView = itemView.findViewById(R.id.list_item_expense_participants)
             itemView.setOnClickListener {
                 mListener?.onExpenseFragmentInteraction(mExpense)
             }
@@ -118,5 +116,18 @@ class ExpenseRecyclerViewAdapter(
         override fun toString(): String {
             return super.toString() + " '" + mIdView.text + "'"
         }
+    }
+
+    /**
+     * Best practices suggests that Fragments should have interfaces to be implemented by the Activities
+     * that contain this Fragment. Although as functionality grows one presenter gets overwhelmed, so
+     * in order to provide a cleaner separation of concerns, a presenter for each Fragment was used.
+     *
+     * More info on SharedPresenters/ViewModels:
+     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
+     */
+    interface OnExpenseFragmentInteractionListener {
+        fun onExpenseFragmentInteraction(expense: Expense)
+        fun onExpenseFragmentLongClick(expense: Expense)
     }
 }

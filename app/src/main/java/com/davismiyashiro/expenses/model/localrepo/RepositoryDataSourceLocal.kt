@@ -88,7 +88,7 @@ class RepositoryDataSourceLocal // private to prevent direct instantiation (Chan
         val cursor = queryDb(TabTable.TABLE_NAME, TabTable.UUID + " = ?", arrayOf(tabId))
 
         try {
-            if (cursor != null && cursor.count > 0) {
+            if (cursor.count > 0) {
                 cursor.moveToFirst()
                 val tab = cursor.tab
                 callback.onLoaded(tab)
@@ -141,7 +141,7 @@ class RepositoryDataSourceLocal // private to prevent direct instantiation (Chan
         val cursor = queryDb(ParticipantTable.TABLE_NAME, ParticipantTable.UUID + " = ?", arrayOf(partId))
 
         try {
-            if (cursor != null && cursor.count > 0) {
+            if (cursor.count > 0) {
                 cursor.moveToFirst()
                 val participant = cursor.participant
                 callback.onLoaded(participant)
@@ -229,7 +229,7 @@ class RepositoryDataSourceLocal // private to prevent direct instantiation (Chan
         val cursor = queryDb(ExpenseTable.TABLE_NAME, ExpenseTable.UUID + " = ?", arrayOf(expId))
 
         try {
-            if (cursor != null && cursor.count > 0) {
+            if (cursor.count > 0) {
                 cursor.moveToFirst()
                 val expense = cursor.expense
                 callback.onLoaded(expense)

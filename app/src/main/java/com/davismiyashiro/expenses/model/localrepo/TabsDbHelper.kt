@@ -62,7 +62,7 @@ class TabsDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 ${ParticipantTable.UUID} TEXT PRIMARY KEY,
                 ${ParticipantTable.NAME} TEXT,
                 ${ParticipantTable.EMAIL} TEXT,
-                ${ParticipantTable.NUMBER} INTEGER,
+                ${ParticipantTable.NUMBER} TEXT,
                 ${ParticipantTable.TAB_ID} TEXT,
                 FOREIGN KEY( ${ParticipantTable.TAB_ID} )
                 REFERENCES ${TabTable.TABLE_NAME} ( ${TabTable.UUID})
@@ -126,7 +126,7 @@ class TabsDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     }
 
     companion object {
-        val VERSION = 8
-        val DATABASE_NAME = "tabsBase.db"
+        const val VERSION = 8
+        const val DATABASE_NAME = "tabsBase.db"
     }
 }

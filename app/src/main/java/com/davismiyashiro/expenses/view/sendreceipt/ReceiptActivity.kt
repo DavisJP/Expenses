@@ -29,11 +29,10 @@ import android.os.Bundle
 import android.support.v4.app.ShareCompat
 import android.view.View
 import android.widget.TextView
-
 import com.davismiyashiro.expenses.Injection
 import com.davismiyashiro.expenses.R
-import com.davismiyashiro.expenses.view.BaseCompatActivity
 import com.davismiyashiro.expenses.datatypes.Tab
+import com.davismiyashiro.expenses.view.BaseCompatActivity
 
 class ReceiptActivity : BaseCompatActivity(), ReceiptInterfaces.View {
     private var mTab: Tab? = null
@@ -41,8 +40,8 @@ class ReceiptActivity : BaseCompatActivity(), ReceiptInterfaces.View {
     private lateinit var receiptResume: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.display)
+        super.onCreate(savedInstanceState)
 
         mTab = intent.getParcelableExtra(TAB_PARAM)
 
@@ -69,7 +68,7 @@ class ReceiptActivity : BaseCompatActivity(), ReceiptInterfaces.View {
 
     companion object {
 
-        private val TAB_PARAM = "com.davismiyashiro.expenses.view.receipt.ReceiptActivity"
+        private const val TAB_PARAM = "com.davismiyashiro.expenses.view.receipt.ReceiptActivity"
 
         fun newInstance(context: Context, tab: Tab): Intent {
             val intent = Intent(context, ReceiptActivity::class.java)
