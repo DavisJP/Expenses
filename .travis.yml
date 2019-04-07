@@ -6,8 +6,8 @@ env:
   global:
     - ADB_INSTALL_TIMEOUT=8
     - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
-    matrix:
-    - ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
+  matrix:
+    - ANDROID_TARGET=22 ANDROID_ABI=armeabi-v7a
 
 before_install:
  - chmod +x gradlew
@@ -19,8 +19,8 @@ before_install:
  - yes | sdkmanager tools
  - sdkmanager "system-images;android-$ANDROID_TARGET;$EMU_FLAVOR;$ANDROID_ABI"
 
- - echo no | avdmanager create avd --force -n test -k "system-images;android-$ANDROID_TARGET;$EMU_FLAVOR;$ANDROID_ABI -c 10M"
- - $ANDROID_HOME/emulator/emulator -avd test -engine classic -no-window $AUDIO -camera-back none -camera-front none -selinux permissive -qemu -m 512 &
+ - echo no | avdmanager create avd --force -n test -k "system-images;android-$ANDROID_TARGET;$EMU_FLAVOR;$ANDROID_ABI" -c 10M
+ - $ANDROID_HOME/emulator/emulator -avd test -engine classic -no-window -no-audio -camera-back none -camera-front none -selinux permissive -qemu -m 512 &
 
 install: ./gradlew clean assemble --stacktrace
 
