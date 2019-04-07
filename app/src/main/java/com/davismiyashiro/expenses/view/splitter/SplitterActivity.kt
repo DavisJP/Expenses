@@ -36,7 +36,6 @@ import com.davismiyashiro.expenses.R
 import com.davismiyashiro.expenses.view.BaseCompatActivity
 import com.davismiyashiro.expenses.datatypes.Expense
 import com.davismiyashiro.expenses.datatypes.Participant
-import com.davismiyashiro.expenses.datatypes.Tab
 
 import java.util.ArrayList
 
@@ -44,7 +43,6 @@ import timber.log.Timber
 
 class SplitterActivity : BaseCompatActivity(), SplitterView.View, View.OnClickListener {
 
-    private val mTab: Tab? = null
     private var mPresenter: SplitterView.UserActionsListener? = null
 
     private lateinit var mListView: ListView

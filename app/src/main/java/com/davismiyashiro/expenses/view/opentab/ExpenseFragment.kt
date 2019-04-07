@@ -23,6 +23,7 @@
  */
 package com.davismiyashiro.expenses.view.opentab
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -68,20 +69,20 @@ class ExpenseFragment : Fragment(), ExpenseInterfaces.ExpenseView {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate")
 
-        if (arguments != null) {
-            mTab = arguments.getParcelable(TAB_PARAM)
+        if (arguments != null && arguments is Bundle) {
+            mTab = (arguments as Bundle).getParcelable(TAB_PARAM)
         }
-        mRecyclerAdapter = ExpenseRecyclerViewAdapter(ArrayList(), mListener, activity)
+        mRecyclerAdapter = ExpenseRecyclerViewAdapter(ArrayList(), mListener, activity as Activity)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater?,
+        inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         Timber.d("onCreateView")
 
-        val rootView = inflater!!.inflate(R.layout.fragment_expense, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_expense, container, false)
 
         recyclerView = rootView.findViewById<View>(R.id.exp_list) as RecyclerView
 
@@ -99,7 +100,7 @@ class ExpenseFragment : Fragment(), ExpenseInterfaces.ExpenseView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        (activity.application as App).component.inject(this)
+        (activity?.application as App).component.inject(this)
     }
 
     override fun onStart() {

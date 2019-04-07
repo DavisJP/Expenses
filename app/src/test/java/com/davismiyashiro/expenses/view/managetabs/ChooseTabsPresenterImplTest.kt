@@ -26,18 +26,14 @@ package com.davismiyashiro.expenses.view.managetabs
 import com.davismiyashiro.expenses.datatypes.Tab
 import com.davismiyashiro.expenses.model.Repository
 import com.davismiyashiro.expenses.model.Repository.LoadTabsCallback
-import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.eq
-
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.Before
 import org.junit.Test
-import org.mockito.MockitoAnnotations
-
-import java.util.ArrayList
-import java.util.Arrays
-
 import org.mockito.Mockito.verify
+import org.mockito.MockitoAnnotations
+import java.util.Arrays
 
 /**
  * Created by Davis on 01/09/2016.
@@ -45,13 +41,8 @@ import org.mockito.Mockito.verify
 class ChooseTabsPresenterImplTest {
 
     private val mRepository: Repository = mock()
-
     private val mChooseTabsView = mock<ChooseTabsInterfaces.View>() // Another way
-
-    private val mGetCallback: Repository.GetTabCallback = mock()
-
     private val mLoadTabsCallbackCaptor = argumentCaptor<LoadTabsCallback>()
-
     private val mGetCallbackCaptor = argumentCaptor<Repository.GetTabCallback>()
 
     private lateinit var mChooseTabsPresenter: ChooseTabsPresenterImpl

@@ -23,6 +23,7 @@
  */
 package com.davismiyashiro.expenses.view.opentab
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -66,18 +67,18 @@ class ReceiptFragment : Fragment(), ReceiptInterfaces.ReceiptView {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (arguments != null) {
-            mTab = arguments.getParcelable(RECEIPT_PARAM1)
+        if (arguments != null && arguments is Bundle) {
+            mTab = (arguments as Bundle).getParcelable(RECEIPT_PARAM1)
         }
-        expandableListAdapter = CustomExpandableListAdapter(context, expandableListParticipantIds, expandableMapReceiptItemList)
+        expandableListAdapter = CustomExpandableListAdapter(activity as Activity, expandableListParticipantIds, expandableMapReceiptItemList)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater?,
+        inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val rootView = inflater!!.inflate(R.layout.fragment_receipt, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_receipt, container, false)
 
         expandableListView = rootView.findViewById<View>(R.id.expandable_list_view) as ExpandableListView
         expandableListView.setOnGroupExpandListener { groupPosition ->
@@ -107,7 +108,7 @@ class ReceiptFragment : Fragment(), ReceiptInterfaces.ReceiptView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        (activity.application as App).component.inject(this)
+        (activity?.application as App).component.inject(this)
     }
 
     override fun showReceiptItems(items: MutableMap<String, MutableList<ReceiptItem>>) {
