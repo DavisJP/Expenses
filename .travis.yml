@@ -5,23 +5,22 @@ sudo: false
 env:
   global:
     - ADB_INSTALL_TIMEOUT=8
+    - EMU_FLAVOR=default # use google_apis flavor if no default flavor emulator
+    matrix:
+    - ANDROID_TARGET=android-22 ANDROID_ABI=armeabi-v7a
 
 before_install:
  - chmod +x gradlew
-
- - mkdir "$ANDROID_HOME/licenses" || true
- - echo "d56f5187479451eabf01fb78af6dfcb131a6481e" > "$ANDROID_HOME/licenses/android-sdk-license"
 
  - touch $HOME/.android/repositories.cfg
  - yes | sdkmanager "platforms;android-28"
  - yes | sdkmanager "build-tools;28.0.3"
 
  - yes | sdkmanager tools
- - yes | sdkmanager "emulator"
- - sdkmanager "system-images;android-21;default;armeabi-v7a"
+ - sdkmanager "system-images;android-$ANDROID_TARGET;$EMU_FLAVOR;$ANDROID_ABI"
 
- - echo no | avdmanager create avd --force -n test -k "system-images;android-21;default;armeabi-v7a"
- - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -no-boot-anim &
+ - echo no | avdmanager create avd --force -n test -k "system-images;android-$ANDROID_TARGET;$EMU_FLAVOR;$ANDROID_ABI -c 10M"
+ - $ANDROID_HOME/emulator/emulator -avd test -engine classic -no-window $AUDIO -camera-back none -camera-front none -selinux permissive -qemu -m 512 &
 
 install: ./gradlew clean assemble --stacktrace
 
@@ -29,13 +28,22 @@ android:
   components:
     # Uncomment the lines below if you want to
     # use the latest revision of Android SDK Tools
+    - tools
+    - platform-tools
+    - tools
     - build-tools-28.0.3
-    - android-21
+    - android-22
+    - android-$ANDROID_TARGET
 
     # Additional components
     #- extra-google-google_play_services
     - extra-google-m2repository
     - extra-android-m2repository
+
+licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
