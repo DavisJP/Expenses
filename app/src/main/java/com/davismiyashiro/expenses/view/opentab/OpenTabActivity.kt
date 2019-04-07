@@ -91,7 +91,7 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager, this)
+        mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = findViewById(R.id.container)
@@ -176,14 +176,14 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Timber.d("onActivityResult")
         // Check which request we're responding to
         if (requestCode == UPDATE_RESULT) {
             // Make sure the request was successful
             if (resultCode == Activity.RESULT_OK) {
                 // Do something with the contact here (bigger example below)
-                mTab = data.getParcelableExtra(AddTabActivity.EDIT_TAB)
+                mTab = data?.getParcelableExtra(AddTabActivity.EDIT_TAB)
             }
         }
     }
@@ -222,7 +222,7 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
      * A [FragmentPagerAdapter] that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
-    inner class SectionsPagerAdapter(fm: FragmentManager, private val mContext: Context) : FragmentPagerAdapter(fm) {
+    inner class SectionsPagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         private val tabTitles = arrayOf("PARTICIPANTS", "EXPENSES", "RECEIPT")
         private var baseId: Long = 0
 
@@ -271,7 +271,7 @@ class OpenTabActivity : BaseCompatActivity(), OnParticipantListFragmentInteracti
         }
 
         // this is called when notifyDataSetChanged() is called
-        override fun getItemPosition(`object`: Any?): Int {
+        override fun getItemPosition(`object`: Any): Int {
             // refresh all fragments when data set changed
             return PagerAdapter.POSITION_NONE
         }

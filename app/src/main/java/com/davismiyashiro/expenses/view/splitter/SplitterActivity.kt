@@ -44,7 +44,6 @@ import timber.log.Timber
 
 class SplitterActivity : BaseCompatActivity(), SplitterView.View, View.OnClickListener {
 
-    private val mTab: Tab? = null
     private var mPresenter: SplitterView.UserActionsListener? = null
 
     private lateinit var mListView: ListView

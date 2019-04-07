@@ -23,6 +23,7 @@
  */
 package com.davismiyashiro.expenses.view.opentab
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -38,7 +39,6 @@ import com.davismiyashiro.expenses.R
 import com.davismiyashiro.expenses.datatypes.Participant
 import com.davismiyashiro.expenses.datatypes.Tab
 import com.davismiyashiro.expenses.injection.App
-import com.davismiyashiro.expenses.view.opentab.ParticipantFragment.OnParticipantListFragmentInteractionListener
 
 import java.util.ArrayList
 
@@ -50,7 +50,7 @@ import timber.log.Timber
  * A fragment representing a list of Items.
  *
  *
- * Activities containing this fragment MUST implement the [OnParticipantListFragmentInteractionListener]
+ * Activities containing this fragment MUST implement the [OnParticipantListFragmentInteractionListener?]
  * interface.
  */
 /**
@@ -81,27 +81,27 @@ class ParticipantFragment : Fragment(), ParticipantInterfaces.ParticipantView {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate")
 
-        if (arguments != null) {
-            mTab = arguments.getParcelable(TAB_PARAM)
+        if (arguments != null && arguments is Bundle) {
+            mTab = (arguments as Bundle).getParcelable(TAB_PARAM)
         }
 
-        mRecyclerAdapter = ParticipantRecyclerViewAdapter(ArrayList(), mListener, activity)
+        mRecyclerAdapter = ParticipantRecyclerViewAdapter(ArrayList(), mListener, activity as Activity)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        (activity.application as App).component.inject(this)
+        (activity?.application as App).component.inject(this)
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater?,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         Timber.d("onCreateView")
 
-        val view = inflater!!.inflate(R.layout.fragment_participant_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_participant_list, container, false)
 
         recyclerView = view.findViewById<View>(R.id.list) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)

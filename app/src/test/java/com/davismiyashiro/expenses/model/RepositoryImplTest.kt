@@ -49,11 +49,9 @@ class RepositoryImplTest {
 
     lateinit var mTabRepositoryImpl: RepositoryImpl
 
-    private val mContext = mock<Context>()
     private val mLocalSource = mock<RepositoryDataSource>()
     private val mGetTabCallback = mock<Repository.GetTabCallback>()
     private val mLoadTabsCallback = mock<Repository.LoadTabsCallback>()
-    private val mTabServiceCallback = mock<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>()
     private val mTabServiceCallbackArgumentCaptor = argumentCaptor<RepositoryDataSource.TabServiceCallback<ArrayMap <String, Tab>>>()
     private val tabArgumentCaptor = argumentCaptor<Tab>()
 

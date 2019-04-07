@@ -79,7 +79,7 @@ class ParticipantRecyclerViewAdapter(
         notifyItemRemoved(position)
     }
 
-    inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
+    inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
         val mIdView: TextView
         val mContentView: TextView
         lateinit var mItem: Participant
