@@ -16,11 +16,12 @@ before_install:
  - yes | sdkmanager "platforms;android-28"
  - yes | sdkmanager "build-tools;28.0.3"
 
- - sdkmanager tools
- - sdkmanager "system-images;android-19;default;armeabi-v7a"
+ - yes | sdkmanager tools
+ - yes | sdkmanager "emulator"
+ - sdkmanager "system-images;android-21;default;armeabi-v7a"
 
- - echo no | avdmanager create avd --force -n test -k "system-images;android-19;default;armeabi-v7a"
- - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window &
+ - echo no | avdmanager create avd --force -n test -k "system-images;android-21;default;armeabi-v7a"
+ - $ANDROID_HOME/emulator/emulator -avd test -no-audio -no-window -no-boot-anim &
 
 install: ./gradlew clean assemble --stacktrace
 
@@ -28,9 +29,8 @@ android:
   components:
     # Uncomment the lines below if you want to
     # use the latest revision of Android SDK Tools
-    - tools
-    - platform-tools
-    - tools
+    - build-tools-28.0.3
+    - android-21
 
     # Additional components
     #- extra-google-google_play_services
