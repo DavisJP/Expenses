@@ -74,9 +74,9 @@ class ReceiptFragment : Fragment(), ReceiptInterfaces.ReceiptView {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_receipt, container, false)
 

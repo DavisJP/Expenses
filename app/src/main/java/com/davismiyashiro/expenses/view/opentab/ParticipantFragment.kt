@@ -95,9 +95,9 @@ class ParticipantFragment : Fragment(), ParticipantInterfaces.ParticipantView {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         Timber.d("onCreateView")
 

@@ -23,7 +23,6 @@
  */
 package com.davismiyashiro.expenses.model
 
-import android.content.Context
 import android.support.v4.util.ArrayMap
 
 import com.davismiyashiro.expenses.datatypes.Tab

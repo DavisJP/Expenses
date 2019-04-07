@@ -36,7 +36,6 @@ import com.davismiyashiro.expenses.R
 import com.davismiyashiro.expenses.view.BaseCompatActivity
 import com.davismiyashiro.expenses.datatypes.Expense
 import com.davismiyashiro.expenses.datatypes.Participant
-import com.davismiyashiro.expenses.datatypes.Tab
 
 import java.util.ArrayList
 
