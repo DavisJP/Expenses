@@ -62,7 +62,7 @@ class TabsDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
                 ${ParticipantTable.UUID} TEXT PRIMARY KEY,
                 ${ParticipantTable.NAME} TEXT,
                 ${ParticipantTable.EMAIL} TEXT,
-                ${ParticipantTable.NUMBER} INTEGER,
+                ${ParticipantTable.NUMBER} TEXT,
                 ${ParticipantTable.TAB_ID} TEXT,
                 FOREIGN KEY( ${ParticipantTable.TAB_ID} )
                 REFERENCES ${TabTable.TABLE_NAME} ( ${TabTable.UUID})

@@ -24,6 +24,7 @@
 package com.davismiyashiro.expenses.injection
 
 import android.app.Application
+import com.facebook.stetho.Stetho
 
 /**
  * @Author Davis Miyashiro
@@ -41,5 +42,7 @@ class App : Application() {
                 .applicationModule(ApplicationModule(this))
                 .openTabModule(OpenTabModule())
                 .build()
+
+        Stetho.initializeWithDefaults(this)
     }
 }
