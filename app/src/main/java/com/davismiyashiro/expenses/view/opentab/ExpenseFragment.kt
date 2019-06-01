@@ -38,6 +38,7 @@ import com.davismiyashiro.expenses.R
 import com.davismiyashiro.expenses.datatypes.Expense
 import com.davismiyashiro.expenses.datatypes.Tab
 import com.davismiyashiro.expenses.injection.App
+import com.davismiyashiro.expenses.view.addexpense.ExpenseActivity
 
 import java.util.ArrayList
 
@@ -53,14 +54,15 @@ import timber.log.Timber
  * Use the [ExpenseFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ExpenseFragment : Fragment(), ExpenseInterfaces.ExpenseView {
-    private var mListener: OnExpenseFragmentInteractionListener? = null
+class ExpenseFragment : Fragment(),
+        ExpenseInterfaces.ExpenseView,
+        ExpenseRecyclerViewAdapter.OnExpenseFragmentInteractionListener {
 
     @Inject
     lateinit var mPresenter: ExpenseInterfaces.UserActionsListener
 
     private lateinit var mRecyclerAdapter: ExpenseRecyclerViewAdapter
-    private var mTab: Tab? = null
+    private lateinit var mTab: Tab
     private lateinit var recyclerView: RecyclerView
     // TODO: Set Layout of RecyclerView
     private val mColumnCount = 1
@@ -72,7 +74,7 @@ class ExpenseFragment : Fragment(), ExpenseInterfaces.ExpenseView {
         if (arguments != null && arguments is Bundle) {
             mTab = (arguments as Bundle).getParcelable(TAB_PARAM)
         }
-        mRecyclerAdapter = ExpenseRecyclerViewAdapter(ArrayList(), mListener, activity as Activity)
+        mRecyclerAdapter = ExpenseRecyclerViewAdapter(ArrayList(), this, activity as Activity)
     }
 
     override fun onCreateView(
@@ -93,7 +95,6 @@ class ExpenseFragment : Fragment(), ExpenseInterfaces.ExpenseView {
         }
 
         recyclerView.adapter = mRecyclerAdapter
-        // Inflate the layout for this fragment
         return rootView
     }
 
@@ -119,41 +120,26 @@ class ExpenseFragment : Fragment(), ExpenseInterfaces.ExpenseView {
         mRecyclerAdapter.replaceData(expenses)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(expense: Expense) {
-        if (mListener != null) {
-            mListener?.onExpenseFragmentInteraction(expense)
-        }
-    }
-
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         Timber.d("onAttach")
-
-        if (context is OnExpenseFragmentInteractionListener) {
-            mListener = context
-        } else {
-            throw RuntimeException(context!!.toString() + " must implement OnExpenseFragmentInteractionListener")
-        }
     }
 
     override fun onDetach() {
         super.onDetach()
-        mListener = null
+        Timber.d("onDetach")
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
-     */
-    interface OnExpenseFragmentInteractionListener {
-        fun onExpenseFragmentInteraction(expense: Expense)
-        fun onExpenseFragmentLongClick(expense: Expense)
+    override fun onExpenseFragmentInteraction(expense: Expense) {
+        activity?.applicationContext?.let {
+            startActivity(ExpenseActivity.newIntent(it , mTab, expense))
+        }
+    }
+
+    override fun onExpenseFragmentLongClick(expense: Expense) {
+        mPresenter.removeExpense(expense)
+
+        mRecyclerAdapter.notifyDataSetChanged()
     }
 
     companion object {

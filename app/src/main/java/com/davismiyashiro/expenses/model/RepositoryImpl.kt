@@ -131,8 +131,7 @@ class RepositoryImpl // Prevent direct instantiation. (Changed to support Inject
     }
 
     override fun deleteParticipant(participant: Participant) {
-        // TODO: Crashing... why is PARTMAP null when I try to delete?
-//         PARTICIPANT_MAP.remove(participant.id)
+        PARTICIPANT_MAP.remove(participant.id)
 
         mRepositoryDataSource.deleteParticipant(participant)
     }
@@ -197,8 +196,7 @@ class RepositoryImpl // Prevent direct instantiation. (Changed to support Inject
     }
 
     override fun deleteExpense(expense: Expense) {
-        // TODO: Crashing... why is EXPENSE_MAP null when I try to delete?
-//         EXPENSE_MAP.remove(expense.id)
+        EXPENSE_MAP.remove(expense.id)
 
         mRepositoryDataSource.deleteExpense(expense)
     }
@@ -230,8 +228,7 @@ class RepositoryImpl // Prevent direct instantiation. (Changed to support Inject
     }
 
     override fun deleteSplitsByExpense(expense: Expense) {
-        // TODO: Crashing... why is SPLIT_MAP null when I try to delete?
-//         SPLIT_MAP.remove(expense.id)
+        SPLIT_MAP.remove(expense.id)
 
         mRepositoryDataSource.deleteSplitsByExpense(expense)
     }

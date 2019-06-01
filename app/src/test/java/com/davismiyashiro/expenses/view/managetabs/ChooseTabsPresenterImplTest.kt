@@ -33,7 +33,6 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
-import java.util.Arrays
 
 /**
  * Created by Davis on 01/09/2016.
@@ -108,10 +107,8 @@ class ChooseTabsPresenterImplTest {
 
     companion object {
 
-        private val TABS = ArrayList(
-                Arrays.asList(Tab("1", "first"),
-                        Tab("2", "second")
-                )
-        )
+        private val TABS = mutableListOf (
+                Tab("1", "first"),
+                Tab("2", "second"))
     }
 }
