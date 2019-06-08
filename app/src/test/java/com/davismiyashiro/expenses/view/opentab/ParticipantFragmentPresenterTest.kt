@@ -56,11 +56,4 @@ class ParticipantFragmentPresenterTest {
 
         verify(repository).deleteParticipant(PARTICIPANTS[0])
     }
-
-    @Test
-    fun removeParticipant_noParticipant_deleteParticipants() {
-        presenter.removeParticipant(mutableListOf<Participant>()[0])
-
-        verify(repository).deleteParticipant(eq(mutableListOf<Participant>()[0]))
-    }
 }
