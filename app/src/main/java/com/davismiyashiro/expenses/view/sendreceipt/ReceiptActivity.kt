@@ -29,11 +29,10 @@ import android.os.Bundle
 import android.support.v4.app.ShareCompat
 import android.view.View
 import android.widget.TextView
-
 import com.davismiyashiro.expenses.Injection
 import com.davismiyashiro.expenses.R
-import com.davismiyashiro.expenses.view.BaseCompatActivity
 import com.davismiyashiro.expenses.datatypes.Tab
+import com.davismiyashiro.expenses.view.BaseCompatActivity
 
 class ReceiptActivity : BaseCompatActivity(), ReceiptInterfaces.View {
     private var mTab: Tab? = null

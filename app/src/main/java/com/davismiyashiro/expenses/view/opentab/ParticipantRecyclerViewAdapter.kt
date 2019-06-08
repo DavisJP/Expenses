@@ -33,7 +33,6 @@ import android.widget.TextView
 
 import com.davismiyashiro.expenses.R
 import com.davismiyashiro.expenses.datatypes.Participant
-import com.davismiyashiro.expenses.view.opentab.ParticipantFragment.OnParticipantListFragmentInteractionListener
 
 /**
  * [RecyclerView.Adapter] that can display an item and makes a call to the
@@ -100,7 +99,7 @@ class ParticipantRecyclerViewAdapter(
                 alertDialogBuilder.setPositiveButton("YES") { arg0, arg1 ->
                     val position = adapterPosition
 
-                    mListener!!.onParticipantListFragmentLongClick(getItem(position))
+                    mListener?.onParticipantListFragmentLongClick(getItem(position))
                     removeItemAtPosition(position)
                     arg0.dismiss()
                 }
@@ -117,5 +116,19 @@ class ParticipantRecyclerViewAdapter(
         override fun toString(): String {
             return super.toString() + " '" + mIdView.text + "'"
         }
+    }
+
+    /**
+     * Best practices suggests that Fragments should have interfaces to be implemented by the Activities
+     * that contain this Fragment. Although as functionality grows one presenter gets overwhelmed, so
+     * in order to provide a cleaner separation of concerns, a presenter for each Fragment was used.
+     *
+     * More info on SharedPresenters/ViewModels:
+     * See the Android Training lesson [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html) for more information.
+     */
+    interface OnParticipantListFragmentInteractionListener {
+        fun onParticipantListFragmentInteraction(item: Participant)
+
+        fun onParticipantListFragmentLongClick(item: Participant)
     }
 }

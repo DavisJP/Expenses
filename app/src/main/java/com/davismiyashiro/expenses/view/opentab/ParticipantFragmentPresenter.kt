@@ -33,30 +33,30 @@ import java.util.ArrayList
  * Class that centralizes access to repository and the fragments
  */
 
-class ParticipantFragmentPresenter(internal var mRepository: Repository) : ParticipantInterfaces.UserActionsListener {
+class ParticipantFragmentPresenter(internal var repository: Repository) : ParticipantInterfaces.UserActionsListener {
 
-    internal lateinit var mParticipantView: ParticipantInterfaces.ParticipantView
+    internal lateinit var participantView: ParticipantInterfaces.ParticipantView
 
     override fun setParticipantView(view: ParticipantInterfaces.ParticipantView) {
-        mParticipantView = view
+        participantView = view
     }
 
     override fun loadParticipants(tab: Tab) {
         if (tab != null) {
-            mRepository.refreshData() // Fix to get Participants list updated when switching tabs
-            mRepository.getParticipants(tab.groupId, object : Repository.LoadParticipantsCallback {
+            repository.refreshData() // Fix to get Participants list updated when switching tabs
+            repository.getParticipants(tab.groupId, object : Repository.LoadParticipantsCallback {
                 override fun onParticipantsLoaded(participants: MutableList<Participant>) {
                     var participants = participants
                     if (participants == null) {
                         participants = ArrayList()
                     }
-                    mParticipantView.showParticipants(participants)
+                    participantView.showParticipants(participants)
                 }
             })
         }
     }
 
     override fun removeParticipant(participant: Participant) {
-        mRepository.deleteParticipant(participant)
+        repository.deleteParticipant(participant)
     }
 }
