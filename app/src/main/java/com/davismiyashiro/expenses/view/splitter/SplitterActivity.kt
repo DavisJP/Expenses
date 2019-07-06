@@ -109,7 +109,7 @@ class SplitterActivity : BaseCompatActivity(), SplitterView.View, View.OnClickLi
 
     companion object {
 
-        private val SPLITTER_EXPENSE_REQUESTED = "com.davismiyashiro.expenses.view.splitter"
+        private const val SPLITTER_EXPENSE_REQUESTED = "com.davismiyashiro.expenses.view.splitter"
 
         fun newIntent(context: Context, expense: Expense?): Intent {
             val newIntent = Intent(context, SplitterActivity::class.java)

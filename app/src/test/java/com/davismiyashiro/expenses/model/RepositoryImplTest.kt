@@ -46,7 +46,7 @@ import org.mockito.Mockito.verify
  */
 class RepositoryImplTest {
 
-    lateinit var mTabRepositoryImpl: RepositoryImpl
+    private lateinit var mTabRepositoryImpl: RepositoryImpl
 
     private val mLocalSource = mock<RepositoryDataSource>()
     private val mGetTabCallback = mock<Repository.GetTabCallback>()
@@ -75,7 +75,7 @@ class RepositoryImplTest {
         mTabRepositoryImpl.getTabs(callback) // First call to API
 
         // Use the Mockito Captor to capture the callback
-        verify<RepositoryDataSource>(mLocalSource).getAllTabs(mTabServiceCallbackArgumentCaptor.capture())
+        verify(mLocalSource).getAllTabs(mTabServiceCallbackArgumentCaptor.capture())
 
         // Trigger callback so tabs are cached
         mTabServiceCallbackArgumentCaptor.firstValue.onLoaded(TABS)
@@ -90,7 +90,7 @@ class RepositoryImplTest {
         twoLoadCallsToRepository(mLoadTabsCallback)
 
         // Then tabs should only be requested once from local DataSource
-        verify<RepositoryDataSource>(mLocalSource).getAllTabs(any())
+        verify(mLocalSource).getAllTabs(any())
     }
 
     @Test
@@ -142,7 +142,7 @@ class RepositoryImplTest {
         assertThat(tabArgumentCaptor.firstValue, `is`(tab))
 
         // So it doesn't have to check the db
-        verify<RepositoryDataSource>(mLocalSource, times(0)).getTab(eq("3"), any())
+        verify(mLocalSource, times(0)).getTab(eq("3"), any())
     }
 
     @Test
@@ -164,7 +164,7 @@ class RepositoryImplTest {
         mTabRepositoryImpl.deleteTab(tab.groupId)
 
         assertThat(mTabRepositoryImpl.TAB_SERVICE_DATA.values.size, `is`(0))
-        verify<RepositoryDataSource>(mLocalSource).deleteTab(tab.groupId)
+        verify(mLocalSource).deleteTab(tab.groupId)
     }
 
     companion object {

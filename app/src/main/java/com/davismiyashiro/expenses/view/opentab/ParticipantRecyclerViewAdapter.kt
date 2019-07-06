@@ -79,24 +79,22 @@ class ParticipantRecyclerViewAdapter(
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView
-        val mContentView: TextView
+        val mIdView: TextView = mView.findViewById<View>(R.id.list_item_title) as TextView
+        val mContentView: TextView = mView.findViewById<View>(R.id.list_item_details) as TextView
         lateinit var mItem: Participant
 
         init {
-            mIdView = mView.findViewById<View>(R.id.list_item_title) as TextView
-            mContentView = mView.findViewById<View>(R.id.list_item_details) as TextView
 
-            mView.setOnClickListener { v ->
+            mView.setOnClickListener {
                 mListener?.onParticipantListFragmentInteraction(mItem)
             }
 
-            mView.setOnLongClickListener { v ->
+            mView.setOnLongClickListener {
                 val alertDialogBuilder = AlertDialog.Builder(mContext)
                 alertDialogBuilder.setTitle("Delete Participant")
                 alertDialogBuilder.setMessage("Are you sure you want to delete this Participant ?")
 
-                alertDialogBuilder.setPositiveButton("YES") { arg0, arg1 ->
+                alertDialogBuilder.setPositiveButton("YES") { arg0, _ ->
                     val position = adapterPosition
 
                     mListener?.onParticipantListFragmentLongClick(getItem(position))
@@ -104,7 +102,7 @@ class ParticipantRecyclerViewAdapter(
                     arg0.dismiss()
                 }
 
-                alertDialogBuilder.setNegativeButton("NO") { dialog, which -> dialog.cancel() }
+                alertDialogBuilder.setNegativeButton("NO") { dialog, _ -> dialog.cancel() }
 
                 val alertDialog = alertDialogBuilder.create()
                 alertDialog.show()

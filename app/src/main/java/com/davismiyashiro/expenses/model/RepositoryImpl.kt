@@ -52,10 +52,10 @@ class RepositoryImpl // Prevent direct instantiation. (Changed to support Inject
 
     override fun getTabs(callback: Repository.LoadTabsCallback) = if (TAB_SERVICE_DATA.isEmpty()) {
         mRepositoryDataSource.getAllTabs(object : RepositoryDataSource.TabServiceCallback<ArrayMap<String, Tab>> {
-            override fun onLoaded(mapTabs: ArrayMap<String, Tab>) {
-                TAB_SERVICE_DATA.putAll(mapTabs)
-                val tabs = ArrayList(TAB_SERVICE_DATA.values)
-                callback.onTabsLoaded(tabs)
+            override fun onLoaded(tabs: ArrayMap<String, Tab>) {
+                TAB_SERVICE_DATA.putAll(tabs)
+                val tabsArray = ArrayList(TAB_SERVICE_DATA.values)
+                callback.onTabsLoaded(tabsArray)
             }
         })
     } else {

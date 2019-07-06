@@ -167,8 +167,8 @@ class ParticipantActivity : BaseCompatActivity(), ParticipantInterfaces.View, Vi
 
     companion object {
 
-        private val TAB_PARAM = "com.davismiyashiro.expenses.view.participant.Tab"
-        private val PART_PARAM = "com.davismiyashiro.expenses.view.participant.Participant"
+        private const val TAB_PARAM = "com.davismiyashiro.expenses.view.participant.Tab"
+        private const val PART_PARAM = "com.davismiyashiro.expenses.view.participant.Participant"
 
         fun newInstance(context: Context, tab: Tab, participant: Participant?): Intent {
             val intent = Intent(context, ParticipantActivity::class.java)

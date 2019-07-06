@@ -126,7 +126,7 @@ class TabsDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
     }
 
     companion object {
-        val VERSION = 8
-        val DATABASE_NAME = "tabsBase.db"
+        const val VERSION = 8
+        const val DATABASE_NAME = "tabsBase.db"
     }
 }

@@ -77,13 +77,11 @@ class ExpenseRecyclerViewAdapter(
     }
 
     inner class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val mIdView: TextView
-        val mContentView: TextView
+        private val mIdView: TextView = itemView.findViewById(R.id.list_item_expense_title)
+        private val mContentView: TextView = itemView.findViewById(R.id.list_item_expense_participants)
         private lateinit var mExpense: Expense
 
         init {
-            mIdView = itemView.findViewById(R.id.list_item_expense_title)
-            mContentView = itemView.findViewById(R.id.list_item_expense_participants)
             itemView.setOnClickListener {
                 mListener?.onExpenseFragmentInteraction(mExpense)
             }

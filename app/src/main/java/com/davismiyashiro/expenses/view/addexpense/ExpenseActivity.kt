@@ -159,8 +159,8 @@ class ExpenseActivity : BaseCompatActivity(), ExpenseView.View, View.OnClickList
 
     companion object {
 
-        private val TAB_REQUESTED = "com.davismiyashiro.expenses.view.expense"
-        private val EDIT_EXPENSE = "com.davismiyashiro.expenses.view.expense.edit"
+        private const val TAB_REQUESTED = "com.davismiyashiro.expenses.view.expense"
+        private const val EDIT_EXPENSE = "com.davismiyashiro.expenses.view.expense.edit"
 
         fun newIntent(context: Context, tab: Tab, expense: Expense?): Intent {
             val intent = Intent(context, ExpenseActivity::class.java)

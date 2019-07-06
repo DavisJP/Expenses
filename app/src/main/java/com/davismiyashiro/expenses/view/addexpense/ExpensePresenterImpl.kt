@@ -28,7 +28,7 @@ import android.text.TextUtils
 import com.davismiyashiro.expenses.datatypes.Expense
 import com.davismiyashiro.expenses.model.Repository
 
-class ExpensePresenterImpl(private val mView: ExpenseView.View, internal var mRepo: Repository) : ExpenseView.UserActionsListener {
+class ExpensePresenterImpl(private val mView: ExpenseView.View, private var mRepo: Repository) : ExpenseView.UserActionsListener {
 
     override fun validateExpenseFields(description: String, value: String) {
         var error = false

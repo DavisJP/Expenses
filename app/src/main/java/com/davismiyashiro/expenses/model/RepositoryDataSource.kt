@@ -52,7 +52,7 @@ interface RepositoryDataSource {
 
     interface ParticipantServiceCallback<T> {
 
-        fun onLoaded(participants: T)
+        fun onLoaded(participant: T)
 
         fun onDataNotAvailable()
     }

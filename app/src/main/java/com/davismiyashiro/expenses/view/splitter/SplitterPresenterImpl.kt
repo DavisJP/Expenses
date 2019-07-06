@@ -45,14 +45,12 @@ class SplitterPresenterImpl(private val mView: SplitterView.View, private val mM
 
     override fun getParticipants(expense: Expense): List<Participant> {
 
-        if (expense != null) {
-            mModel.refreshData() // Fix to get Participants list updated when switching tabs
-            mModel.getParticipants(expense.tabId, object : Repository.LoadParticipantsCallback {
-                override fun onParticipantsLoaded(participants: MutableList<Participant>) {
-                    mParticipants = participants
-                }
-            })
-        }
+        mModel.refreshData() // Fix to get Participants list updated when switching tabs
+        mModel.getParticipants(expense.tabId, object : Repository.LoadParticipantsCallback {
+            override fun onParticipantsLoaded(participants: MutableList<Participant>) {
+                mParticipants = participants
+            }
+        })
 
         return mParticipants
     }

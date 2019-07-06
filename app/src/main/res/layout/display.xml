@@ -1,35 +1,45 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".view.main.MainActivity">
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:tools="http://schemas.android.com/tools"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
-                  android:gravity="center"
-                  android:orientation="vertical"
-                  android:paddingBottom="@dimen/activity_vertical_margin"
-                  android:paddingLeft="@dimen/activity_horizontal_margin"
-                  android:paddingRight="@dimen/activity_horizontal_margin"
-                  android:paddingTop="@dimen/activity_vertical_margin">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
 
-        <TextView
-            android:id="@+id/multText"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.48"
-            android:background="@drawable/back"
-            android:ems="10"
-            android:textColor="#FF050505"/>
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <Button
-            android:id="@+id/btnSaveToDrive"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="sendTab"
-            android:text="@string/label_send_tab"/>
+    </android.support.design.widget.AppBarLayout>
 
-    </LinearLayout>
-</RelativeLayout>
+    <TextView
+        android:id="@+id/multText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.48"
+        android:background="@drawable/back"
+        android:ems="10"
+        android:textColor="#FF050505"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
+    <Button
+        android:id="@+id/btnSaveToDrive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="sendTab"
+        android:text="@string/label_send_tab" />
+
+</LinearLayout>

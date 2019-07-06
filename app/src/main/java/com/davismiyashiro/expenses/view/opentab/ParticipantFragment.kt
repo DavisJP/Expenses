@@ -133,7 +133,7 @@ class ParticipantFragment : Fragment(),
 
     override fun onParticipantListFragmentInteraction(item: Participant) {
         activity?.applicationContext?.let {
-            startActivity(ParticipantActivity.newInstance(it , mTab, item))
+            startActivity(ParticipantActivity.newInstance(it, mTab, item))
         }
     }
 
@@ -143,7 +143,7 @@ class ParticipantFragment : Fragment(),
 
     companion object {
 
-        private val TAB_PARAM = "com.davismiyashiro.expenses.view.opentab.ParticipantFragment"
+        private const val TAB_PARAM = "com.davismiyashiro.expenses.view.opentab.ParticipantFragment"
 
         fun newInstance(tab: Tab): ParticipantFragment {
             val fragment = ParticipantFragment()
