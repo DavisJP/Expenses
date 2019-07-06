@@ -85,16 +85,16 @@ class ParticipantRecyclerViewAdapter(
 
         init {
 
-            mView.setOnClickListener { v ->
+            mView.setOnClickListener {
                 mListener?.onParticipantListFragmentInteraction(mItem)
             }
 
-            mView.setOnLongClickListener { v ->
+            mView.setOnLongClickListener {
                 val alertDialogBuilder = AlertDialog.Builder(mContext)
                 alertDialogBuilder.setTitle("Delete Participant")
                 alertDialogBuilder.setMessage("Are you sure you want to delete this Participant ?")
 
-                alertDialogBuilder.setPositiveButton("YES") { arg0, arg1 ->
+                alertDialogBuilder.setPositiveButton("YES") { arg0, _ ->
                     val position = adapterPosition
 
                     mListener?.onParticipantListFragmentLongClick(getItem(position))
@@ -102,7 +102,7 @@ class ParticipantRecyclerViewAdapter(
                     arg0.dismiss()
                 }
 
-                alertDialogBuilder.setNegativeButton("NO") { dialog, which -> dialog.cancel() }
+                alertDialogBuilder.setNegativeButton("NO") { dialog, _ -> dialog.cancel() }
 
                 val alertDialog = alertDialogBuilder.create()
                 alertDialog.show()

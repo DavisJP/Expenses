@@ -115,7 +115,7 @@ class OpenTabActivity : BaseCompatActivity(),
         tabLayout.setupWithViewPager(mViewPager)
 
         fabPartFrag = findViewById(R.id.fab_part_frag)
-        fabPartFrag.setOnClickListener { v ->
+        fabPartFrag.setOnClickListener {
             val pagerPosition = mViewPager.currentItem
             var addData = Intent()
             when (pagerPosition) {

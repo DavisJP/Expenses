@@ -27,8 +27,6 @@ import com.davismiyashiro.expenses.datatypes.Participant
 import com.davismiyashiro.expenses.datatypes.Tab
 import com.davismiyashiro.expenses.model.Repository
 
-import java.util.ArrayList
-
 /**
  * Class that centralizes access to repository and the fragments
  */
@@ -42,18 +40,12 @@ class ParticipantFragmentPresenter(internal var repository: Repository) : Partic
     }
 
     override fun loadParticipants(tab: Tab) {
-        if (tab != null) {
-            repository.refreshData() // Fix to get Participants list updated when switching tabs
-            repository.getParticipants(tab.groupId, object : Repository.LoadParticipantsCallback {
-                override fun onParticipantsLoaded(participants: MutableList<Participant>) {
-                    var participants = participants
-                    if (participants == null) {
-                        participants = ArrayList()
-                    }
-                    participantView.showParticipants(participants)
-                }
-            })
-        }
+        repository.refreshData() // Fix to get Participants list updated when switching tabs
+        repository.getParticipants(tab.groupId, object : Repository.LoadParticipantsCallback {
+            override fun onParticipantsLoaded(participants: MutableList<Participant>) {
+                participantView.showParticipants(participants)
+            }
+        })
     }
 
     override fun removeParticipant(participant: Participant) {

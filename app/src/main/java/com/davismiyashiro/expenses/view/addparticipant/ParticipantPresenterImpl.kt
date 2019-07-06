@@ -29,8 +29,7 @@ import com.davismiyashiro.expenses.datatypes.Participant
 import com.davismiyashiro.expenses.model.Repository
 
 class ParticipantPresenterImpl(private var mView: ParticipantInterfaces.View, private var mRepo: Repository) : ParticipantInterfaces.UserActionsListener {
-
-    override fun validateInputFields(name: String, email: String, phone: String) {
+    override fun validateInputFields(name: String, phone: String, email: String) {
         var error = false
 
         if (TextUtils.isEmpty(name)) {

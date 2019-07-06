@@ -61,22 +61,22 @@ class CustomExpandableListAdapter(
         convertView: View?,
         parent: ViewGroup
     ): View {
-        var convertView = convertView
+        var convertViewLocal = convertView
         val (_, _, expenseDesc, value) = getChild(listPosition, expandedListPosition) as ReceiptItem
-        if (convertView == null) {
+        if (convertViewLocal == null) {
             val layoutInflater = this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.list_item, null)
+            convertViewLocal = layoutInflater.inflate(R.layout.list_item, null)
         }
-        val expandedListTextView = convertView!!
+        val expandedListTextView = convertViewLocal!!
                 .findViewById<View>(R.id.expandedListItem) as TextView
         expandedListTextView.text = expenseDesc
 
-        val expandedListValue = convertView
+        val expandedListValue = convertViewLocal
                 .findViewById<View>(R.id.expandedListItemValue) as TextView
         expandedListValue.text = value.toString()
 
-        return convertView
+        return convertViewLocal
     }
 
     override fun getChildrenCount(listPosition: Int): Int {
@@ -112,7 +112,7 @@ class CustomExpandableListAdapter(
         convertView: View?,
         parent: ViewGroup
     ): View {
-        var convertView = convertView
+        var convertViewLocal = convertView
         val titleId = getGroup(listPosition) as String
 
         val items = expandableListDetail[titleId]
@@ -122,21 +122,21 @@ class CustomExpandableListAdapter(
             totalValue += item.value
         }
 
-        if (convertView == null) {
+        if (convertViewLocal == null) {
             val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.list_group, null)
+            convertViewLocal = layoutInflater.inflate(R.layout.list_group, null)
         }
-        val listTitleTextView = convertView!!
+        val listTitleTextView = convertViewLocal!!
                 .findViewById<View>(R.id.listTitle) as TextView
         listTitleTextView.setTypeface(null, Typeface.BOLD)
         listTitleTextView.text = listTitle
 
-        val listTotalValue = convertView
+        val listTotalValue = convertViewLocal
                 .findViewById<View>(R.id.listValue) as TextView
         listTotalValue.setTypeface(null, Typeface.BOLD)
         listTotalValue.text = totalValue.toString()
 
-        return convertView
+        return convertViewLocal
     }
 
     override fun hasStableIds(): Boolean {
