@@ -81,7 +81,7 @@ class ReceiptFragment : Fragment(), ReceiptInterfaces.ReceiptView {
         val rootView = inflater.inflate(R.layout.fragment_receipt, container, false)
 
         expandableListView = rootView.findViewById<View>(R.id.expandable_list_view) as ExpandableListView
-        //Testing
+        // Testing
         expandableListView.setOnGroupExpandListener { groupPosition -> }
         expandableListView.setOnGroupCollapseListener { groupPosition -> }
         expandableListView.setOnChildClickListener { parent, v, groupPosition, childPosition, id -> false }

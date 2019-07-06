@@ -107,7 +107,7 @@ class ChooseTabsPresenterImplTest {
 
     companion object {
 
-        private val TABS = mutableListOf (
+        private val TABS = mutableListOf(
                 Tab("1", "first"),
                 Tab("2", "second"))
     }

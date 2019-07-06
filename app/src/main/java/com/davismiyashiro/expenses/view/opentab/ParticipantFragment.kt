@@ -133,7 +133,7 @@ class ParticipantFragment : Fragment(),
 
     override fun onParticipantListFragmentInteraction(item: Participant) {
         activity?.applicationContext?.let {
-            startActivity(ParticipantActivity.newInstance(it , mTab, item))
+            startActivity(ParticipantActivity.newInstance(it, mTab, item))
         }
     }
 

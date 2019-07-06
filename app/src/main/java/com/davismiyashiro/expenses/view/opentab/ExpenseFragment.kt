@@ -124,7 +124,7 @@ class ExpenseFragment : Fragment(),
 
     override fun onExpenseFragmentInteraction(expense: Expense) {
         activity?.applicationContext?.let {
-            startActivity(ExpenseActivity.newIntent(it , mTab, expense))
+            startActivity(ExpenseActivity.newIntent(it, mTab, expense))
         }
     }
 
