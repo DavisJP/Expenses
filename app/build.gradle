@@ -5,6 +5,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'
 apply plugin: "org.sonarqube"
 
+jacoco {
+    toolVersion = "$jacocoVersion"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testMockDebugUnitTest', 'createMockDebugCoverageReport']) {
 
     reports {
@@ -63,13 +71,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    //To enable the coverage report for local tests when using version 2.2.+
-    //Robolectric tests may have issues
     testOptions {
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-            }
+        unitTests {
+            includeAndroidResources = true
         }
     }
 
