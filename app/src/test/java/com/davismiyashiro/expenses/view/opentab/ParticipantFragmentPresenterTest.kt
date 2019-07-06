@@ -45,9 +45,9 @@ class ParticipantFragmentPresenterTest {
         presenter.loadParticipants(TAB)
 
         verify(repository).getParticipants(eq(TAB.groupId), loadParticipantsCallback.capture())
-        loadParticipantsCallback.firstValue.onParticipantsLoaded(eq(mutableListOf<Participant>()))
+        loadParticipantsCallback.firstValue.onParticipantsLoaded(eq(mutableListOf()))
 
-        verify(view).showParticipants(eq(mutableListOf<Participant>()))
+        verify(view).showParticipants(eq(mutableListOf()))
     }
 
     @Test

@@ -31,7 +31,7 @@ import com.davismiyashiro.expenses.model.Repository
  * @Author Davis Miyashiro
  */
 
-class ExpenseFragmentPresenter(internal var mRepository: Repository) : ExpenseInterfaces.UserActionsListener {
+class ExpenseFragmentPresenter(private var mRepository: Repository) : ExpenseInterfaces.UserActionsListener {
 
     lateinit var mExpenseView: ExpenseInterfaces.ExpenseView
 

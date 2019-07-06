@@ -54,17 +54,17 @@ class TabRepositoryDataSourceLocalTest {
     private var database: RepositoryDataSourceLocal? = null
 
     companion object {
-        val TAB_NAME = "JUnitTabName1"
-        val TAB_NAME_UPDATED = "JUnitTabName1Updated"
+        const val TAB_NAME = "JUnitTabName1"
+        const val TAB_NAME_UPDATED = "JUnitTabName1Updated"
 
-        val PART_NAME = "JUnitPartName1"
-        val PART_EMAIL = "JUnitPartEmail1"
-        val PART_PHONE = "10000"
-        val PART_TABID = "JUnitPartTabId1"
+        const val PART_NAME = "JUnitPartName1"
+        const val PART_EMAIL = "JUnitPartEmail1"
+        const val PART_PHONE = "10000"
+        const val PART_TABID = "JUnitPartTabId1"
 
-        val EXP_DESC = "JUnitExpDesc1"
-        val EXP_VALUE = 10.50
-        val EXP_TABID = "JUnitExpTabId1"
+        const val EXP_DESC = "JUnitExpDesc1"
+        const val EXP_VALUE = 10.50
+        const val EXP_TABID = "JUnitExpTabId1"
     }
 
     @Before

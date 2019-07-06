@@ -63,7 +63,7 @@ data class Split(
             valueByParticipant: Double,
             tabId: String
         ): Split {
-            var split = Split(participantId, expenseId, numberParticipants, valueByParticipant, tabId)
+            val split = Split(participantId, expenseId, numberParticipants, valueByParticipant, tabId)
             split.id = id
             return split
         }

@@ -50,7 +50,7 @@ class MainActivity : BaseCompatActivity(), View.OnClickListener {
         handler.postDelayed({ this.startApp() }, FINISH_TIMER.toLong())
     }
 
-    fun startApp() {
+    private fun startApp() {
         val intent = Intent(this, ChooseTabsActivity::class.java)
         startActivity(intent)
         finish()
@@ -62,6 +62,6 @@ class MainActivity : BaseCompatActivity(), View.OnClickListener {
 
     companion object {
 
-        val FINISH_TIMER = 1 * 1000
+        const val FINISH_TIMER = 1 * 1000
     }
 }

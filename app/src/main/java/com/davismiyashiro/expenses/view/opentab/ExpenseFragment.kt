@@ -46,14 +46,6 @@ import javax.inject.Inject
 
 import timber.log.Timber
 
-/**
- * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [ExpenseFragment.OnExpenseFragmentInteractionListener] interface
- * to handle interaction events.
- * Use the [ExpenseFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ExpenseFragment : Fragment(),
         ExpenseInterfaces.ExpenseView,
         ExpenseRecyclerViewAdapter.OnExpenseFragmentInteractionListener {
@@ -113,7 +105,7 @@ class ExpenseFragment : Fragment(),
         super.onResume()
         Timber.d("onResume")
 
-        mPresenter.loadExpenses(mTab!!)
+        mPresenter.loadExpenses(mTab)
     }
 
     override fun showExpenses(expenses: MutableList<Expense>) {
@@ -143,7 +135,7 @@ class ExpenseFragment : Fragment(),
     }
 
     companion object {
-        private val TAB_PARAM = "com.davismiyashiro.expenses.view.opentab.ExpenseFragment"
+        private const val TAB_PARAM = "com.davismiyashiro.expenses.view.opentab.ExpenseFragment"
 
         /**
          * Use this factory method to create a new instance of

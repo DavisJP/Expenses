@@ -32,7 +32,7 @@ import com.davismiyashiro.expenses.model.Repository
  * @Author Davis Miyashiro
  */
 
-class ReceiptFragmentPresenter(internal var mRepository: Repository) : ReceiptInterfaces.UserActionsListener {
+class ReceiptFragmentPresenter(private var mRepository: Repository) : ReceiptInterfaces.UserActionsListener {
 
     internal lateinit var mReceiptView: ReceiptInterfaces.ReceiptView
 

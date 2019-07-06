@@ -264,8 +264,8 @@ class OpenTabActivity : BaseCompatActivity(),
 
     companion object {
 
-        val TAB_REQUEST = "com.davismiyashiro.expenses.view.opentab.OpenTabActivity"
-        val UPDATE_RESULT = 1
+        const val TAB_REQUEST = "com.davismiyashiro.expenses.view.opentab.OpenTabActivity"
+        const val UPDATE_RESULT = 1
 
         fun newInstance(context: Context, tab: Tab): Intent {
             val intent = Intent(context, OpenTabActivity::class.java)

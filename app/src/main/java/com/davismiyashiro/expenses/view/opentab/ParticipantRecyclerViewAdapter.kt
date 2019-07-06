@@ -79,13 +79,11 @@ class ParticipantRecyclerViewAdapter(
     }
 
     inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
-        val mIdView: TextView
-        val mContentView: TextView
+        val mIdView: TextView = mView.findViewById<View>(R.id.list_item_title) as TextView
+        val mContentView: TextView = mView.findViewById<View>(R.id.list_item_details) as TextView
         lateinit var mItem: Participant
 
         init {
-            mIdView = mView.findViewById<View>(R.id.list_item_title) as TextView
-            mContentView = mView.findViewById<View>(R.id.list_item_details) as TextView
 
             mView.setOnClickListener { v ->
                 mListener?.onParticipantListFragmentInteraction(mItem)
