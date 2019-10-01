@@ -1,63 +1,68 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2019 Davis Miyashiro
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 package com.davismiyashiro.expenses.view.managetabs
 
 import com.davismiyashiro.expenses.datatypes.Tab
-import com.davismiyashiro.expenses.model.TabRepository
-import com.davismiyashiro.expenses.model.TabRepository.LoadTabsCallback
-import com.nhaarman.mockito_kotlin.mock
-
+import com.davismiyashiro.expenses.model.Repository
+import com.davismiyashiro.expenses.model.Repository.LoadTabsCallback
+import com.nhaarman.mockitokotlin2.argumentCaptor
+import com.nhaarman.mockitokotlin2.eq
+import com.nhaarman.mockitokotlin2.mock
 import org.junit.Before
 import org.junit.Test
-import org.mockito.ArgumentCaptor
-import org.mockito.Captor
-import org.mockito.MockitoAnnotations
-
-import java.util.ArrayList
-import java.util.Arrays
-
-import org.mockito.Matchers.eq
 import org.mockito.Mockito.verify
+import org.mockito.MockitoAnnotations
 
 /**
  * Created by Davis on 01/09/2016.
  */
 class ChooseTabsPresenterImplTest {
 
-    private val mTabRepository: TabRepository = mock()
-
-    private val mChooseTabsView = mock<ChooseTabsInterfaces.View>() //Another way
-
-    private val mGetTabCallback: TabRepository.GetTabCallback = mock()
-
-    @Captor
-    private val mLoadTabsCallbackCaptor: ArgumentCaptor<LoadTabsCallback> = mock()
-
-    @Captor
-    private val mGetTabCallbackCaptor: ArgumentCaptor<TabRepository.GetTabCallback>? = null
+    private val mRepository: Repository = mock()
+    private val mChooseTabsView = mock<ChooseTabsInterfaces.View>() // Another way
+    private val mLoadTabsCallbackCaptor = argumentCaptor<LoadTabsCallback>()
+    private val mGetCallbackCaptor = argumentCaptor<Repository.GetTabCallback>()
 
     private lateinit var mChooseTabsPresenter: ChooseTabsPresenterImpl
 
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        //Kotlin doesn’t differentiate between checked and unchecked expressions. It doesn't have checked exceptions.
-        //https://kotlinlang.org/docs/reference/exceptions.html
+        // Kotlin doesn’t differentiate between checked and unchecked expressions. It doesn't have checked exceptions.
+        // https://kotlinlang.org/docs/reference/exceptions.html
 
         MockitoAnnotations.initMocks(this)
 
-        mChooseTabsPresenter = ChooseTabsPresenterImpl(mChooseTabsView, mTabRepository)
+        mChooseTabsPresenter = ChooseTabsPresenterImpl(mChooseTabsView, mRepository)
     }
-
-    //    @After
-    //    public void tearDown() throws Exception {
-    //
-    //    }
 
     @Test
     @Throws(Exception::class)
     fun testAddTab() {
         mChooseTabsPresenter.addTab()
 
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).showAddTab()
+        verify(mChooseTabsView).showAddTab()
     }
 
     @Test
@@ -65,12 +70,12 @@ class ChooseTabsPresenterImplTest {
     fun testLoadTabs() {
         mChooseTabsPresenter.loadTabs(true)
 
-        verify<TabRepository>(mTabRepository).getTabs(mLoadTabsCallbackCaptor.capture())
+        verify(mRepository).getTabs(mLoadTabsCallbackCaptor.capture())
 
-        mLoadTabsCallbackCaptor.value.onTabsLoaded(TABS)
+        mLoadTabsCallbackCaptor.firstValue.onTabsLoaded(TABS)
 
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).setProgressIndicator(false)
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).showTabs(TABS)
+        verify(mChooseTabsView).setProgressIndicator(false)
+        verify(mChooseTabsView).showTabs(TABS)
     }
 
     @Test
@@ -78,12 +83,12 @@ class ChooseTabsPresenterImplTest {
     fun testLoadNoTabs() {
         mChooseTabsPresenter.loadTabs(true)
 
-        verify<TabRepository>(mTabRepository).getTabs(mLoadTabsCallbackCaptor.capture())
+        verify(mRepository).getTabs(mLoadTabsCallbackCaptor.capture())
 
-        mLoadTabsCallbackCaptor.value.onTabsLoaded(ArrayList())
+        mLoadTabsCallbackCaptor.firstValue.onTabsLoaded(ArrayList())
 
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).setProgressIndicator(false)
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).showNoTabs()
+        verify(mChooseTabsView).setProgressIndicator(false)
+        verify(mChooseTabsView).showNoTabs()
     }
 
     @Test
@@ -93,19 +98,17 @@ class ChooseTabsPresenterImplTest {
 
         mChooseTabsPresenter.openTab("1")
 
-        verify<TabRepository>(mTabRepository).getTab(eq(tab.groupId), mGetTabCallbackCaptor!!.capture())
+        verify(mRepository).getTab(eq(tab.groupId), mGetCallbackCaptor.capture())
 
-        mGetTabCallbackCaptor.value.onTabLoaded(tab) // Trigger callback
+        mGetCallbackCaptor.firstValue.onTabLoaded(tab) // Trigger callback
 
-        verify<ChooseTabsInterfaces.View>(mChooseTabsView).showTabDetailUi(tab)
+        verify(mChooseTabsView).showTabDetailUi(tab)
     }
 
     companion object {
 
-        private val TABS = ArrayList(
-                Arrays.asList(Tab("1", "first"),
-                        Tab("2", "second")
-                )
-        )
+        private val TABS = mutableListOf(
+                Tab("1", "first"),
+                Tab("2", "second"))
     }
 }
