@@ -1,4 +1,3 @@
-[![Build Status](https://travis-ci.org/DavisJP/Expenses.svg?branch=master)](https://travis-ci.org/DavisJP/Expenses)
 [![Build Status](https://app.bitrise.io/app/e09eda4c76c0831b/status.svg?token=e3y7J20IHy8uySwYj2Mr7Q)](https://app.bitrise.io/app/e09eda4c76c0831b)
 
 # Expense Splitter App
