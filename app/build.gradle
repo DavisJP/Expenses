@@ -13,7 +13,7 @@ tasks.withType(Test) {
     jacoco.includeNoLocationClasses = true
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testMockDebugUnitTest', 'createMockDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testMockDebugUnitTest']) {
 
     reports {
         xml.enabled = true
@@ -24,11 +24,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testMockDebugUnitTest', '
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/java"
 
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
+    getSourceDirectories().setFrom(files([mainSrc]))
+    getClassDirectories().setFrom(files([debugTree]))
+    getExecutionData().setFrom(fileTree(dir: project.buildDir, includes: [
             'jacoco/testMockDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
+    ]))
 }
 
 sonarqube {
