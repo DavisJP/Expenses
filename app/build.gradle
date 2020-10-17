@@ -5,7 +5,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'jacoco'
 apply plugin: "org.sonarqube"
 
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testMockDebugUnitTest', 'createMockDebugCoverageReport']) {
+jacoco {
+    toolVersion = "$jacocoVersion"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testMockDebugUnitTest']) {
 
     reports {
         xml.enabled = true
@@ -16,11 +24,11 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testMockDebugUnitTest', '
     def debugTree = fileTree(dir: "$project.buildDir/intermediates/classes/debug", excludes: fileFilter)
     def mainSrc = "$project.projectDir/src/main/java"
 
-    sourceDirectories = files([mainSrc])
-    classDirectories = files([debugTree])
-    executionData = fileTree(dir: project.buildDir, includes: [
+    getSourceDirectories().setFrom(files([mainSrc]))
+    getClassDirectories().setFrom(files([debugTree]))
+    getExecutionData().setFrom(fileTree(dir: project.buildDir, includes: [
             'jacoco/testMockDebugUnitTest.exec', 'outputs/code-coverage/connected/*coverage.ec'
-    ])
+    ]))
 }
 
 sonarqube {
@@ -63,13 +71,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    //To enable the coverage report for local tests when using version 2.2.+
-    //Robolectric tests may have issues
     testOptions {
-        unitTests.all {
-            jacoco {
-                includeNoLocationClasses = true
-            }
+        unitTests {
+            includeAndroidResources = true
         }
     }
 
